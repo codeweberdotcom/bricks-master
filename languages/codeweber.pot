@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-06 18:11+0000\n"
+"POT-Creation-Date: 2026-08-13 22:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "%1$d of %2$d headers created"
 msgstr ""
 
-#: functions/demo/demo-offices.php:312
+#: functions/demo/demo-offices.php:381
 #, php-format
 msgid "%1$d of %2$d offices created"
 msgstr ""
@@ -69,7 +69,7 @@ msgstr ""
 msgid "%1$s: %2$d succeeded, %3$d failed."
 msgstr ""
 
-#: functions/demo/demo-offices.php:314
+#: functions/demo/demo-offices.php:383
 msgid "%d cities created"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "%d of 2 forms created"
 msgstr ""
 
-#: functions/demo/demo-offices.php:366
+#: functions/demo/demo-offices.php:435
 msgid "%d offices deleted"
 msgstr ""
 
@@ -183,22 +183,22 @@ msgid_plural "%d testimonial entries deleted"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:753
+#: redux-framework/sample/sections/codeweber/cpt-type.php:760
 #, php-format
 msgid "%s Body Background"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:390
+#: functions/integrations/image-licenses/image-licenses.php:436
 #, php-format
 msgid "%s files selected. Save the license to attach them."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:633
+#: redux-framework/sample/sections/codeweber/cpt-type.php:640
 #, php-format
 msgid "%s Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:617
+#: redux-framework/sample/sections/codeweber/cpt-type.php:624
 #, php-format
 msgid "%s Header Settings"
 msgstr ""
@@ -208,7 +208,7 @@ msgstr ""
 msgid "%s is required."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:649
+#: redux-framework/sample/sections/codeweber/cpt-type.php:656
 #, php-format
 msgid "%s Page Header Settings"
 msgstr ""
@@ -225,7 +225,7 @@ msgstr ""
 msgid "%s seats left"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:597
+#: redux-framework/sample/sections/codeweber/cpt-type.php:604
 #, php-format
 msgid "%s Sidebar Settings"
 msgstr ""
@@ -278,7 +278,7 @@ msgstr ""
 #: functions/admin/documents-settings.php:171
 #: functions/admin/faq-settings.php:237
 #: functions/admin/testimonials-settings.php:128
-#: functions/cpt/cpt-events.php:510
+#: functions/cpt/cpt-events.php:537
 msgid "+ Add Consent"
 msgstr ""
 
@@ -305,7 +305,7 @@ msgid ""
 "0 days means delete all consents immediately when erasing personal data."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:390
+#: functions/integrations/image-licenses/image-licenses.php:436
 msgid "1 file selected. Save the license to attach it."
 msgstr ""
 
@@ -411,8 +411,8 @@ msgid "About the vacancy"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_cookie.php:46
-#: functions/integrations/redux_framework/redux_cookie.php:100
-#: functions/integrations/redux_framework/redux_cookie.php:123
+#: functions/integrations/redux_framework/redux_cookie.php:103
+#: functions/integrations/redux_framework/redux_cookie.php:126
 msgid "Accept"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "Active only"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:161
+#: redux-framework/sample/sections/codeweber/api.php:173
 msgid "Active providers"
 msgstr ""
 
@@ -520,7 +520,7 @@ msgstr ""
 msgid "Add consent"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:467
+#: functions/cpt/cpt-events.php:494
 msgid ""
 "Add consent checkboxes to the form. Placeholders: {document_title_url}, "
 "{document_title}, {document_url}."
@@ -650,7 +650,7 @@ msgid "Add New Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:57
-#: functions/integrations/image-licenses/image-licenses.php:689
+#: functions/integrations/image-licenses/image-licenses.php:741
 msgid "Add New License"
 msgstr ""
 
@@ -715,6 +715,10 @@ msgstr ""
 msgid "Add or remove items"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:539
+msgid "Add phone"
+msgstr ""
+
 #: functions/woocommerce/compare/class-cw-compare-ui.php:195
 msgid "Add products to compare"
 msgstr ""
@@ -741,6 +745,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:127
 msgid "Add Schedule"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:390
+msgid "Add schedule"
 msgstr ""
 
 #: functions/cpt/cpt-services.php:13
@@ -784,7 +792,7 @@ msgstr ""
 msgid "Add Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:370
+#: functions/cpt/cpt-events.php:397
 msgid ""
 "Added to the real registration count for display purposes (useful for demos "
 "and imported events)."
@@ -798,7 +806,7 @@ msgstr ""
 msgid "additional CSS classes"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:158 functions/cpt/cpt-vacancies.php:504
+#: functions/cpt/cpt-vacancies.php:504
 msgid "Additional Information"
 msgstr ""
 
@@ -810,7 +818,7 @@ msgstr ""
 msgid "Additional Types"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:283 functions/cpt/cpt-projects-meta.php:523
+#: functions/cpt/cpt-events.php:310 functions/cpt/cpt-projects-meta.php:523
 #: templates/footer/footer-2.php:132 templates/footer/footer-5.php:122
 #: templates/header/header-center-logo.php:318
 #: templates/header/header-classic.php:350
@@ -823,12 +831,12 @@ msgstr ""
 #: woocommerce/order/order-details-customer.php:72
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:231
 #: functions/integrations/telegram/telegram-init.php:357
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:484
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:476
 #: templates/post-cards/projects/overlay-5-primary.php:109
-#: templates/singles/offices/default.php:160
-#: templates/singles/offices/offices_1.php:158
-#: templates/singles/offices/offices_2.php:204
-#: templates/singles/offices/offices_5.php:192
+#: templates/singles/offices/default.php:158
+#: templates/singles/offices/offices_1.php:157
+#: templates/singles/offices/offices_2.php:183
+#: templates/singles/offices/offices_5.php:191
 #: templates/singles/projects/default.php:98
 #: templates/singles/projects/projects_2.php:104
 #: templates/singles/projects/projects_3.php:96
@@ -841,7 +849,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:915 functions/cpt/cpt-offices.php:557
+#: functions/cpt/cpt-events.php:942 functions/cpt/cpt-offices.php:861
 #: functions/cpt/cpt-vacancies.php:992
 msgid "Address (from map)"
 msgstr ""
@@ -851,11 +859,11 @@ msgstr ""
 msgid "Address 2"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:921 functions/cpt/cpt-vacancies.php:996
+#: functions/cpt/cpt-events.php:948 functions/cpt/cpt-vacancies.php:996
 msgid "Address is automatically detected when you click on the map"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:561
+#: functions/cpt/cpt-offices.php:865
 msgid "Address is automatically determined from the map"
 msgstr ""
 
@@ -901,7 +909,7 @@ msgstr ""
 msgid "Advanced Features"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:380
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:385
 msgid "Advanced Settings"
 msgstr ""
 
@@ -917,6 +925,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:696
 msgid "After moderation, your testimonial will be published on our website."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:350
+msgid "AI-generated:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:155
@@ -977,6 +989,7 @@ msgid "Alignment"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:490
+#: functions/integrations/stock-photos/stock-photos.php:284
 #: templates/archives/events/events_1.php:25
 #: templates/archives/events/events_2.php:22
 #: templates/archives/events/events_3.php:27
@@ -997,7 +1010,7 @@ msgstr ""
 #: templates/archives/staff/staff_1.php:78
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 #: redux-framework/sample/sections/codeweber/body-bg.php:94
-#: redux-framework/sample/sections/codeweber/cpt-type.php:708
+#: redux-framework/sample/sections/codeweber/cpt-type.php:715
 #: functions/integrations/s3-storage/inc/views/log-viewer.php:29
 msgid "All"
 msgstr ""
@@ -1012,7 +1025,7 @@ msgstr ""
 msgid "All Categories"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:481
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:473
 msgid "All Cities"
 msgstr ""
 
@@ -1178,7 +1191,7 @@ msgstr ""
 msgid "All Vacancies"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:328
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:333
 msgid "Allow building routes on map"
 msgstr ""
 
@@ -1186,7 +1199,7 @@ msgstr ""
 msgid "Allow Guests"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:89
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:94
 msgid "Allow zooming by double-clicking on the map"
 msgstr ""
 
@@ -1202,7 +1215,7 @@ msgstr ""
 msgid "Altai Republic"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:466
+#: redux-framework/sample/sections/codeweber/cpt-type.php:473
 msgid "Always"
 msgstr ""
 
@@ -1246,9 +1259,9 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1027
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:617
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:43
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:207
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1131
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:231
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:212
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1205
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:369
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:315
 msgid "An error occurred. Please try again."
 msgstr ""
@@ -1299,7 +1312,7 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:210
+#: redux-framework/sample/sections/codeweber/api.php:223
 msgid "API key from the Pixabay API docs page"
 msgstr ""
 
@@ -1307,7 +1320,7 @@ msgstr ""
 msgid "API key from your DaData account"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:193
+#: redux-framework/sample/sections/codeweber/api.php:206
 msgid "API key from your Pexels account"
 msgstr ""
 
@@ -1315,7 +1328,7 @@ msgstr ""
 msgid "Apple Calendar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:176
+#: redux-framework/sample/sections/codeweber/api.php:189
 msgid "Application \"Access Key\" from the Unsplash developer dashboard"
 msgstr ""
 
@@ -1377,11 +1390,11 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:479
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:82
-#: redux-framework/sample/sections/codeweber/cpt-type.php:604
-#: redux-framework/sample/sections/codeweber/cpt-type.php:624
-#: redux-framework/sample/sections/codeweber/cpt-type.php:640
-#: redux-framework/sample/sections/codeweber/cpt-type.php:656
-#: redux-framework/sample/sections/codeweber/cpt-type.php:771
+#: redux-framework/sample/sections/codeweber/cpt-type.php:611
+#: redux-framework/sample/sections/codeweber/cpt-type.php:631
+#: redux-framework/sample/sections/codeweber/cpt-type.php:647
+#: redux-framework/sample/sections/codeweber/cpt-type.php:663
+#: redux-framework/sample/sections/codeweber/cpt-type.php:778
 #: redux-framework/sample/sections/codeweber/woocommerce.php:43
 msgid "Archive"
 msgstr ""
@@ -1390,7 +1403,7 @@ msgstr ""
 msgid "Archive template"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:403
+#: redux-framework/sample/sections/codeweber/cpt-type.php:410
 #, php-format
 msgid "Archive Template for %s"
 msgstr ""
@@ -1475,21 +1488,25 @@ msgstr ""
 msgid "Ask a Question Form — Fields"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:344
+msgid "Asset ID on the provider's site"
+msgstr ""
+
 #: functions/woocommerce/states-ru.php:18
 msgid "Astrakhan Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:452
+#: functions/cpt/cpt-events.php:479
 msgid ""
 "At least one of Email or Phone must be required. If both are unchecked, "
 "Email is enforced automatically."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:358
+#: functions/integrations/image-licenses/image-licenses.php:404
 msgid "Attach selected"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:523
+#: functions/integrations/image-licenses/image-licenses.php:575
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:628
 msgid "Attached Files"
 msgstr ""
@@ -1568,13 +1585,13 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:524
 #: redux-framework/sample/sections/codeweber/body-bg.php:82
 #: redux-framework/sample/sections/codeweber/body-bg.php:131
-#: redux-framework/sample/sections/codeweber/cpt-type.php:697
-#: redux-framework/sample/sections/codeweber/cpt-type.php:742
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:338
+#: redux-framework/sample/sections/codeweber/cpt-type.php:704
+#: redux-framework/sample/sections/codeweber/cpt-type.php:749
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:343
 msgid "Auto"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:208
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:213
 msgid "Auto Open First Balloon"
 msgstr ""
 
@@ -1590,11 +1607,11 @@ msgstr ""
 msgid "Auto-reply is disabled."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:209
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:214
 msgid "Automatically open balloon for the first marker"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:372
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:377
 msgid "Automatically pan map when balloon is opened"
 msgstr ""
 
@@ -1606,7 +1623,7 @@ msgstr ""
 msgid "Availability"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-offices.php:677
+#: functions/cpt/cpt-offices.php:226
 msgid "Available Services"
 msgstr ""
 
@@ -1644,7 +1661,7 @@ msgstr[1] ""
 msgid "AWS SDK is missing. Run `composer install` inside the module directory."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1217
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1311
 msgid "Back"
 msgstr ""
 
@@ -1672,16 +1689,16 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:502
 #: redux-framework/sample/sections/codeweber/body-bg.php:107
-#: redux-framework/sample/sections/codeweber/cpt-type.php:720
+#: redux-framework/sample/sections/codeweber/cpt-type.php:727
 msgid "Background color shown while the pattern image is loading."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:777
+#: redux-framework/sample/sections/codeweber/cpt-type.php:784
 #, php-format
 msgid "Background for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:762
+#: redux-framework/sample/sections/codeweber/cpt-type.php:769
 #, php-format
 msgid "Background for Single %s"
 msgstr ""
@@ -1692,7 +1709,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:459
 #: redux-framework/sample/sections/codeweber/body-bg.php:60
-#: redux-framework/sample/sections/codeweber/cpt-type.php:678
+#: redux-framework/sample/sections/codeweber/cpt-type.php:685
 msgid "Background Image / Pattern"
 msgstr ""
 
@@ -1712,15 +1729,15 @@ msgstr ""
 msgid "Badges"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:371
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:376
 msgid "Balloon Auto Pan"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:357
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:362
 msgid "Balloon Max Width"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:350
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:355
 msgid "Balloon Settings"
 msgstr ""
 
@@ -1775,7 +1792,7 @@ msgstr ""
 msgid "Basic data"
 msgstr ""
 
-#: functions/post-cards-registry.php:145
+#: functions/post-cards-registry.php:183
 msgid "Basic event card"
 msgstr ""
 
@@ -1786,12 +1803,8 @@ msgstr ""
 msgid "Basic media uploader with disabled URL input field."
 msgstr ""
 
-#: functions/post-cards-registry.php:188
+#: functions/post-cards-registry.php:226
 msgid "Basic staff card with image, name and position"
-msgstr ""
-
-#: functions/post-cards-registry.php:98
-msgid "Basic testimonial card with rating, text, avatar and author"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:561
@@ -1820,7 +1833,7 @@ msgstr ""
 msgid "Belgorod Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1195
+#: functions/cpt/cpt-documents.php:1243
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:666
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:697
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:732
@@ -1834,7 +1847,7 @@ msgstr ""
 msgid "BIC"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:341
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:346
 msgid "Bicycle"
 msgstr ""
 
@@ -1846,7 +1859,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:171
 #: redux-framework/sample/sections/codeweber/header.php:249
 #: redux-framework/sample/sections/codeweber/header.php:324
-#: redux-framework/sample/sections/codeweber/style.php:422
+#: redux-framework/sample/sections/codeweber/style.php:406
 msgid "Block"
 msgstr ""
 
@@ -1858,17 +1871,9 @@ msgstr ""
 msgid "Block Restriction Mode"
 msgstr ""
 
-#: functions/post-cards-registry.php:108
-msgid "Block with quote and icon"
-msgstr ""
-
 #: functions/integrations/redux_framework/redux_framework.php:97
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
-msgstr ""
-
-#: functions/post-cards-registry.php:107
-msgid "Blockquote"
 msgstr ""
 
 #: functions/global.php:186 functions/seo/seo-schema.php:561
@@ -1876,15 +1881,15 @@ msgid "Blog"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:280
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:236
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:241
 msgid "Blue"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:157
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:162
 msgid "Blue Dot"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:163
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:168
 msgid "Blue Icon"
 msgstr ""
 
@@ -1893,12 +1898,12 @@ msgid "Body Background"
 msgstr ""
 
 #: functions/admin/events-settings.php:162
-#: functions/admin/events-settings.php:184 functions/cpt/cpt-events.php:391
-#: functions/cpt/cpt-events.php:419
+#: functions/admin/events-settings.php:184 functions/cpt/cpt-events.php:418
+#: functions/cpt/cpt-events.php:446
 msgid "Book Now"
 msgstr ""
 
-#: functions/post-cards-registry.php:281
+#: functions/post-cards-registry.php:319
 msgid "Bootstrap card, no overlay icons on image"
 msgstr ""
 
@@ -1908,6 +1913,18 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:618
 msgid "Bootstrap Modal Options"
+msgstr ""
+
+#: functions/post-cards-registry.php:113
+msgid "Borderless centered quote with top icon (no card)"
+msgstr ""
+
+#: functions/post-cards-registry.php:118
+msgid "Borderless centered quote with top icon and avatar (no card)"
+msgstr ""
+
+#: functions/post-cards-registry.php:128
+msgid "Borderless large quote with avatar, no card and no icon"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:112
@@ -1978,17 +1995,17 @@ msgstr ""
 msgid "Breadcrumbs: WooCommerce"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:248
+#: functions/cpt/cpt-offices.php:384 functions/cpt/cpt-offices.php:407
 #: redux-framework/sample/sections/codeweber/company-details.php:25
 msgid "Break end"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:247
+#: functions/cpt/cpt-offices.php:383 functions/cpt/cpt-offices.php:406
 #: redux-framework/sample/sections/codeweber/company-details.php:24
 msgid "Break start"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:608
+#: redux-framework/sample/sections/codeweber/cpt-type.php:615
 msgid "Breakpoint"
 msgstr ""
 
@@ -2001,7 +2018,7 @@ msgstr ""
 msgid "Brief description of the child theme"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:920
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:994
 msgid "Browse"
 msgstr ""
 
@@ -2050,11 +2067,11 @@ msgstr ""
 msgid "Build DIST"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:477
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:469
 msgid "Build Route"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:335
+#: functions/cpt/cpt-events.php:362
 msgid "Built-in form on page"
 msgstr ""
 
@@ -2076,7 +2093,7 @@ msgstr ""
 msgid "Button Color"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:411
+#: functions/cpt/cpt-events.php:438
 msgid "Button Label"
 msgstr ""
 
@@ -2090,11 +2107,11 @@ msgstr ""
 msgid "Button on Single Product"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:339
+#: functions/cpt/cpt-events.php:366
 msgid "Button opens modal window"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:161
+#: redux-framework/sample/sections/codeweber/style.php:145
 msgid "Button Style"
 msgstr ""
 
@@ -2111,7 +2128,7 @@ msgid "Button type"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1637
-#: redux-framework/sample/sections/codeweber/style.php:474
+#: redux-framework/sample/sections/codeweber/style.php:458
 msgid "Buttons"
 msgstr ""
 
@@ -2128,8 +2145,8 @@ msgid "Buy"
 msgstr ""
 
 #: functions/admin/events-settings.php:166
-#: functions/admin/events-settings.php:188 functions/cpt/cpt-events.php:395
-#: functions/cpt/cpt-events.php:423
+#: functions/admin/events-settings.php:188 functions/cpt/cpt-events.php:422
+#: functions/cpt/cpt-events.php:450
 msgid "Buy a Ticket"
 msgstr ""
 
@@ -2153,7 +2170,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:698
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1013
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:221
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:60
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:180
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:540
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:556
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
@@ -2212,37 +2229,65 @@ msgstr ""
 msgid "Cannot open uploaded file"
 msgstr ""
 
-#: functions/post-cards-registry.php:40 functions/post-cards-registry.php:102
-#: functions/post-cards-registry.php:192
+#: functions/post-cards-registry.php:45 functions/post-cards-registry.php:102
+#: functions/post-cards-registry.php:230
 msgid "Card"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:185
+#: redux-framework/sample/sections/codeweber/style.php:169
 msgid "Card and Image rounded corners"
 msgstr ""
 
-#: functions/post-cards-registry.php:45
+#: functions/post-cards-registry.php:137
+msgid "Card Border Bottom"
+msgstr ""
+
+#: functions/post-cards-registry.php:50
 msgid "Card Content"
 msgstr ""
 
-#: functions/post-cards-registry.php:134
+#: functions/post-cards-registry.php:169
 msgid "Card layout with AJAX download button for documents"
 msgstr ""
 
-#: functions/post-cards-registry.php:129
+#: functions/post-cards-registry.php:164
 msgid "Card layout with email button for documents"
 msgstr ""
 
-#: functions/post-cards-registry.php:41
+#: functions/post-cards-registry.php:46
 msgid "Card layout with shadow and card body"
 msgstr ""
 
-#: functions/post-cards-registry.php:103 functions/post-cards-registry.php:193
+#: functions/post-cards-registry.php:142
+msgid "Card Light Rating"
+msgstr ""
+
+#: functions/post-cards-registry.php:153
+msgid "Card over the featured image with overlay and white text"
+msgstr ""
+
+#: functions/post-cards-registry.php:132
+msgid "Card Pale"
+msgstr ""
+
+#: functions/post-cards-registry.php:231
 msgid "Card with colored backgrounds (Sandbox style)"
 msgstr ""
 
-#: functions/post-cards-registry.php:46
+#: functions/post-cards-registry.php:51
 msgid "Card with excerpt and footer"
+msgstr ""
+
+#: functions/post-cards-registry.php:103
+msgid "Card with quote, icon and avatar (no rating)"
+msgstr ""
+
+#: functions/post-cards-registry.php:108
+msgid "Card with rating, quote, icon and avatar"
+msgstr ""
+
+#: functions/post-cards-registry.php:138
+msgid "Card with shadow and colored bottom border, no avatar"
 msgstr ""
 
 #: functions/woocommerce/cart-offcanvas.php:206
@@ -2309,6 +2354,14 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
+#: functions/post-cards-registry.php:112
+msgid "Centered"
+msgstr ""
+
+#: functions/post-cards-registry.php:117
+msgid "Centered with Avatar"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:261
 msgid "CF7"
 msgstr ""
@@ -2342,6 +2395,10 @@ msgstr ""
 msgid "Chechnya"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:256
+msgid "Check Account ID + Secret Key via a search request"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:194
 msgid "Check Data"
 msgstr ""
@@ -2362,12 +2419,12 @@ msgstr ""
 msgid "Check that the export includes data from registered providers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:185
+#: redux-framework/sample/sections/codeweber/api.php:198
 msgid "Check the Access Key via a search request"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:202
-#: redux-framework/sample/sections/codeweber/api.php:219
+#: redux-framework/sample/sections/codeweber/api.php:215
+#: redux-framework/sample/sections/codeweber/api.php:232
 msgid "Check the API key via a search request"
 msgstr ""
 
@@ -2446,7 +2503,7 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:555
+#: redux-framework/sample/sections/codeweber/style.php:539
 msgid "Choose a preset or set custom values below."
 msgstr ""
 
@@ -2493,41 +2550,41 @@ msgstr ""
 msgid "Chuvashia"
 msgstr ""
 
-#: functions/post-cards-registry.php:197
+#: functions/post-cards-registry.php:235
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:393
 #: redux-framework/sample/sections/codeweber/footer.php:170
 #: redux-framework/sample/sections/codeweber/header.php:248
 #: redux-framework/sample/sections/codeweber/header.php:323
-#: redux-framework/sample/sections/codeweber/style.php:421
+#: redux-framework/sample/sections/codeweber/style.php:405
 msgid "Circle"
 msgstr ""
 
-#: functions/post-cards-registry.php:202
+#: functions/post-cards-registry.php:240
 msgid "Circle Center"
 msgstr ""
 
-#: functions/post-cards-registry.php:207
+#: functions/post-cards-registry.php:245
 msgid "Circle Center Alt"
 msgstr ""
 
-#: functions/post-cards-registry.php:208
+#: functions/post-cards-registry.php:246
 msgid "Circular avatar centered with link on image and social links"
 msgstr ""
 
-#: functions/post-cards-registry.php:203
+#: functions/post-cards-registry.php:241
 msgid "Circular avatar centered with social links"
 msgstr ""
 
-#: functions/post-cards-registry.php:198
+#: functions/post-cards-registry.php:236
 msgid "Circular avatar with social links"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:219 functions/cpt/cpt-offices.php:989
+#: functions/cpt/cpt-offices.php:300 functions/cpt/cpt-offices.php:1393
 #: functions/cpt/cpt-projects-meta.php:129 functions/cpt/cpt-staff.php:271
 #: woocommerce/order/order-details-customer.php:35
 #: woocommerce/order/order-details-customer.php:74
 #: functions/integrations/telegram/telegram-init.php:356
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:483
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:475
 #: redux-framework/sample/sections/codeweber/company-details.php:112
 #: redux-framework/sample/sections/codeweber/company-details.php:174
 #: redux-framework/sample/sections/codeweber/woocommerce.php:666
@@ -2590,7 +2647,7 @@ msgstr ""
 msgid "Click \"Continue\"."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:735
+#: functions/cpt/cpt-events.php:762
 msgid "Click on the map to set the location or use the search field."
 msgstr ""
 
@@ -2601,11 +2658,11 @@ msgstr ""
 msgid "Client"
 msgstr ""
 
-#: functions/post-cards-registry.php:86
+#: functions/post-cards-registry.php:91
 msgid "Client Card"
 msgstr ""
 
-#: functions/post-cards-registry.php:81
+#: functions/post-cards-registry.php:86
 msgid "Client Grid"
 msgstr ""
 
@@ -2613,7 +2670,7 @@ msgstr ""
 msgid "Client published"
 msgstr ""
 
-#: functions/post-cards-registry.php:76
+#: functions/post-cards-registry.php:81
 msgid "Client Simple"
 msgstr ""
 
@@ -2638,7 +2695,7 @@ msgstr ""
 #: functions/integrations/modal/modal-container.php:126
 #: functions/integrations/modal/modal-container.php:147
 #: functions/integrations/modal/success-message-template.php:69
-#: functions/integrations/redux_framework/redux_cookie.php:99
+#: functions/integrations/redux_framework/redux_cookie.php:102
 msgid "Close"
 msgstr ""
 
@@ -2647,16 +2704,16 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:249
+#: functions/cpt/cpt-offices.php:385 functions/cpt/cpt-offices.php:408
 #: redux-framework/sample/sections/codeweber/company-details.php:26
 msgid "Closes"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:232
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:237
 msgid "Clusterer Preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:217
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:222
 msgid "Clusterer Settings"
 msgstr ""
 
@@ -2742,11 +2799,11 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:174
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:179
 msgid "Color for custom markers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:441
+#: redux-framework/sample/sections/codeweber/style.php:425
 msgid "Color of the \"Share\" dropdown button"
 msgstr ""
 
@@ -2756,6 +2813,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:49
 msgid "Color switcher position"
+msgstr ""
+
+#: functions/post-cards-registry.php:133
+msgid "Colored pale card with icon, no avatar and no rating"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:196
@@ -2809,7 +2870,7 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:557
+#: redux-framework/sample/sections/codeweber/style.php:541
 msgid "Compact — g-3 (15px)"
 msgstr ""
 
@@ -2819,7 +2880,7 @@ msgstr ""
 #: woocommerce/order/order-details-customer.php:71
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:107
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:485
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:556
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:625
 #: functions/integrations/telegram/telegram-init.php:355
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:804
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:763
@@ -2843,7 +2904,7 @@ msgid "Company Name"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:113
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:566
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:635
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:963
 msgid "Company name"
 msgstr ""
@@ -3008,7 +3069,7 @@ msgstr ""
 #: functions/admin/faq-settings.php:202 functions/admin/faq-settings.php:258
 #: functions/admin/testimonials-settings.php:93
 #: functions/admin/testimonials-settings.php:149
-#: functions/cpt/cpt-events.php:477 functions/cpt/cpt-events.php:526
+#: functions/cpt/cpt-events.php:504 functions/cpt/cpt-events.php:553
 #: functions/integrations/cf7/cf7-consents-panel.php:86
 #: functions/integrations/cf7/cf7-consents-panel.php:315
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:102
@@ -3046,7 +3107,7 @@ msgstr ""
 msgid "Consent Date & Time"
 msgstr ""
 
-#: functions/admin/documents-settings.php:59 functions/cpt/cpt-events.php:465
+#: functions/admin/documents-settings.php:59 functions/cpt/cpt-events.php:492
 msgid "Consent Documents"
 msgstr ""
 
@@ -3106,8 +3167,12 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:113
+#: functions/cpt/cpt-offices.php:488
 msgid "Contact Details"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:113
+msgid "Contact Details & Working Hours"
 msgstr ""
 
 #: functions/integrations/cf7/cf7.php:502
@@ -3170,7 +3235,7 @@ msgstr ""
 msgid "Contact forms created with CodeWeber Forms"
 msgstr ""
 
-#: templates/singles/offices/default.php:153
+#: templates/singles/offices/default.php:151
 #: templates/singles/staff/default.php:106
 #: templates/singles/staff/staff_1.php:106
 msgid "Contact Information"
@@ -3202,11 +3267,11 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:685
+#: redux-framework/sample/sections/codeweber/style.php:669
 msgid "Content & Sidebar Padding (desktop)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:669
+#: redux-framework/sample/sections/codeweber/style.php:653
 msgid "Content & Sidebar Padding (mobile)"
 msgstr ""
 
@@ -3223,7 +3288,7 @@ msgid "Continue Shopping"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_cookie.php:45
-#: functions/integrations/redux_framework/redux_cookie.php:123
+#: functions/integrations/redux_framework/redux_cookie.php:126
 msgid "Cookie Consent"
 msgstr ""
 
@@ -3290,7 +3355,7 @@ msgstr ""
 msgid "Could not create style.css"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:102
+#: functions/integrations/stock-photos/inc/import.php:154
 msgid "Could not create temp file"
 msgstr ""
 
@@ -3307,6 +3372,10 @@ msgstr ""
 msgid "Could not read file."
 msgstr ""
 
+#: functions/integrations/stock-photos/inc/proxy.php:54
+msgid "Could not read quota"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:610
 msgid "Count Reset"
 msgstr ""
@@ -3315,7 +3384,7 @@ msgstr ""
 msgid "Counting images..."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:213 functions/cpt/cpt-staff.php:265
+#: functions/cpt/cpt-offices.php:294 functions/cpt/cpt-staff.php:265
 #: woocommerce/order/order-details-customer.php:38
 #: woocommerce/order/order-details-customer.php:77
 #: redux-framework/sample/sections/codeweber/company-details.php:98
@@ -3327,7 +3396,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:478
 #: redux-framework/sample/sections/codeweber/body-bg.php:81
-#: redux-framework/sample/sections/codeweber/cpt-type.php:696
+#: redux-framework/sample/sections/codeweber/cpt-type.php:703
 msgid "Cover"
 msgstr ""
 
@@ -3531,15 +3600,15 @@ msgstr ""
 msgid "Create demo vacancy entries? This may take a while."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:269
+#: redux-framework/sample/sections/codeweber/cpt-type.php:276
 msgid "Create Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:262
+#: redux-framework/sample/sections/codeweber/cpt-type.php:269
 msgid "Create Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:276
+#: redux-framework/sample/sections/codeweber/cpt-type.php:283
 msgid "Create Page Header"
 msgstr ""
 
@@ -3600,7 +3669,7 @@ msgstr ""
 msgid "Creating…"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:76
+#: functions/integrations/stock-photos/stock-photos.php:85
 msgid ""
 "Creative Commons / Public Domain. Check each item's license; attribution "
 "often required."
@@ -3620,7 +3689,7 @@ msgid ""
 "page color)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:366
+#: redux-framework/sample/sections/codeweber/style.php:350
 msgid ""
 "CSS class applied to headings inside sidebar widgets (vacancies, events, FAQ,"
 " maps)"
@@ -3667,12 +3736,12 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:82
 #: redux-framework/sample/sections/codeweber/header.php:78
 #: redux-framework/sample/sections/codeweber/page-header.php:88
-#: redux-framework/sample/sections/codeweber/style.php:561
+#: redux-framework/sample/sections/codeweber/style.php:545
 #: redux-framework/sample/sections/codeweber/woocommerce.php:260
 msgid "Custom"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:437
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:449
 msgid "Custom (JSON)"
 msgstr ""
 
@@ -3680,11 +3749,11 @@ msgstr ""
 msgid "Custom (Manual Entry)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:323
+#: redux-framework/sample/sections/codeweber/style.php:307
 msgid "Custom Class"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:144
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:149
 msgid "Custom Color"
 msgstr ""
 
@@ -3704,7 +3773,7 @@ msgstr ""
 msgid "Custom HEX Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:444
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:457
 msgid ""
 "Custom JSON style configuration for Yandex Map. Example: [{\"featureType\":"
 "\"water\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#808080\"}]}"
@@ -3712,11 +3781,11 @@ msgid ""
 "[{\"color\":\"#404040\"}]}]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:316
+#: redux-framework/sample/sections/codeweber/style.php:300
 msgid "Custom Loader Logo (SVG)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:308
+#: redux-framework/sample/sections/codeweber/style.php:292
 msgid "Custom Logo"
 msgstr ""
 
@@ -3728,7 +3797,7 @@ msgstr ""
 msgid "Custom Post Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:228
+#: redux-framework/sample/sections/codeweber/cpt-type.php:235
 msgid "Custom Post Types"
 msgstr ""
 
@@ -3740,11 +3809,11 @@ msgstr ""
 msgid "Custom Shape"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:443
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:456
 msgid "Custom Style (JSON)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:431
+#: redux-framework/sample/sections/codeweber/cpt-type.php:438
 #, php-format
 msgid "Custom Subtitle for %s"
 msgstr ""
@@ -3758,7 +3827,7 @@ msgid ""
 "Custom text to display instead of default label (leave empty to use default)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:423
+#: redux-framework/sample/sections/codeweber/cpt-type.php:430
 #, php-format
 msgid "Custom Title for %s"
 msgstr ""
@@ -3822,20 +3891,20 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:227
 #: redux-framework/sample/metaboxes.php:452
 #: redux-framework/sample/sections/codeweber/body-bg.php:16
-#: redux-framework/sample/sections/codeweber/cpt-type.php:670
+#: redux-framework/sample/sections/codeweber/cpt-type.php:677
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:271
 #: redux-framework/sample/sections/codeweber/footer.php:111
 #: redux-framework/sample/sections/codeweber/footer.php:198
 #: redux-framework/sample/sections/codeweber/header.php:115
 #: redux-framework/sample/sections/codeweber/header.php:273
 #: redux-framework/sample/sections/codeweber/page-header.php:256
-#: redux-framework/sample/sections/codeweber/style.php:519
-#: redux-framework/sample/sections/codeweber/style.php:531
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:435
+#: redux-framework/sample/sections/codeweber/style.php:503
+#: redux-framework/sample/sections/codeweber/style.php:515
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:441
 msgid "Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:160
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:165
 msgid "Dark Blue Dot"
 msgstr ""
 
@@ -3846,6 +3915,10 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:893
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:894
 msgid "Dark logo (or site name fallback) — Email Wrapper only"
+msgstr ""
+
+#: functions/integrations/yandex-maps/presets.php:31
+msgid "Dark Slate"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:368
@@ -3877,7 +3950,7 @@ msgid "Database table:"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:148 functions/events/event-registrations.php:117
-#: functions/fetch/filterPosts.php:384
+#: functions/fetch/filterPosts.php:388
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
 #: templates/archives/events/events_1.php:61
 #: templates/archives/events/events_2.php:40
@@ -3922,9 +3995,13 @@ msgstr ""
 msgid "Date:"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:245
 #: redux-framework/sample/sections/codeweber/company-details.php:22
 msgid "Day"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:379 functions/cpt/cpt-offices.php:403
+#: functions/cpt/cpt-offices.php:1527
+msgid "Day off"
 msgstr ""
 
 #: functions/sidebars.php:758
@@ -3936,26 +4013,25 @@ msgstr ""
 msgid "Debug Mode"
 msgstr ""
 
-#: functions/post-cards-registry.php:35 functions/post-cards-registry.php:97
-#: functions/post-cards-registry.php:144 functions/post-cards-registry.php:160
-#: functions/post-cards-registry.php:187 functions/cpt/cpt-faq.php:573
-#: redux-framework/sample/metaboxes.php:159
+#: functions/post-cards-registry.php:40 functions/post-cards-registry.php:182
+#: functions/post-cards-registry.php:198 functions/post-cards-registry.php:225
+#: functions/cpt/cpt-faq.php:573 redux-framework/sample/metaboxes.php:159
 #: redux-framework/sample/metaboxes.php:345
 #: redux-framework/sample/metaboxes.php:405
 #: redux-framework/sample/metaboxes.php:547
 #: redux-framework/sample/metaboxes.php:629
-#: redux-framework/sample/sections/codeweber/style.php:305
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:432
+#: redux-framework/sample/sections/codeweber/style.php:289
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:438
 msgid "Default"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:143
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:148
 msgid "Default (Preset)"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:446
 #: redux-framework/sample/sections/codeweber/body-bg.php:10
-#: redux-framework/sample/sections/codeweber/cpt-type.php:664
+#: redux-framework/sample/sections/codeweber/cpt-type.php:671
 msgid "Default (transparent)"
 msgstr ""
 
@@ -3965,15 +4041,15 @@ msgid ""
 "overridden per event."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:40
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:45
 msgid "Default Center"
 msgstr ""
 
-#: functions/post-cards-registry.php:55
+#: functions/post-cards-registry.php:60
 msgid "Default Clickable"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:428
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:433
 msgid "Default Color Scheme"
 msgstr ""
 
@@ -3985,11 +4061,11 @@ msgstr ""
 msgid "Default Email Subject"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:524
+#: redux-framework/sample/sections/codeweber/cpt-type.php:531
 msgid "Default Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:484
+#: redux-framework/sample/sections/codeweber/cpt-type.php:491
 msgid "Default Header"
 msgstr ""
 
@@ -3998,23 +4074,23 @@ msgid ""
 "Default heading above the registration form. Can be overridden per event."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:73
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:78
 msgid "Default Height"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:41
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:46
 msgid "Default map center coordinates (latitude, longitude)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:74
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:79
 msgid "Default map height in pixels"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:60
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:65
 msgid "Default Map Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:140
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:145
 msgid "Default Marker Type"
 msgstr ""
 
@@ -4026,7 +4102,7 @@ msgstr ""
 msgid "Default Newsletter Form"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:564
+#: redux-framework/sample/sections/codeweber/cpt-type.php:571
 msgid "Default Page Header"
 msgstr ""
 
@@ -4034,7 +4110,7 @@ msgstr ""
 msgid "Default Recipient Email"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:335
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
 msgid "Default Route Type"
 msgstr ""
 
@@ -4054,7 +4130,7 @@ msgstr ""
 msgid "Default Status"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:402
+#: redux-framework/sample/sections/codeweber/style.php:386
 msgid "Default style for social/contact icons across the theme."
 msgstr ""
 
@@ -4066,8 +4142,8 @@ msgstr ""
 msgid "Default Subscription Form"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:345
-#: redux-framework/sample/sections/codeweber/cpt-type.php:371
+#: redux-framework/sample/sections/codeweber/cpt-type.php:352
+#: redux-framework/sample/sections/codeweber/cpt-type.php:378
 msgid "Default Template"
 msgstr ""
 
@@ -4076,23 +4152,23 @@ msgstr ""
 msgid "Default Testimonial Form"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:61
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:66
 msgid "Default type of map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:141
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:146
 msgid "Default type of marker"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:336
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:341
 msgid "Default type of route"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:49
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:54
 msgid "Default Zoom"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:50
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:55
 msgid "Default zoom level"
 msgstr ""
 
@@ -4379,11 +4455,11 @@ msgstr ""
 msgid "Departments list navigation"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:713
+#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:327
 #: functions/cpt/cpt-projects-meta.php:140
 #: functions/integrations/personal-data-v2/test-providers.php:107
-#: templates/singles/offices/offices_2.php:246
-#: templates/singles/offices/offices_5.php:232
+#: templates/singles/offices/offices_2.php:209
+#: templates/singles/offices/offices_5.php:222
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:234
 #: redux-framework/sample/sections/codeweber/childtheme.php:28
 #: redux-framework/sample/sections/codeweber/footer.php:295
@@ -4415,7 +4491,7 @@ msgstr ""
 msgid "Desktop Offsets"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:421
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:426
 msgid "Desktop Optimized"
 msgstr ""
 
@@ -4428,8 +4504,8 @@ msgstr ""
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr ""
 
-#: functions/sidebars.php:333 functions/fetch/filterPosts.php:455
-#: functions/fetch/filterPosts.php:666
+#: functions/sidebars.php:333 functions/fetch/filterPosts.php:459
+#: functions/fetch/filterPosts.php:670
 #: templates/archives/events/events_1.php:127
 #: templates/archives/events/events_2.php:106
 #: templates/archives/events/events_4.php:117
@@ -4472,19 +4548,19 @@ msgstr ""
 msgid "Disable"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:525
+#: redux-framework/sample/sections/codeweber/cpt-type.php:532
 msgid "Disable - Hide Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:485
+#: redux-framework/sample/sections/codeweber/cpt-type.php:492
 msgid "Disable - Hide Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:565
+#: redux-framework/sample/sections/codeweber/cpt-type.php:572
 msgid "Disable - Hide Page Header"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:962 functions/cpt/cpt-vacancies.php:1033
+#: functions/cpt/cpt-events.php:989 functions/cpt/cpt-vacancies.php:1033
 msgid "Disable image in sidebar"
 msgstr ""
 
@@ -4496,10 +4572,10 @@ msgstr ""
 msgid "Disable Sidebar"
 msgstr ""
 
-#: functions/admin/faq-settings.php:152 functions/cpt/cpt-events.php:331
+#: functions/admin/faq-settings.php:152 functions/cpt/cpt-events.php:358
 #: redux-framework/sample/sections/codeweber/cpt-type.php:142
-#: redux-framework/sample/sections/codeweber/cpt-type.php:444
-#: redux-framework/sample/sections/codeweber/cpt-type.php:455
+#: redux-framework/sample/sections/codeweber/cpt-type.php:451
+#: redux-framework/sample/sections/codeweber/cpt-type.php:462
 msgid "Disabled"
 msgstr ""
 
@@ -4589,7 +4665,7 @@ msgstr ""
 #: functions/admin/testimonials-settings.php:106
 #: functions/admin/testimonials-settings.php:157
 #: functions/cpt/cpt-documents.php:7 functions/cpt/cpt-documents.php:26
-#: functions/cpt/cpt-events.php:490 functions/cpt/cpt-events.php:533
+#: functions/cpt/cpt-events.php:517 functions/cpt/cpt-events.php:560
 msgid "Document"
 msgstr ""
 
@@ -4597,11 +4673,11 @@ msgstr ""
 msgid "Document Archives"
 msgstr ""
 
-#: functions/post-cards-registry.php:128
+#: functions/post-cards-registry.php:163
 msgid "Document Card"
 msgstr ""
 
-#: functions/post-cards-registry.php:133
+#: functions/post-cards-registry.php:168
 msgid "Document Card Download"
 msgstr ""
 
@@ -4617,7 +4693,7 @@ msgstr ""
 msgid "Document download link (Document Email only)"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1224
+#: functions/cpt/cpt-documents.php:1272
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:441
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:38
 msgid "Document Email"
@@ -4631,8 +4707,8 @@ msgstr ""
 msgid "Document ID: %d (not found)"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:939 functions/cpt/cpt-documents.php:1103
-#: functions/cpt/cpt-documents.php:1271
+#: functions/cpt/cpt-documents.php:987 functions/cpt/cpt-documents.php:1151
+#: functions/cpt/cpt-documents.php:1319
 msgid "Document not found"
 msgstr ""
 
@@ -4653,7 +4729,7 @@ msgid "Document Scheduled"
 msgstr ""
 
 #: functions/admin/documents-settings.php:263
-#: functions/cpt/cpt-documents.php:1246
+#: functions/cpt/cpt-documents.php:1294
 msgid "Document sent successfully to your email."
 msgstr ""
 
@@ -4694,7 +4770,7 @@ msgstr ""
 msgid "Document URL"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:969
+#: functions/cpt/cpt-documents.php:1017
 msgid "Document:"
 msgstr ""
 
@@ -4735,12 +4811,12 @@ msgstr ""
 msgid "Donetsk People's Republic"
 msgstr ""
 
-#: templates/post-cards/documents/card_download.php:84
+#: templates/post-cards/documents/card_download.php:73
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:703
 msgid "Download"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:297
+#: functions/integrations/image-licenses/image-licenses.php:301
 msgid "Download date:"
 msgstr ""
 
@@ -4752,11 +4828,11 @@ msgstr ""
 msgid "Download everything back to local and mark the module safe to disable."
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:119
+#: functions/integrations/stock-photos/inc/import.php:172
 msgid "Download failed: "
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:125
+#: functions/integrations/stock-photos/inc/import.php:179
 msgid "Download failed: HTTP "
 msgstr ""
 
@@ -4807,7 +4883,7 @@ msgid "Duplicate Handling"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:241 functions/cpt/cpt-staff.php:506
-#: templates/singles/offices/default.php:200
+#: templates/singles/offices/default.php:198
 #: templates/singles/staff/default.php:113
 #: templates/singles/staff/staff_1.php:113
 #: redux-framework/sample/sections/codeweber/contacts.php:15
@@ -4835,7 +4911,7 @@ msgstr ""
 msgid "E-mail Responsible Person"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:298
+#: functions/cpt/cpt-events.php:325
 msgid "e.g. 1500 ₽ or Free"
 msgstr ""
 
@@ -4843,11 +4919,11 @@ msgstr ""
 msgid "e.g. 8888"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:280
+#: functions/cpt/cpt-events.php:307
 msgid "e.g. Conference Hall A"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:250
+#: functions/integrations/image-licenses/image-licenses.php:254
 msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
 msgstr ""
 
@@ -4936,7 +5012,7 @@ msgid "Edit Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:60
-#: functions/integrations/image-licenses/image-licenses.php:610
+#: functions/integrations/image-licenses/image-licenses.php:662
 msgid "Edit License"
 msgstr ""
 
@@ -5002,7 +5078,7 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:225
 #: functions/bootstrap/bootstrap_share-page.php:267
-#: functions/cpt/cpt-offices.php:327 functions/cpt/cpt-offices.php:991
+#: functions/cpt/cpt-offices.php:542 functions/cpt/cpt-offices.php:1395
 #: functions/events/event-registration-api.php:425
 #: functions/events/event-registrations.php:113
 #: functions/events/event-registrations.php:344
@@ -5013,9 +5089,9 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:483
 #: functions/integrations/telegram/telegram-init.php:180
 #: functions/integrations/telegram/telegram-init.php:351
-#: templates/singles/offices/offices_1.php:204
-#: templates/singles/offices/offices_2.php:163
-#: templates/singles/offices/offices_5.php:163
+#: templates/singles/offices/offices_1.php:203
+#: templates/singles/offices/offices_2.php:142
+#: templates/singles/offices/offices_5.php:162
 #: templates/singles/staff/staff_2.php:123
 #: templates/singles/staff/staff_3.php:125
 #: templates/singles/staff/staff_4.php:141
@@ -5037,9 +5113,9 @@ msgid "Email *"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:501
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:324
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:325
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:959
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:330
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:331
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1033
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:755
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:98
 msgid "Email Address"
@@ -5156,7 +5232,7 @@ msgstr ""
 msgid "Email Wrapper"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:446
+#: functions/cpt/cpt-events.php:473
 msgid "Email — required"
 msgstr ""
 
@@ -5177,7 +5253,7 @@ msgstr ""
 msgid "empty"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/proxy.php:110
+#: functions/integrations/stock-photos/inc/proxy.php:166
 msgid "Empty query"
 msgstr ""
 
@@ -5212,15 +5288,15 @@ msgid ""
 "classic metabox editor."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:311
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:316
 msgid "Enable category filter"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:302
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:307
 msgid "Enable city filter"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:224
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:229
 msgid "Enable Clusterer"
 msgstr ""
 
@@ -5241,11 +5317,11 @@ msgstr ""
 msgid "Enable debug logging"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:88
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:93
 msgid "Enable Double Click Zoom"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:293
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:298
 msgid "Enable Filters"
 msgstr ""
 
@@ -5261,11 +5337,11 @@ msgstr ""
 msgid "Enable Gutenberg for"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:95
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:100
 msgid "Enable Multi-touch"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:96
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:101
 msgid "Enable multi-touch gestures on mobile devices"
 msgstr ""
 
@@ -5305,7 +5381,7 @@ msgstr ""
 msgid "Enable Resume Reply"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:327
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:332
 msgid "Enable Route"
 msgstr ""
 
@@ -5313,7 +5389,7 @@ msgstr ""
 msgid "Enable S3 Storage integration"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:255
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:260
 msgid "Enable Sidebar"
 msgstr ""
 
@@ -5361,7 +5437,7 @@ msgstr ""
 msgid "End date"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:241
+#: functions/cpt/cpt-events.php:268
 msgid "End Date & Time"
 msgstr ""
 
@@ -5373,15 +5449,15 @@ msgstr ""
 msgid "Endpoint URL"
 msgstr ""
 
-#: functions/admin/events-settings.php:167 functions/cpt/cpt-events.php:396
+#: functions/admin/events-settings.php:167 functions/cpt/cpt-events.php:423
 msgid "Enroll"
 msgstr ""
 
-#: functions/admin/events-settings.php:189 functions/cpt/cpt-events.php:424
+#: functions/admin/events-settings.php:189 functions/cpt/cpt-events.php:451
 msgid "Enroll Now"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:220
+#: functions/integrations/stock-photos/stock-photos.php:292
 msgid "Enter a query and press Search to find free photos."
 msgstr ""
 
@@ -5391,7 +5467,7 @@ msgid ""
 "100×100px."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:299
+#: functions/cpt/cpt-events.php:326
 msgid "Enter amount or \"Free\". Shown on archive and single pages."
 msgstr ""
 
@@ -5412,11 +5488,11 @@ msgstr ""
 msgid "Enter an email address to check if providers have data for it:"
 msgstr ""
 
-#: functions/admin/api-test.php:191
+#: functions/admin/api-test.php:192
 msgid "Enter Bot Token and save settings, or enter the key in the field"
 msgstr ""
 
-#: functions/admin/api-test.php:195
+#: functions/admin/api-test.php:196
 msgid "Enter Chat / Channel ID"
 msgstr ""
 
@@ -5424,7 +5500,7 @@ msgstr ""
 msgid "Enter company name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:445
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:458
 msgid ""
 "Enter JSON array with style rules. See Yandex Maps Style Editor "
 "documentation for details."
@@ -5504,7 +5580,7 @@ msgid "Error clearing data!"
 msgstr ""
 
 #: functions/demo/demo-clients.php:220 functions/demo/demo-faq.php:310
-#: functions/demo/demo-forms.php:215 functions/demo/demo-offices.php:209
+#: functions/demo/demo-forms.php:215 functions/demo/demo-offices.php:259
 #: functions/demo/demo-staff.php:283 functions/demo/demo-vacancies.php:362
 msgid "Error creating record"
 msgstr ""
@@ -5593,7 +5669,7 @@ msgstr ""
 #: functions/cpt/cpt-events.php:25 functions/cpt/cpt-events.php:38
 #: functions/events/event-registrations.php:111
 #: functions/events/event-registrations.php:322
-#: functions/fetch/filterPosts.php:385
+#: functions/fetch/filterPosts.php:389
 #: templates/archives/events/events_1.php:62
 #: templates/archives/events/events_2.php:41
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1120
@@ -5604,7 +5680,7 @@ msgstr ""
 msgid "Event admin URL"
 msgstr ""
 
-#: functions/post-cards-registry.php:150
+#: functions/post-cards-registry.php:188
 msgid "Event card with date badge"
 msgstr ""
 
@@ -5616,7 +5692,7 @@ msgstr ""
 msgid "Event Category"
 msgstr ""
 
-#: functions/sidebars.php:729 functions/cpt/cpt-events.php:1130
+#: functions/sidebars.php:729 functions/cpt/cpt-events.php:1182
 msgid "Event completed"
 msgstr ""
 
@@ -5719,13 +5795,14 @@ msgid "Event Video"
 msgstr ""
 
 #: functions/cpt/cpt-events.php:24 functions/cpt/cpt-events.php:26
-#: functions/cpt/cpt-events.php:44
+#: functions/cpt/cpt-events.php:44 functions/cpt/cpt-offices.php:238
+#: functions/cpt/cpt-offices.php:1397
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:359
 #: redux-framework/sample/sections/codeweber/notifications.php:81
 msgid "Events"
 msgstr ""
 
-#: functions/post-cards-registry.php:149
+#: functions/post-cards-registry.php:187
 msgid "Events Card"
 msgstr ""
 
@@ -5754,7 +5831,7 @@ msgstr ""
 msgid "Example of showing notification"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:42
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:47
 msgid "Example: 55.76, 37.64"
 msgstr ""
 
@@ -5793,20 +5870,24 @@ msgstr ""
 msgid "Export to JSON"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:374
+#: functions/cpt/cpt-events.php:401
 msgid "External Registration URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:116
+#: redux-framework/sample/sections/codeweber/style.php:108
 msgid "Extra classes for the dark-variant text (Bootstrap / theme)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:154
+#: redux-framework/sample/sections/codeweber/style.php:138
 msgid "Extra classes for the light-variant text (Bootstrap / theme)."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:632
 msgid "Extra Large (modal-xl)"
+msgstr ""
+
+#: functions/post-cards-registry.php:148
+msgid "Extra-large centered quote, author name only"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_framework.php:94
@@ -5864,7 +5945,7 @@ msgstr ""
 
 #: functions/demo/demo-clients.php:306 functions/demo/demo-faq.php:396
 #: functions/demo/demo-footer.php:241 functions/demo/demo-forms.php:296
-#: functions/demo/demo-header.php:140 functions/demo/demo-offices.php:308
+#: functions/demo/demo-header.php:140 functions/demo/demo-offices.php:377
 #: functions/demo/demo-staff.php:395
 msgid "Failed to create:"
 msgstr ""
@@ -5895,7 +5976,7 @@ msgid "Failed to delete QR code"
 msgstr ""
 
 #: functions/demo/demo-clients.php:361 functions/demo/demo-faq.php:445
-#: functions/demo/demo-forms.php:341 functions/demo/demo-offices.php:360
+#: functions/demo/demo-forms.php:341 functions/demo/demo-offices.php:429
 #: functions/demo/demo-products.php:1800 functions/demo/demo-staff.php:450
 #: functions/demo/demo-testimonials.php:525
 #: functions/demo/demo-vacancies.php:566
@@ -5953,7 +6034,7 @@ msgstr ""
 msgid "Failed to save submission."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1251
+#: functions/cpt/cpt-documents.php:1299
 msgid "Failed to send email. Please try again."
 msgstr ""
 
@@ -5973,7 +6054,7 @@ msgstr ""
 msgid "Failed."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:366
+#: functions/cpt/cpt-events.php:393
 msgid "Fake Registered Count"
 msgstr ""
 
@@ -5993,7 +6074,7 @@ msgstr ""
 msgid "FAQ Archives"
 msgstr ""
 
-#: functions/post-cards-registry.php:161
+#: functions/post-cards-registry.php:199
 msgid "FAQ card with icon, question and answer"
 msgstr ""
 
@@ -6055,10 +6136,12 @@ msgstr ""
 msgid "FAQs"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:330 templates/singles/offices/default.php:214
-#: templates/singles/offices/offices_1.php:241
-#: templates/singles/offices/offices_5.php:219
-msgid "Fax"
+#: functions/post-cards-registry.php:122
+msgid "Featured"
+msgstr ""
+
+#: functions/post-cards-registry.php:152
+msgid "Featured Background Image"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:20 functions/cpt/cpt-testimonials.php:28
@@ -6149,8 +6232,8 @@ msgstr ""
 msgid "File not found for attachment #%d"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:950 functions/cpt/cpt-documents.php:1113
-#: functions/cpt/cpt-documents.php:1282
+#: functions/cpt/cpt-documents.php:998 functions/cpt/cpt-documents.php:1161
+#: functions/cpt/cpt-documents.php:1330
 msgid "File not found for this document"
 msgstr ""
 
@@ -6199,12 +6282,12 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:310
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:315
 msgid "Filter by Category"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:480
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:301
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:472
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:306
 msgid "Filter by City"
 msgstr ""
 
@@ -6255,7 +6338,7 @@ msgstr ""
 msgid "Filter products by WooCommerce attribute (color, size, etc.)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:286
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:291
 msgid "Filter Settings"
 msgstr ""
 
@@ -6335,7 +6418,7 @@ msgstr ""
 msgid "Font uploaded successfully!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:706
+#: redux-framework/sample/sections/codeweber/style.php:690
 msgid "Fonts"
 msgstr ""
 
@@ -6377,12 +6460,12 @@ msgstr ""
 msgid "Footer Column Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:546
+#: redux-framework/sample/sections/codeweber/cpt-type.php:553
 #, php-format
 msgid "Footer for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:538
+#: redux-framework/sample/sections/codeweber/cpt-type.php:545
 #, php-format
 msgid "Footer for Single %s"
 msgstr ""
@@ -6470,6 +6553,10 @@ msgstr ""
 msgid "For custom processing you can use events:"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:323
+msgid "For example: entrance from the courtyard"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/repeater.php:15
 msgid "For full documentation on this field, visit: "
 msgstr ""
@@ -6478,7 +6565,7 @@ msgstr ""
 msgid "For testing: add a fake saved payment method."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:287
+#: functions/integrations/image-licenses/image-licenses.php:291
 msgid "For the item:"
 msgstr ""
 
@@ -6543,7 +6630,7 @@ msgstr ""
 msgid "Form Errors"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:441
+#: functions/cpt/cpt-events.php:468
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:733
 msgid "Form Fields"
 msgstr ""
@@ -6557,7 +6644,7 @@ msgstr ""
 msgid "Form Fields:"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:383
+#: functions/cpt/cpt-events.php:410
 msgid "Form Heading"
 msgstr ""
 
@@ -6581,7 +6668,7 @@ msgstr ""
 msgid "Form ID is required"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:34
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:154
 msgid "Form ID is required."
 msgstr ""
 
@@ -6626,7 +6713,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:275
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:276
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:72
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:47
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:167
 msgid "Form not found."
 msgstr ""
 
@@ -6687,7 +6774,7 @@ msgstr ""
 msgid "Form:"
 msgstr ""
 
-#: functions/cpt/cpt-projects-meta.php:116 functions/fetch/filterPosts.php:387
+#: functions/cpt/cpt-projects-meta.php:116 functions/fetch/filterPosts.php:391
 #: templates/archives/events/events_1.php:64
 #: templates/archives/events/events_2.php:43
 msgid "Format"
@@ -6720,7 +6807,7 @@ msgstr ""
 msgid "Forms Count"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:205
+#: redux-framework/sample/sections/codeweber/style.php:189
 msgid "Forms rounded corners"
 msgstr ""
 
@@ -6732,32 +6819,32 @@ msgstr ""
 msgid "Found"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:119
-#: functions/integrations/stock-photos/stock-photos.php:120
-#: functions/integrations/stock-photos/stock-photos.php:208
-#: functions/integrations/stock-photos/stock-photos.php:241
+#: functions/integrations/stock-photos/stock-photos.php:163
+#: functions/integrations/stock-photos/stock-photos.php:164
+#: functions/integrations/stock-photos/stock-photos.php:271
+#: functions/integrations/stock-photos/stock-photos.php:313
 #: functions/integrations/stock-photos/views/page.php:15
 msgid "Free Photos"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:64
+#: functions/integrations/stock-photos/stock-photos.php:68
 msgid "Free to use. Attribution is appreciated but not required."
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:58
+#: functions/integrations/stock-photos/stock-photos.php:60
 msgid "Free to use. Attribution to the photographer is appreciated."
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:70
+#: functions/integrations/stock-photos/stock-photos.php:77
 msgid "Free to use. No attribution required."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1092
+#: functions/cpt/cpt-offices.php:1481
 #: redux-framework/sample/sections/codeweber/company-details.php:13
 msgid "Friday"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:478
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:470
 msgid "From"
 msgstr ""
 
@@ -6799,11 +6886,11 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:237
+#: functions/cpt/cpt-offices.php:319
 msgid "Full Address"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:286
+#: functions/cpt/cpt-events.php:313
 msgid "Full address"
 msgstr ""
 
@@ -6855,7 +6942,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:480
 #: redux-framework/sample/sections/codeweber/body-bg.php:83
-#: redux-framework/sample/sections/codeweber/cpt-type.php:698
+#: redux-framework/sample/sections/codeweber/cpt-type.php:705
 msgid "Full Width"
 msgstr ""
 
@@ -6863,7 +6950,7 @@ msgstr ""
 msgid "full — original (no crop)"
 msgstr ""
 
-#: functions/post-cards-registry.php:56
+#: functions/post-cards-registry.php:61
 msgid "Fully clickable card with lift effect"
 msgstr ""
 
@@ -6893,7 +6980,7 @@ msgstr ""
 msgid "General Module Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:33
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:38
 msgid "General Settings"
 msgstr ""
 
@@ -6923,13 +7010,13 @@ msgid "Geo && Map"
 msgstr ""
 
 #: functions/admin/events-settings.php:164
-#: functions/admin/events-settings.php:186 functions/cpt/cpt-events.php:393
-#: functions/cpt/cpt-events.php:421
+#: functions/admin/events-settings.php:186 functions/cpt/cpt-events.php:420
+#: functions/cpt/cpt-events.php:448
 msgid "Get Access"
 msgstr ""
 
-#: templates/singles/offices/offices_1.php:162
-#: templates/singles/offices/offices_5.php:197
+#: templates/singles/offices/offices_1.php:161
+#: templates/singles/offices/offices_5.php:196
 msgid "Get Directions"
 msgstr ""
 
@@ -6958,31 +7045,33 @@ msgstr ""
 msgid "Gladkov Denis"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:530
+#: redux-framework/sample/sections/codeweber/style.php:514
 msgid "Global"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:548
+#: redux-framework/sample/sections/codeweber/style.php:532
 msgid ""
 "Global Bootstrap grid gap used in shop, archives and Gutenberg blocks with "
 "\"Theme\" gap type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:396
+#: redux-framework/sample/sections/codeweber/style.php:380
 msgid ""
 "Global icon settings (social links, vacancy sidebar, etc.). Header and "
 "footer can have their own overrides."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:429
-msgid "Global map color scheme. Can be overridden per block in the editor."
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:434
+msgid ""
+"Global map color scheme. Applies to all maps (offices, projects, headers). "
+"Can be overridden per block in the editor."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/body-bg.php:24
 msgid "Global page background. Overridden by per-CPT and per-post settings."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:392
+#: redux-framework/sample/sections/codeweber/style.php:376
 msgid "Global Social Style"
 msgstr ""
 
@@ -6995,7 +7084,7 @@ msgid "Gmail"
 msgstr ""
 
 #: templates/content/loop-legal.php:33
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:487
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:480
 #: templates/archives/legal/legal_1.php:33
 #: templates/post-cards/post/overlay-5-primary.php:34
 #: templates/post-cards/post/overlay-5.php:33
@@ -7078,40 +7167,40 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:448
 #: redux-framework/sample/sections/codeweber/body-bg.php:12
-#: redux-framework/sample/sections/codeweber/cpt-type.php:666
+#: redux-framework/sample/sections/codeweber/cpt-type.php:673
 msgid "Gray"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:161
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:166
 msgid "Gray Dot"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:433
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:439
 msgid "Grayscale"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:283
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:238
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:243
 msgid "Green"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:158
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:163
 msgid "Green Dot"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:164
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:169
 msgid "Green Icon"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:554
+#: redux-framework/sample/sections/codeweber/style.php:538
 msgid "Grid Gap Preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:544
+#: redux-framework/sample/sections/codeweber/style.php:528
 msgid "Grid Gutters"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:225
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:230
 msgid "Group nearby markers into clusters"
 msgstr ""
 
@@ -7125,7 +7214,7 @@ msgid ""
 "after login."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:717
+#: redux-framework/sample/sections/codeweber/style.php:701
 msgid "Gulp"
 msgstr ""
 
@@ -7141,19 +7230,19 @@ msgstr ""
 msgid "Gutenberg Editor Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:570
+#: redux-framework/sample/sections/codeweber/style.php:554
 msgid "gx-* — all breakpoints. Leave empty to skip."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:595
+#: redux-framework/sample/sections/codeweber/style.php:579
 msgid "gx-md-* — overrides horizontal gap from ≥768px."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:620
+#: redux-framework/sample/sections/codeweber/style.php:604
 msgid "gy-* — vertical gap at all breakpoints."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:645
+#: redux-framework/sample/sections/codeweber/style.php:629
 msgid "gy-md-* — overrides vertical gap from ≥768px."
 msgstr ""
 
@@ -7175,12 +7264,12 @@ msgstr ""
 msgid "Header Background"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:506
+#: redux-framework/sample/sections/codeweber/cpt-type.php:513
 #, php-format
 msgid "Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:498
+#: redux-framework/sample/sections/codeweber/cpt-type.php:505
 #, php-format
 msgid "Header for Single %s"
 msgstr ""
@@ -7292,11 +7381,11 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:982
+#: functions/cpt/cpt-events.php:1009
 msgid "Hide \"Add to Calendar\" button"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:952
+#: functions/cpt/cpt-events.php:979
 msgid "Hide author in sidebar"
 msgstr ""
 
@@ -7324,7 +7413,7 @@ msgstr ""
 msgid "Hide from archive"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:972
+#: functions/cpt/cpt-events.php:999
 msgid "Hide seats counter"
 msgstr ""
 
@@ -7357,52 +7446,49 @@ msgstr ""
 msgid "Home link label"
 msgstr ""
 
-#: functions/post-cards-registry.php:117 functions/post-cards-registry.php:212
+#: functions/post-cards-registry.php:250
 #: redux-framework/sample/metaboxes.php:491
+#: functions/integrations/stock-photos/stock-photos.php:285
 #: redux-framework/sample/sections/codeweber/body-bg.php:95
-#: redux-framework/sample/sections/codeweber/cpt-type.php:709
+#: redux-framework/sample/sections/codeweber/cpt-type.php:716
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:406
 #: redux-framework/sample/sections/codeweber/woocommerce.php:424
 msgid "Horizontal"
 msgstr ""
 
-#: functions/post-cards-registry.php:286
+#: functions/post-cards-registry.php:324
 msgid ""
 "Horizontal card (copy of shop-list-sm) with wishlist, quick view, compare, "
 "badges"
 msgstr ""
 
-#: functions/post-cards-registry.php:301
+#: functions/post-cards-registry.php:339
 msgid "Horizontal card that stays horizontal on all screen sizes"
 msgstr ""
 
-#: functions/post-cards-registry.php:172
+#: functions/post-cards-registry.php:210
 msgid ""
 "Horizontal card: image left, address/contacts right. Stays horizontal on all "
 "screen sizes."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:594
+#: redux-framework/sample/sections/codeweber/style.php:578
 msgid "Horizontal Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:569
+#: redux-framework/sample/sections/codeweber/style.php:553
 msgid "Horizontal Gap (xs)"
 msgstr ""
 
-#: functions/post-cards-registry.php:213
+#: functions/post-cards-registry.php:251
 msgid "Horizontal staff layout"
-msgstr ""
-
-#: functions/post-cards-registry.php:118
-msgid "Horizontal testimonial layout"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:422
 msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr ""
 
-#: functions/post-cards-registry.php:296
+#: functions/post-cards-registry.php:334
 msgid "Horizontal: image 1/3, content 2/3 (stacks on mobile)"
 msgstr ""
 
@@ -7509,7 +7595,7 @@ msgstr ""
 msgid "https://example.com"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:65
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:70
 msgid "Hybrid"
 msgstr ""
 
@@ -7548,7 +7634,7 @@ msgstr ""
 #: functions/admin/faq-settings.php:211 functions/admin/faq-settings.php:263
 #: functions/admin/testimonials-settings.php:102
 #: functions/admin/testimonials-settings.php:154
-#: functions/cpt/cpt-events.php:486 functions/cpt/cpt-events.php:531
+#: functions/cpt/cpt-events.php:513 functions/cpt/cpt-events.php:558
 msgid "I agree to the {document_title_url}"
 msgstr ""
 
@@ -7579,7 +7665,6 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
-#: functions/post-cards-registry.php:112
 #: functions/admin/projects-settings.php:89
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:324
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:345
@@ -7613,7 +7698,7 @@ msgid ""
 "without #)"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:419
+#: functions/integrations/image-licenses/image-licenses.php:465
 #, php-format
 msgid "ID: %s | Type: %s"
 msgstr ""
@@ -7633,23 +7718,23 @@ msgid ""
 "this vacancy's map block)."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:945
+#: functions/cpt/cpt-events.php:972
 msgid "If disabled, the map is not displayed on the frontend."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:324
+#: redux-framework/sample/sections/codeweber/style.php:308
 msgid "If filled, the background color below will not be applied"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:461
+#: functions/cpt/cpt-events.php:488
 msgid "If hidden, 1 seat is recorded automatically."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:437
+#: functions/cpt/cpt-events.php:464
 msgid "If not set, the default label based on registration status is used."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:379
+#: functions/cpt/cpt-events.php:406
 msgid "If set, overrides built-in form with a link button."
 msgstr ""
 
@@ -7683,7 +7768,7 @@ msgstr ""
 #: functions/admin/term-thumbnail.php:68 functions/admin/term-thumbnail.php:96
 #: redux-framework/sample/metaboxes.php:468
 #: redux-framework/sample/sections/codeweber/body-bg.php:70
-#: redux-framework/sample/sections/codeweber/cpt-type.php:686
+#: redux-framework/sample/sections/codeweber/cpt-type.php:693
 #: redux-framework/sample/sections/codeweber/page-header.php:159
 #: redux-framework/sample/sections/codeweber/style.php:77
 msgid "Image"
@@ -7698,7 +7783,7 @@ msgstr ""
 msgid "Image for Login Page"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:74
+#: functions/integrations/stock-photos/inc/import.php:125
 msgid "Image host is not allowed"
 msgstr ""
 
@@ -7712,7 +7797,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:476
 #: redux-framework/sample/sections/codeweber/body-bg.php:79
-#: redux-framework/sample/sections/codeweber/cpt-type.php:694
+#: redux-framework/sample/sections/codeweber/cpt-type.php:701
 msgid "Image Size"
 msgstr ""
 
@@ -7739,11 +7824,11 @@ msgstr ""
 msgid "Image Tags"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:67
+#: functions/integrations/stock-photos/inc/import.php:117
 msgid "Image URL is not allowed"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:213
+#: functions/integrations/stock-photos/stock-photos.php:276
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
 msgid "Import"
 msgstr ""
@@ -7753,7 +7838,7 @@ msgstr ""
 msgid "Import completed: %d imported, %d updated, %d skipped"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:145
+#: functions/integrations/stock-photos/inc/import.php:205
 msgid "Import failed: "
 msgstr ""
 
@@ -7770,7 +7855,11 @@ msgid ""
 "columns (email is required):"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:214
+#: functions/integrations/stock-photos/stock-photos.php:288
+msgid "Import uses 1 of your monthly Vecteezy downloads."
+msgstr ""
+
+#: functions/integrations/stock-photos/stock-photos.php:277
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1753
 msgid "Imported"
 msgstr ""
@@ -7779,11 +7868,11 @@ msgstr ""
 msgid "Imported Subscription"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:212
+#: functions/integrations/stock-photos/stock-photos.php:275
 msgid "Importing…"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:394
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:399
 msgid "Improve accessibility for screen readers"
 msgstr ""
 
@@ -7843,7 +7932,7 @@ msgid ""
 "switcher is active."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:387
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:392
 msgid "Initialize maps only when they become visible"
 msgstr ""
 
@@ -7851,7 +7940,7 @@ msgstr ""
 msgid "Inline (in sidebar)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:124
+#: redux-framework/sample/sections/codeweber/style.php:116
 msgid ""
 "Inline SVG markup shown on dark backgrounds. Use currentColor to inherit "
 "text color."
@@ -8086,6 +8175,10 @@ msgstr ""
 msgid "Invalid user ID"
 msgstr ""
 
+#: functions/integrations/stock-photos/inc/import.php:79
+msgid "Invalid Vecteezy resource id"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1030
 msgid "IP"
 msgstr ""
@@ -8120,7 +8213,7 @@ msgstr ""
 msgid "Irkutsk Oblast"
 msgstr ""
 
-#: functions/post-cards-registry.php:306
+#: functions/post-cards-registry.php:344
 msgid "Isotope grid style, figure with overlays"
 msgstr ""
 
@@ -8129,7 +8222,7 @@ msgstr ""
 #: functions/admin/projects-settings.php:557
 #: functions/cpt/cpt-projects-meta.php:26 functions/cpt/cpt-projects.php:102
 #: functions/cpt/cpt-projects.php:143
-#: redux-framework/sample/sections/codeweber/cpt-type.php:367
+#: redux-framework/sample/sections/codeweber/cpt-type.php:374
 msgid "IT / Web"
 msgstr ""
 
@@ -8143,7 +8236,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:306
+#: functions/integrations/image-licenses/image-licenses.php:310
 msgid "Item URL:"
 msgstr ""
 
@@ -8185,17 +8278,17 @@ msgstr ""
 msgid "John Doe"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:220
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:226
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:963
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:225
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:231
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1037
 msgid "Join"
 msgstr ""
 
-#: functions/admin/events-settings.php:190 functions/cpt/cpt-events.php:425
+#: functions/admin/events-settings.php:190 functions/cpt/cpt-events.php:452
 msgid "Join Now"
 msgstr ""
 
-#: functions/admin/events-settings.php:168 functions/cpt/cpt-events.php:397
+#: functions/admin/events-settings.php:168 functions/cpt/cpt-events.php:424
 msgid "Join the Event"
 msgstr ""
 
@@ -8302,7 +8395,7 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:482 functions/cpt/cpt-events.php:530
+#: functions/cpt/cpt-events.php:509 functions/cpt/cpt-events.php:557
 #: functions/integrations/cf7/cf7-consents-panel.php:88
 #: functions/integrations/cf7/cf7-consents-panel.php:321
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:106
@@ -8312,6 +8405,11 @@ msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:772
 msgid "Landing Page"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:322
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:477
+msgid "Landmark"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:619
@@ -8325,12 +8423,16 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:185
 #: redux-framework/sample/sections/codeweber/header.php:262
 #: redux-framework/sample/sections/codeweber/header.php:337
-#: redux-framework/sample/sections/codeweber/style.php:433
+#: redux-framework/sample/sections/codeweber/style.php:417
 msgid "Large"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:631
 msgid "Large (modal-lg)"
+msgstr ""
+
+#: functions/post-cards-registry.php:123
+msgid "Large gray card with rating and a side photo (single column)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:199
@@ -8367,7 +8469,7 @@ msgstr ""
 msgid "Latest"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:891 functions/cpt/cpt-offices.php:536
+#: functions/cpt/cpt-events.php:918 functions/cpt/cpt-offices.php:840
 #: functions/cpt/cpt-projects-meta.php:532 functions/cpt/cpt-vacancies.php:971
 msgid "Latitude"
 msgstr ""
@@ -8376,7 +8478,7 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:386
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:391
 msgid "Lazy Load"
 msgstr ""
 
@@ -8431,13 +8533,13 @@ msgstr ""
 msgid "Leave Your Testimonial"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:443
-#: redux-framework/sample/sections/codeweber/cpt-type.php:454
+#: redux-framework/sample/sections/codeweber/cpt-type.php:450
+#: redux-framework/sample/sections/codeweber/cpt-type.php:461
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:419
 #: redux-framework/sample/sections/codeweber/page-header.php:98
 #: redux-framework/sample/sections/codeweber/page-header.php:240
 #: redux-framework/sample/sections/codeweber/style.php:51
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:266
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:271
 msgid "Left"
 msgstr ""
 
@@ -8515,7 +8617,7 @@ msgstr ""
 msgid "LG (≥ 992px)"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:586
+#: functions/integrations/image-licenses/image-licenses.php:638
 msgid "License"
 msgstr ""
 
@@ -8535,7 +8637,11 @@ msgstr ""
 msgid "License Details"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:668
+#: functions/integrations/image-licenses/image-licenses.php:330
+msgid "License ID / GUID:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:720
 msgid "License PDF"
 msgstr ""
 
@@ -8543,15 +8649,15 @@ msgstr ""
 msgid "License PDF File"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:520
+#: functions/integrations/image-licenses/image-licenses.php:572
 msgid "License Type"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:246
+#: functions/integrations/image-licenses/image-licenses.php:250
 msgid "License type:"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:277
+#: functions/integrations/image-licenses/image-licenses.php:281
 msgid "Licensee:"
 msgstr ""
 
@@ -8563,7 +8669,7 @@ msgstr ""
 msgid "Licenses list navigation"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:521
+#: functions/integrations/image-licenses/image-licenses.php:573
 msgid "Licensor Author"
 msgstr ""
 
@@ -8573,7 +8679,7 @@ msgstr ""
 msgid "Licensor Authors"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:256
+#: functions/integrations/image-licenses/image-licenses.php:260
 msgid "Licensor's author:"
 msgstr ""
 
@@ -8585,21 +8691,21 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:228
 #: redux-framework/sample/metaboxes.php:447
 #: redux-framework/sample/sections/codeweber/body-bg.php:11
-#: redux-framework/sample/sections/codeweber/cpt-type.php:665
+#: redux-framework/sample/sections/codeweber/cpt-type.php:672
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:272
 #: redux-framework/sample/sections/codeweber/footer.php:112
 #: redux-framework/sample/sections/codeweber/footer.php:197
 #: redux-framework/sample/sections/codeweber/header.php:116
 #: redux-framework/sample/sections/codeweber/header.php:274
 #: redux-framework/sample/sections/codeweber/page-header.php:257
-#: redux-framework/sample/sections/codeweber/style.php:520
-#: redux-framework/sample/sections/codeweber/style.php:532
+#: redux-framework/sample/sections/codeweber/style.php:504
+#: redux-framework/sample/sections/codeweber/style.php:516
 msgid "Light"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:525
 #: redux-framework/sample/sections/codeweber/body-bg.php:132
-#: redux-framework/sample/sections/codeweber/cpt-type.php:743
+#: redux-framework/sample/sections/codeweber/cpt-type.php:750
 msgid "Light (inverse)"
 msgstr ""
 
@@ -8689,22 +8795,21 @@ msgstr ""
 msgid "Load More"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:211
+#: functions/integrations/stock-photos/stock-photos.php:274
 msgid "Load more"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:331
+#: redux-framework/sample/sections/codeweber/style.php:315
 msgid "Loader Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:303
+#: redux-framework/sample/sections/codeweber/style.php:287
 msgid "Loader Type"
 msgstr ""
 
 #: functions/enqueues.php:257 functions/enqueues.php:461
 #: woocommerce/archive-product.php:274 functions/woocommerce/quick-view.php:92
 #: functions/woocommerce/quick-view.php:139
-#: templates/post-cards/documents/card_download.php:82
 msgid "Loading..."
 msgstr ""
 
@@ -8717,7 +8822,7 @@ msgid "Local only — new uploads stay on the server (S3 disabled)."
 msgstr ""
 
 #: functions/cpt/cpt-projects-meta.php:122 functions/cpt/cpt-vacancies.php:322
-#: functions/fetch/filterPosts.php:386
+#: functions/fetch/filterPosts.php:390
 #: templates/archives/events/events_1.php:63
 #: templates/archives/events/events_2.php:42
 #: templates/archives/vacancies/vacancies_1.php:97
@@ -8725,11 +8830,11 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:122
+#: functions/cpt/cpt-offices.php:171
 msgid "Location & Map"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:277
+#: functions/cpt/cpt-events.php:304
 msgid "Location Name"
 msgstr ""
 
@@ -8749,7 +8854,7 @@ msgstr ""
 msgid "Logging"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:145
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:150
 msgid "Logo"
 msgstr ""
 
@@ -8769,11 +8874,11 @@ msgstr ""
 msgid "Logo Dark Header w/ URL"
 msgstr ""
 
-#: functions/post-cards-registry.php:87
+#: functions/post-cards-registry.php:92
 msgid "Logo in card with shadow for Grid with cards"
 msgstr ""
 
-#: functions/post-cards-registry.php:82
+#: functions/post-cards-registry.php:87
 msgid "Logo in figure with adaptive padding for Grid layout"
 msgstr ""
 
@@ -8785,43 +8890,35 @@ msgstr ""
 msgid "Logo Light Header w/ URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:190
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:195
 msgid "Logo Size"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/style.php:99
-msgid "Logo SVG color class — Dark"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/style.php:137
-msgid "Logo SVG color class — Light"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:85
 msgid "Logo SVG — Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:123
+#: redux-framework/sample/sections/codeweber/style.php:115
 msgid "Logo SVG — Light"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:115
+#: redux-framework/sample/sections/codeweber/style.php:107
 msgid "Logo Text CSS classes — Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:153
+#: redux-framework/sample/sections/codeweber/style.php:137
 msgid "Logo Text CSS classes — Light"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:107
+#: redux-framework/sample/sections/codeweber/style.php:99
 msgid "Logo Text — Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:145
+#: redux-framework/sample/sections/codeweber/style.php:129
 msgid "Logo Text — Light"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:183
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:188
 msgid "Logo to use instead of marker"
 msgstr ""
 
@@ -8838,7 +8935,7 @@ msgid ""
 "Logs are stored in the module folder: functions/integrations/s3-storage/logs/"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:899 functions/cpt/cpt-offices.php:543
+#: functions/cpt/cpt-events.php:926 functions/cpt/cpt-offices.php:847
 #: functions/cpt/cpt-projects-meta.php:539 functions/cpt/cpt-vacancies.php:978
 msgid "Longitude"
 msgstr ""
@@ -8901,7 +8998,7 @@ msgstr ""
 msgid "Make square"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:269
+#: functions/integrations/image-licenses/image-licenses.php:273
 msgid "Manage authors"
 msgstr ""
 
@@ -8913,27 +9010,23 @@ msgstr ""
 msgid "Manage pop-up notifications on the site."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:270 functions/cpt/cpt-offices.php:992
-msgid "Manager"
-msgstr ""
-
 #: functions/admin/projects-settings.php:48
 #: functions/admin/projects-settings.php:452
 #: functions/admin/projects-settings.php:656
-#: functions/admin/projects-settings.php:714 functions/cpt/cpt-events.php:738
-#: functions/cpt/cpt-offices.php:373 functions/cpt/cpt-projects-meta.php:49
+#: functions/admin/projects-settings.php:714 functions/cpt/cpt-events.php:765
+#: functions/cpt/cpt-offices.php:615 functions/cpt/cpt-projects-meta.php:49
 #: functions/cpt/cpt-vacancies.php:817
 #: redux-framework/sample/sections/codeweber/footer.php:297
 #: redux-framework/sample/sections/codeweber/header.php:353
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:63
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:68
 msgid "Map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:82
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:87
 msgid "Map Behaviors"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:104
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:109
 msgid "Map Controls"
 msgstr ""
 
@@ -8944,7 +9037,7 @@ msgid ""
 "frontend."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:731
+#: functions/cpt/cpt-events.php:758
 msgid ""
 "Map is hidden on frontend. Enable &ldquo;Show map on frontend&rdquo; to "
 "display it to visitors."
@@ -8992,19 +9085,19 @@ msgstr ""
 msgid "Marker Click Zoom"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:173
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:178
 msgid "Marker Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:182
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:187
 msgid "Marker Logo"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:153
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:158
 msgid "Marker Preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:133
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:138
 msgid "Marker Settings"
 msgstr ""
 
@@ -9013,7 +9106,7 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:277
+#: redux-framework/sample/sections/codeweber/style.php:261
 msgid ""
 "Mask for phone input fields in built-in forms. Use _ for digit positions. "
 "Example: +7 (___) ___-__-__"
@@ -9055,7 +9148,7 @@ msgstr ""
 msgid "Max Firings"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:358
+#: functions/cpt/cpt-events.php:385
 msgid "Max Participants"
 msgstr ""
 
@@ -9091,7 +9184,7 @@ msgstr ""
 msgid "Maximum price"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:358
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:363
 msgid "Maximum width of balloon in pixels"
 msgstr ""
 
@@ -9105,7 +9198,7 @@ msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:52
 #: functions/integrations/image-licenses/image-licenses.php:79
-#: functions/integrations/image-licenses/image-licenses.php:657
+#: functions/integrations/image-licenses/image-licenses.php:709
 msgid "Media License"
 msgstr ""
 
@@ -9113,10 +9206,14 @@ msgstr ""
 msgid "Media Licenses"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:161
+msgid "Media types"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/footer.php:184
 #: redux-framework/sample/sections/codeweber/header.php:261
 #: redux-framework/sample/sections/codeweber/header.php:336
-#: redux-framework/sample/sections/codeweber/style.php:432
+#: redux-framework/sample/sections/codeweber/style.php:416
 msgid "Medium"
 msgstr ""
 
@@ -9149,7 +9246,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: functions/admin/api-test.php:226
+#: functions/admin/api-test.php:227
 msgid "Message sent successfully"
 msgstr ""
 
@@ -9232,7 +9329,7 @@ msgstr ""
 msgid "Minimal (only form blocks)"
 msgstr ""
 
-#: functions/post-cards-registry.php:291
+#: functions/post-cards-registry.php:329
 msgid "Minimalistic card for dense 4-6 column grids"
 msgstr ""
 
@@ -9244,7 +9341,7 @@ msgstr ""
 msgid "Minimum price"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:464
+#: redux-framework/sample/sections/codeweber/cpt-type.php:471
 msgid "Minimum screen width at which the sidebar becomes visible."
 msgstr ""
 
@@ -9285,7 +9382,7 @@ msgstr ""
 msgid "Mobile Offsets"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:407
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:412
 msgid "Mobile Optimized"
 msgstr ""
 
@@ -9324,7 +9421,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:466
 #: redux-framework/sample/sections/codeweber/body-bg.php:68
-#: redux-framework/sample/sections/codeweber/cpt-type.php:684
+#: redux-framework/sample/sections/codeweber/cpt-type.php:691
 #: functions/integrations/s3-storage/inc/views/settings.php:102
 msgid "Mode"
 msgstr ""
@@ -9345,7 +9442,7 @@ msgstr ""
 msgid "Module Settings"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1088
+#: functions/cpt/cpt-offices.php:1477
 #: redux-framework/sample/sections/codeweber/company-details.php:9
 msgid "Monday"
 msgstr ""
@@ -9358,7 +9455,7 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: functions/fetch/filterPosts.php:758
+#: functions/fetch/filterPosts.php:1057
 #: templates/archives/services/services_1.php:60
 #: templates/archives/services/services_2.php:60
 #: templates/archives/services/services_3.php:77
@@ -9437,7 +9534,7 @@ msgstr ""
 msgid "Name used as sender for form submission emails."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:443
+#: functions/cpt/cpt-events.php:470
 msgid "Name — always required"
 msgstr ""
 
@@ -9446,6 +9543,7 @@ msgstr ""
 msgid "Navigation"
 msgstr ""
 
+#: functions/integrations/yandex-maps/presets.php:33
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:286
 msgid "Navy"
 msgstr ""
@@ -9687,7 +9785,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:696
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1012
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:218
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:59
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:179
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:537
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
@@ -9732,7 +9830,7 @@ msgstr ""
 #: functions/bootstrap/bootstrap_post-nav.php:235
 #: functions/bootstrap/bootstrap_post-nav.php:246
 #: woocommerce/loop/pagination.php:94
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1215
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1309
 msgid "Next"
 msgstr ""
 
@@ -9752,7 +9850,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:343
+#: functions/integrations/image-licenses/image-licenses.php:389
 msgid "No attached media files."
 msgstr ""
 
@@ -9816,7 +9914,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:268
+#: redux-framework/sample/sections/codeweber/cpt-type.php:275
 #, php-format
 msgid "No custom footers found. You can create one here: %s"
 msgstr ""
@@ -9829,7 +9927,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:261
+#: redux-framework/sample/sections/codeweber/cpt-type.php:268
 #, php-format
 msgid "No custom headers found. You can create one here: %s"
 msgstr ""
@@ -9841,7 +9939,7 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:275
+#: redux-framework/sample/sections/codeweber/cpt-type.php:282
 #, php-format
 msgid "No custom page headers found. You can create one here: %s"
 msgstr ""
@@ -9903,8 +10001,8 @@ msgstr ""
 msgid "No events found in trash"
 msgstr ""
 
-#: functions/fetch/filterPosts.php:377 functions/fetch/filterPosts.php:466
-#: functions/fetch/filterPosts.php:568
+#: functions/fetch/filterPosts.php:381 functions/fetch/filterPosts.php:470
+#: functions/fetch/filterPosts.php:572
 #: templates/archives/events/events_1.php:139
 #: templates/archives/events/events_2.php:118
 #: templates/archives/events/events_3.php:130
@@ -9914,6 +10012,10 @@ msgstr ""
 #: templates/archives/events/events_7.php:104
 #: templates/archives/events/events_8.php:105
 msgid "No events found."
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:936
+msgid "No events found. Please create events first."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1106
@@ -9956,7 +10058,7 @@ msgstr ""
 msgid "No file received."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:919
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:993
 msgid "No file selected"
 msgstr ""
 
@@ -10022,7 +10124,7 @@ msgstr ""
 msgid "No image tags found"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:58
+#: functions/integrations/stock-photos/inc/import.php:108
 msgid "No image URL"
 msgstr ""
 
@@ -10030,7 +10132,7 @@ msgstr ""
 msgid "No images found."
 msgstr ""
 
-#: functions/fetch/filterPosts.php:74
+#: functions/fetch/filterPosts.php:78
 msgid "No items found."
 msgstr ""
 
@@ -10105,7 +10207,7 @@ msgstr ""
 msgid "No parent themes found"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:612
+#: functions/integrations/image-licenses/image-licenses.php:664
 msgid "no PDF"
 msgstr ""
 
@@ -10191,7 +10293,7 @@ msgstr ""
 msgid "No schedule options"
 msgstr ""
 
-#: functions/admin/events-settings.php:202 functions/cpt/cpt-events.php:1168
+#: functions/admin/events-settings.php:202 functions/cpt/cpt-events.php:1220
 msgid "No seats available"
 msgstr ""
 
@@ -10203,7 +10305,7 @@ msgstr ""
 msgid "No services found."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:690
+#: functions/cpt/cpt-offices.php:1023
 msgid "No services found. Please create services first."
 msgstr ""
 
@@ -10217,11 +10319,11 @@ msgid ""
 "probably smaller than all requested sizes."
 msgstr ""
 
-#: templates/archives/staff/staff_1.php:112
+#: templates/archives/staff/staff_1.php:110
 msgid "No staff found."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:300 functions/cpt/cpt-offices.php:648
+#: functions/cpt/cpt-offices.php:984
 msgid "No staff members found. Please create staff members first."
 msgstr ""
 
@@ -10258,12 +10360,12 @@ msgstr ""
 msgid "No Vacancies found in trash"
 msgstr ""
 
-#: archive-vacancies.php:95 functions/fetch/filterPosts.php:371
+#: archive-vacancies.php:95 functions/fetch/filterPosts.php:375
 #: templates/archives/vacancies/vacancies_1.php:139
 msgid "No vacancies found."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:599
+#: functions/cpt/cpt-offices.php:903
 msgid "No vacancies found. Please create vacancies first."
 msgstr ""
 
@@ -10275,8 +10377,8 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:504
 #: redux-framework/sample/sections/codeweber/body-bg.php:97
 #: redux-framework/sample/sections/codeweber/body-bg.php:109
-#: redux-framework/sample/sections/codeweber/cpt-type.php:711
-#: redux-framework/sample/sections/codeweber/cpt-type.php:722
+#: redux-framework/sample/sections/codeweber/cpt-type.php:718
+#: redux-framework/sample/sections/codeweber/cpt-type.php:729
 #: redux-framework/sample/sections/codeweber/page-header.php:161
 #: redux-framework/sample/sections/codeweber/smtp.php:143
 #: redux-framework/sample/sections/codeweber/woocommerce.php:447
@@ -10295,7 +10397,7 @@ msgstr ""
 msgid "None (transparent)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:558
+#: redux-framework/sample/sections/codeweber/style.php:542
 msgid "Normal — g-6 (30px)"
 msgstr ""
 
@@ -10365,7 +10467,7 @@ msgstr ""
 msgid "Nothing found"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:215
+#: functions/integrations/stock-photos/stock-photos.php:278
 msgid "Nothing found. Try another query."
 msgstr ""
 
@@ -10457,6 +10559,10 @@ msgstr ""
 msgid "Number of visible thumbnails (3–8)"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:240
+msgid "Numeric account id shown next to your Stock Aggregator credentials"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/api.php:117
 msgid ""
 "Numeric ID (-100…) or @channel_username. The bot must be added to the chat."
@@ -10474,7 +10580,8 @@ msgid "Odnoklassniki"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:94
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1183
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1276
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1411
 #: redux-framework/sample/sections/codeweber/media.php:121
 #: redux-framework/sample/sections/codeweber/media.php:582
 msgid "of"
@@ -10508,30 +10615,35 @@ msgstr ""
 msgid "Offcanvas Right Menu footer"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:12 functions/cpt/cpt-staff.php:152
-#: functions/cpt/cpt-staff.php:511 functions/cpt/cpt-vacancies.php:256
+#: functions/cpt/cpt-events.php:217 functions/cpt/cpt-offices.php:12
+#: functions/cpt/cpt-staff.php:152 functions/cpt/cpt-staff.php:511
+#: functions/cpt/cpt-vacancies.php:256
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:229
 msgid "Office"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:727
+#: functions/cpt/cpt-offices.php:1045
 msgid "Office Image"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:104
+#: functions/cpt/cpt-offices.php:167
 msgid "Office Information"
 msgstr ""
 
-#: functions/post-cards-registry.php:171
+#: functions/cpt/cpt-offices.php:104
+msgid "Office Information & Location"
+msgstr ""
+
+#: functions/post-cards-registry.php:209
 msgid "Office List SM"
 msgstr ""
 
-#: functions/post-cards-registry.php:176
+#: functions/post-cards-registry.php:214
 msgid "Office List SM Text"
 msgstr ""
 
-#: templates/singles/offices/offices_2.php:228
-msgid "Office Manager"
+#: functions/cpt/cpt-offices.php:122
+msgid "Office Relations"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:133
@@ -10540,10 +10652,10 @@ msgid "Office/Apartment"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
-#: functions/cpt/cpt-offices.php:28 functions/cpt/cpt-offices.php:1240
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:482
+#: functions/cpt/cpt-offices.php:28 functions/cpt/cpt-offices.php:1645
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:474
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:968
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:278
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:283
 msgid "Offices"
 msgstr ""
 
@@ -10625,7 +10737,7 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:218
+#: functions/integrations/stock-photos/stock-photos.php:290
 msgid "on"
 msgstr ""
 
@@ -10697,11 +10809,11 @@ msgid ""
 "cart, checkout, or any URL of your site."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:201
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:206
 msgid "Open Balloon on Click"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:202
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:207
 msgid "Open balloon when marker is clicked"
 msgstr ""
 
@@ -10716,7 +10828,7 @@ msgstr ""
 msgid "Open file-based logs →"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:219
+#: functions/integrations/stock-photos/stock-photos.php:291
 msgid "Open in Media Library"
 msgstr ""
 
@@ -10748,12 +10860,12 @@ msgstr ""
 msgid "Opening Hours"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:246
+#: functions/cpt/cpt-offices.php:382 functions/cpt/cpt-offices.php:405
 #: redux-framework/sample/sections/codeweber/company-details.php:23
 msgid "Opens"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:168
+#: redux-framework/sample/sections/codeweber/api.php:180
 msgid "Openverse (no key, CC content)"
 msgstr ""
 
@@ -10773,19 +10885,19 @@ msgstr ""
 msgid "Opt 3"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:422
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:427
 msgid "Optimize map for desktop devices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:401
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:406
 msgid "Optimize map for different screen sizes"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:408
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:413
 msgid "Optimize map for mobile devices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:415
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:420
 msgid "Optimize map for touch interactions"
 msgstr ""
 
@@ -10839,7 +10951,7 @@ msgstr ""
 msgid "Orenburg Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:289
+#: functions/cpt/cpt-events.php:316
 msgid "Organizer"
 msgstr ""
 
@@ -10882,7 +10994,7 @@ msgstr ""
 msgid "Other Questions"
 msgstr ""
 
-#: functions/fetch/filterPosts.php:355
+#: functions/fetch/filterPosts.php:359
 #: templates/archives/vacancies/vacancies_1.php:123
 msgid "Other Vacancies"
 msgstr ""
@@ -10930,25 +11042,25 @@ msgstr ""
 msgid "Overlay + uil-plus icon"
 msgstr ""
 
-#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:234
-#: functions/post-cards-registry.php:260
+#: functions/post-cards-registry.php:65 functions/post-cards-registry.php:272
+#: functions/post-cards-registry.php:298
 msgid "Overlay 5"
 msgstr ""
 
-#: functions/post-cards-registry.php:244
+#: functions/post-cards-registry.php:282
 msgid "Overlay 5 (p-10)"
 msgstr ""
 
-#: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
-#: functions/post-cards-registry.php:239 functions/post-cards-registry.php:265
+#: functions/post-cards-registry.php:70 functions/post-cards-registry.php:261
+#: functions/post-cards-registry.php:277 functions/post-cards-registry.php:303
 msgid "Overlay 5 Primary"
 msgstr ""
 
-#: functions/post-cards-registry.php:249
+#: functions/post-cards-registry.php:287
 msgid "Overlay 5 Primary (p-10)"
 msgstr ""
 
-#: functions/post-cards-registry.php:61
+#: functions/post-cards-registry.php:66
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
 msgstr ""
 
@@ -10964,7 +11076,7 @@ msgstr ""
 msgid "Override the global Redux background for this page only."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:528
+#: redux-framework/sample/sections/codeweber/style.php:512
 msgid ""
 "Override title color for WooCommerce shop/archive. Default = use global."
 msgstr ""
@@ -11008,16 +11120,16 @@ msgstr ""
 
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:56
-#: redux-framework/sample/sections/codeweber/style.php:486
+#: redux-framework/sample/sections/codeweber/style.php:470
 msgid "Page Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:586
+#: redux-framework/sample/sections/codeweber/cpt-type.php:593
 #, php-format
 msgid "Page Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:578
+#: redux-framework/sample/sections/codeweber/cpt-type.php:585
 #, php-format
 msgid "Page Header for Single %s"
 msgstr ""
@@ -11074,8 +11186,8 @@ msgstr ""
 msgid "Page ID or «home»"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:289
-#: redux-framework/sample/sections/codeweber/style.php:297
+#: redux-framework/sample/sections/codeweber/style.php:273
+#: redux-framework/sample/sections/codeweber/style.php:281
 msgid "Page Loader"
 msgstr ""
 
@@ -11118,15 +11230,15 @@ msgid ""
 "to generate it automatically."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:225
+#: redux-framework/sample/sections/codeweber/style.php:209
 msgid "Page-frame"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:231
+#: redux-framework/sample/sections/codeweber/style.php:215
 msgid "Page-frame Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:251
+#: redux-framework/sample/sections/codeweber/style.php:235
 msgid "Page-frame Color Type"
 msgstr ""
 
@@ -11138,7 +11250,7 @@ msgstr ""
 msgid "Pagination"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:434
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:440
 msgid "Pale"
 msgstr ""
 
@@ -11260,7 +11372,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:613
+#: functions/cpt/cpt-events.php:640
 msgid "Paste a YouTube, Vimeo, Rutube or VK Video URL."
 msgstr ""
 
@@ -11281,7 +11393,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:469
 #: redux-framework/sample/sections/codeweber/body-bg.php:71
-#: redux-framework/sample/sections/codeweber/cpt-type.php:687
+#: redux-framework/sample/sections/codeweber/cpt-type.php:694
 #: redux-framework/sample/sections/codeweber/page-header.php:160
 msgid "Pattern"
 msgstr ""
@@ -11292,13 +11404,13 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:501
 #: redux-framework/sample/sections/codeweber/body-bg.php:106
-#: redux-framework/sample/sections/codeweber/cpt-type.php:719
+#: redux-framework/sample/sections/codeweber/cpt-type.php:726
 msgid "Pattern Preload Color"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:488
 #: redux-framework/sample/sections/codeweber/body-bg.php:92
-#: redux-framework/sample/sections/codeweber/cpt-type.php:706
+#: redux-framework/sample/sections/codeweber/cpt-type.php:713
 msgid "Pattern Repeat"
 msgstr ""
 
@@ -11322,7 +11434,7 @@ msgstr ""
 msgid "PD Providers Test"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:522
+#: functions/integrations/image-licenses/image-licenses.php:574
 msgid "PDF File"
 msgstr ""
 
@@ -11330,7 +11442,7 @@ msgstr ""
 msgid "PDF file not found for this vacancy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:339
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:344
 msgid "Pedestrian"
 msgstr ""
 
@@ -11362,8 +11474,9 @@ msgstr ""
 msgid "Perm Krai"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:41
-#: functions/integrations/stock-photos/inc/proxy.php:96
+#: functions/integrations/stock-photos/inc/import.php:55
+#: functions/integrations/stock-photos/inc/proxy.php:26
+#: functions/integrations/stock-photos/inc/proxy.php:148
 msgid "Permission denied"
 msgstr ""
 
@@ -11374,7 +11487,7 @@ msgstr ""
 msgid "Permission denied."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:281
+#: functions/integrations/image-licenses/image-licenses.php:285
 msgid "Person or company who obtained the license"
 msgstr ""
 
@@ -11429,23 +11542,22 @@ msgstr ""
 msgid "Personal Data V2 Providers Test"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:166
+#: redux-framework/sample/sections/codeweber/api.php:178
 msgid "Pexels"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:194
+#: redux-framework/sample/sections/codeweber/api.php:207
 msgid "Pexels API"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:192
+#: redux-framework/sample/sections/codeweber/api.php:205
 msgid "Pexels API Key"
 msgstr ""
 
 #: functions/sidebars.php:993 functions/sidebars.php:995
 #: functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:321
-#: functions/cpt/cpt-offices.php:990 functions/cpt/cpt-staff.php:244
-#: functions/cpt/cpt-staff.php:507
+#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:1394
+#: functions/cpt/cpt-staff.php:244 functions/cpt/cpt-staff.php:507
 #: functions/events/event-registration-api.php:427
 #: functions/events/event-registrations.php:114
 #: functions/events/event-registrations.php:348
@@ -11467,11 +11579,11 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:492
 #: functions/integrations/telegram/telegram-init.php:177
 #: functions/integrations/telegram/telegram-init.php:352
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:485
-#: templates/singles/offices/default.php:172
-#: templates/singles/offices/offices_1.php:194
-#: templates/singles/offices/offices_2.php:175
-#: templates/singles/offices/offices_5.php:143
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:478
+#: templates/singles/offices/default.php:170
+#: templates/singles/offices/offices_1.php:193
+#: templates/singles/offices/offices_2.php:154
+#: templates/singles/offices/offices_5.php:142
 #: templates/singles/staff/default.php:127
 #: templates/singles/staff/staff_1.php:127
 #: templates/singles/staff/staff_2.php:135
@@ -11524,10 +11636,10 @@ msgstr ""
 msgid "Phone 1"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:324 templates/singles/offices/default.php:186
-#: templates/singles/offices/offices_1.php:218
-#: templates/singles/offices/offices_2.php:187
-#: templates/singles/offices/offices_5.php:153
+#: templates/singles/offices/default.php:184
+#: templates/singles/offices/offices_1.php:217
+#: templates/singles/offices/offices_2.php:166
+#: templates/singles/offices/offices_5.php:152
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:959
 msgid "Phone 2"
 msgstr ""
@@ -11552,11 +11664,11 @@ msgstr ""
 msgid "Phone field formatting: +7 (xxx) xxx-xx-xx"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:268
+#: redux-framework/sample/sections/codeweber/style.php:252
 msgid "Phone Mask"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:276
+#: redux-framework/sample/sections/codeweber/style.php:260
 msgid "Phone mask"
 msgstr ""
 
@@ -11592,17 +11704,18 @@ msgstr ""
 msgid "Phone Responsible Person"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:450
+#: functions/cpt/cpt-events.php:477
 msgid "Phone — required"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:529
 #: redux-framework/sample/sections/codeweber/footer.php:296
 #: redux-framework/sample/sections/codeweber/header.php:352
 msgid "Phones"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:217
-#: functions/integrations/stock-photos/inc/import.php:189
+#: functions/integrations/stock-photos/stock-photos.php:280
+#: functions/integrations/stock-photos/inc/import.php:444
 msgid "Photo by"
 msgstr ""
 
@@ -11612,6 +11725,11 @@ msgstr ""
 #: functions/cpt/cpt-projects-meta.php:29 functions/cpt/cpt-projects.php:105
 #: functions/cpt/cpt-projects.php:146
 msgid "Photography"
+msgstr ""
+
+#: functions/integrations/stock-photos/stock-photos.php:282
+#: redux-framework/sample/sections/codeweber/api.php:165
+msgid "Photos"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:114
@@ -11635,15 +11753,15 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:167
+#: redux-framework/sample/sections/codeweber/api.php:179
 msgid "Pixabay"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:211
+#: redux-framework/sample/sections/codeweber/api.php:224
 msgid "Pixabay API"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:209
+#: redux-framework/sample/sections/codeweber/api.php:222
 msgid "Pixabay API Key"
 msgstr ""
 
@@ -11651,7 +11769,7 @@ msgstr ""
 msgid "Placeholders: {year}, {month}, {day}. Default: {year}/{month}/"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1135
+#: functions/cpt/cpt-documents.php:1183
 #: functions/events/event-registration-api.php:166
 #: functions/testimonials/testimonial-form-api.php:497
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:345
@@ -11750,7 +11868,7 @@ msgid ""
 "must first create the sidebar under Appearance > Widgets."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1153
+#: functions/cpt/cpt-documents.php:1201
 msgid "Please wait before requesting more documents."
 msgstr ""
 
@@ -11777,12 +11895,12 @@ msgstr ""
 #: functions/user.php:257 functions/user.php:289
 #: functions/cpt/cpt-notifications.php:263 functions/cpt/cpt-staff.php:232
 #: functions/cpt/cpt-staff.php:503
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:557
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:626
 #: functions/integrations/telegram/telegram-init.php:362
 msgid "Position"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:264
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:269
 msgid "Position of sidebar on map"
 msgstr ""
 
@@ -11832,7 +11950,7 @@ msgctxt "Post Type Singular Name"
 msgid "Media License"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:234 functions/cpt/cpt-staff.php:277
+#: functions/cpt/cpt-offices.php:316 functions/cpt/cpt-staff.php:277
 #: redux-framework/sample/sections/codeweber/company-details.php:140
 #: redux-framework/sample/sections/codeweber/company-details.php:202
 msgid "Postal Code"
@@ -11871,8 +11989,9 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:294
-#: functions/fetch/filterPosts.php:388 functions/woocommerce/filters.php:1272
+#: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:321
+#: functions/cpt/services-meta-fields.php:63
+#: functions/fetch/filterPosts.php:392 functions/woocommerce/filters.php:1272
 #: functions/woocommerce/filters.php:1529
 #: functions/woocommerce/filters.php:1542
 #: templates/archives/events/events_1.php:65
@@ -11885,6 +12004,10 @@ msgstr ""
 
 #: templates/woocommerce/filters/filter-price.php:70
 msgid "Price from"
+msgstr ""
+
+#: functions/cpt/services-meta-fields.php:127
+msgid "Price label, e.g. \"от 50 000 ₽\" or \"по запросу\"."
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
@@ -12013,7 +12136,7 @@ msgstr ""
 msgid "Primary font must be selected in the first column"
 msgstr ""
 
-#: functions/post-cards-registry.php:66
+#: functions/post-cards-registry.php:71
 msgid ""
 "Primary-colored overlay on hover; title and excerpt slide in from the left"
 msgstr ""
@@ -12091,7 +12214,7 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: functions/post-cards-registry.php:224
+#: functions/post-cards-registry.php:262
 msgid ""
 "Project card with primary overlay on hover; architect and address in "
 "figcaption"
@@ -12144,13 +12267,13 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:470
+#: redux-framework/sample/sections/codeweber/style.php:454
 msgid "Projects Prev/Next Style"
 msgstr ""
 
 #: functions/admin/projects-settings.php:22
 #: functions/admin/projects-settings.php:761
-#: redux-framework/sample/sections/codeweber/cpt-type.php:394
+#: redux-framework/sample/sections/codeweber/cpt-type.php:401
 msgid "Projects Settings"
 msgstr ""
 
@@ -12168,6 +12291,10 @@ msgstr ""
 msgid "Provider"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:320
+msgid "Provider / source:"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:105
 msgid "Provider ID"
 msgstr ""
@@ -12176,9 +12303,13 @@ msgstr ""
 msgid "Provider Name"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:54
-#: functions/integrations/stock-photos/inc/proxy.php:106
+#: functions/integrations/stock-photos/inc/import.php:70
+#: functions/integrations/stock-photos/inc/proxy.php:162
 msgid "Provider not available"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:340
+msgid "Provider resource ID:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/proxy.php:19
@@ -12217,7 +12348,7 @@ msgstr ""
 msgid "Public Offer Agreement"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:345
 msgid "Public Transport"
 msgstr ""
 
@@ -12397,6 +12528,18 @@ msgstr ""
 msgid "Quick view"
 msgstr ""
 
+#: functions/post-cards-registry.php:107
+msgid "Quote"
+msgstr ""
+
+#: functions/post-cards-registry.php:147
+msgid "Quote Name"
+msgstr ""
+
+#: functions/post-cards-registry.php:127
+msgid "Quote with Avatar"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:264
 msgid "Rate limit exceeded."
 msgstr ""
@@ -12480,7 +12623,7 @@ msgstr ""
 msgid "Read"
 msgstr ""
 
-#: functions/fetch/filterPosts.php:657 templates/content/loop-legal.php:20
+#: functions/fetch/filterPosts.php:661 templates/content/loop-legal.php:20
 #: templates/content/loop.php:20 templates/archives/events/events_4.php:74
 #: templates/archives/legal/legal_1.php:16
 #: templates/post-cards/post/card-content.php:63
@@ -12491,7 +12634,7 @@ msgid "Read More"
 msgstr ""
 
 #: templates/post-cards/documents/card.php:91
-#: templates/post-cards/documents/card_download.php:88
+#: templates/post-cards/documents/card_download.php:75
 #: templates/post-cards/post/overlay-5-primary.php:32
 #: templates/post-cards/post/overlay-5.php:31
 #: templates/post-cards/post/slider.php:102
@@ -12536,15 +12679,15 @@ msgid "Records exist in the database, but the files are missing on disk."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:275
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:237
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:242
 msgid "Red"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:156
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:161
 msgid "Red Dot"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:162
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:167
 msgid "Red Icon"
 msgstr ""
 
@@ -12597,7 +12740,7 @@ msgid ""
 "changing the registered image sizes."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:216 functions/cpt/cpt-staff.php:268
+#: functions/cpt/cpt-offices.php:297 functions/cpt/cpt-staff.php:268
 #: redux-framework/sample/sections/codeweber/company-details.php:105
 #: redux-framework/sample/sections/codeweber/company-details.php:167
 #: functions/integrations/s3-storage/inc/views/settings.php:35
@@ -12607,9 +12750,9 @@ msgstr ""
 #: functions/sidebars.php:933 functions/sidebars.php:939
 #: functions/sidebars.php:963 functions/sidebars.php:1010
 #: functions/admin/events-settings.php:160
-#: functions/admin/events-settings.php:182 functions/cpt/cpt-events.php:389
-#: functions/cpt/cpt-events.php:417 functions/cpt/cpt-events.php:1153
-#: functions/cpt/cpt-events.php:1173
+#: functions/admin/events-settings.php:182 functions/cpt/cpt-events.php:416
+#: functions/cpt/cpt-events.php:444 functions/cpt/cpt-events.php:1205
+#: functions/cpt/cpt-events.php:1225
 #: functions/events/event-registration-api.php:504
 #: functions/events/event-registration-api.php:505
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:256
@@ -12656,11 +12799,11 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:1148
+#: functions/cpt/cpt-events.php:1200
 msgid "Registration closed"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:254
+#: functions/cpt/cpt-events.php:281
 msgid "Registration Closes"
 msgstr ""
 
@@ -12690,11 +12833,11 @@ msgstr ""
 msgid "Registration is not available."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:246
+#: functions/cpt/cpt-events.php:273
 msgid "Registration Opens"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:1138
+#: functions/cpt/cpt-events.php:1190
 #, php-format
 msgid "Registration opens %s"
 msgstr ""
@@ -12711,7 +12854,7 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:326
+#: functions/cpt/cpt-events.php:353
 msgid "Registration Type"
 msgstr ""
 
@@ -12745,8 +12888,12 @@ msgstr ""
 msgid "Related Products"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:131
+#: functions/cpt/cpt-offices.php:234
 msgid "Related Vacancies"
+msgstr ""
+
+#: functions/integrations/stock-photos/stock-photos.php:289
+msgid "Remaining"
 msgstr ""
 
 #: woocommerce/content-compare-bar.php:58
@@ -12757,8 +12904,9 @@ msgstr ""
 #: functions/admin/term-thumbnail.php:78 functions/admin/term-thumbnail.php:108
 #: functions/admin/testimonials-settings.php:94
 #: functions/admin/testimonials-settings.php:150
-#: functions/cpt/cpt-events.php:478 functions/cpt/cpt-events.php:527
-#: functions/cpt/cpt-events.php:631 functions/cpt/cpt-notifications.php:778
+#: functions/cpt/cpt-events.php:505 functions/cpt/cpt-events.php:554
+#: functions/cpt/cpt-events.php:658 functions/cpt/cpt-notifications.php:778
+#: functions/cpt/cpt-offices.php:375 functions/cpt/cpt-offices.php:401
 #: functions/cpt/cpt-projects-meta.php:240
 #: functions/cpt/cpt-projects-meta.php:734
 #: functions/cpt/cpt-projects-meta.php:872 functions/cpt/cpt-vacancies.php:480
@@ -12827,7 +12975,7 @@ msgstr ""
 msgid "Remove from Wishlist?"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:739
+#: functions/cpt/cpt-offices.php:1057
 msgid "Remove Image"
 msgstr ""
 
@@ -12837,6 +12985,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:683
 msgid "Remove PDF"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:535 functions/cpt/cpt-offices.php:560
+msgid "Remove phone"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:315
@@ -12867,7 +13019,7 @@ msgid ""
 "Cookie remembers completed steps."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:668
+#: functions/cpt/cpt-events.php:695
 msgid "Replace Video"
 msgstr ""
 
@@ -12875,7 +13027,7 @@ msgstr ""
 msgid "Republic of Crimea"
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:216
+#: functions/integrations/stock-photos/stock-photos.php:279
 msgid "Request error. Try again."
 msgstr ""
 
@@ -12888,7 +13040,7 @@ msgstr ""
 #: functions/admin/faq-settings.php:230 functions/admin/faq-settings.php:269
 #: functions/admin/testimonials-settings.php:121
 #: functions/admin/testimonials-settings.php:160
-#: functions/cpt/cpt-events.php:504 functions/cpt/cpt-events.php:537
+#: functions/cpt/cpt-events.php:531 functions/cpt/cpt-events.php:564
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:233
 #: redux-framework/sample/sections/codeweber/woocommerce.php:633
 msgid "Required"
@@ -12915,8 +13067,8 @@ msgid "Requires latitude and longitude to be filled in project settings."
 msgstr ""
 
 #: functions/admin/events-settings.php:163
-#: functions/admin/events-settings.php:185 functions/cpt/cpt-events.php:392
-#: functions/cpt/cpt-events.php:420
+#: functions/admin/events-settings.php:185 functions/cpt/cpt-events.php:419
+#: functions/cpt/cpt-events.php:447
 msgid "Reserve a Spot"
 msgstr ""
 
@@ -12946,7 +13098,7 @@ msgstr ""
 msgid "Responsible Person (Full Name)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:400
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:405
 msgid "Responsive Map"
 msgstr ""
 
@@ -12992,7 +13144,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:697
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1011
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:220
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:58
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:178
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:539
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:555
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
@@ -13066,13 +13218,13 @@ msgstr ""
 msgid "Rewrite post content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:445
-#: redux-framework/sample/sections/codeweber/cpt-type.php:456
+#: redux-framework/sample/sections/codeweber/cpt-type.php:452
+#: redux-framework/sample/sections/codeweber/cpt-type.php:463
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:420
 #: redux-framework/sample/sections/codeweber/page-header.php:100
 #: redux-framework/sample/sections/codeweber/page-header.php:242
 #: redux-framework/sample/sections/codeweber/style.php:52
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:267
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:272
 msgid "Right"
 msgstr ""
 
@@ -13109,11 +13261,11 @@ msgstr ""
 msgid "rounded-pill"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:476
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:468
 msgid "Route"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:320
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:325
 msgid "Route Settings"
 msgstr ""
 
@@ -13284,11 +13436,11 @@ msgstr ""
 msgid "Saratov Oblast"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:64
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:69
 msgid "Satellite"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1093
+#: functions/cpt/cpt-offices.php:1482
 #: redux-framework/sample/sections/codeweber/company-details.php:14
 msgid "Saturday"
 msgstr ""
@@ -13315,7 +13467,7 @@ msgstr ""
 msgid "Save the event as draft first, then you can add gallery images."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:332
+#: functions/integrations/image-licenses/image-licenses.php:378
 msgid "Save the license first, or select files and save to attach them."
 msgstr ""
 
@@ -13396,7 +13548,7 @@ msgstr ""
 msgid "Screen position"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:393
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:398
 msgid "Screen Reader Support"
 msgstr ""
 
@@ -13421,20 +13573,20 @@ msgstr ""
 #: searchform.php:3 functions/cpt/cpt-vacancies.php:129
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:26
 #: functions/integrations/ajax-search-module/search-statistics.php:645
-#: functions/integrations/stock-photos/stock-photos.php:210
+#: functions/integrations/stock-photos/stock-photos.php:273
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:354
 msgid "Search"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:742 functions/cpt/cpt-offices.php:377
+#: functions/cpt/cpt-events.php:769 functions/cpt/cpt-offices.php:619
 #: functions/cpt/cpt-projects-meta.php:367 functions/cpt/cpt-vacancies.php:821
 msgid "Search address..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:149
 msgid ""
-"Search and import free photos from Unsplash, Pexels and Pixabay directly "
-"into the Media Library."
+"Search and import free photos from Unsplash, Pexels, Pixabay and Openverse, "
+"and free videos from Pexels and Pixabay, directly into the Media Library."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:479
@@ -13503,7 +13655,7 @@ msgid ""
 "straight into the Media Library."
 msgstr ""
 
-#: functions/integrations/stock-photos/stock-photos.php:209
+#: functions/integrations/stock-photos/stock-photos.php:272
 msgid "Search free photos…"
 msgstr ""
 
@@ -13549,6 +13701,11 @@ msgstr ""
 
 #: functions/cpt/cpt-page-header.php:19
 msgid "Search Page Headers"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:162
+msgid ""
+"Search photos and/or videos. Video is available for Pexels and Pixabay only."
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:20
@@ -13661,6 +13818,12 @@ msgstr ""
 msgid "Secret key for clean/address (not sent to the browser)"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:248
+msgid ""
+"Secret key from Upload → Stock Aggregator Credentials. Each import counts as "
+"1 of 500 monthly downloads."
+msgstr ""
+
 #: functions/admin/projects-settings.php:241
 msgid "Section title"
 msgstr ""
@@ -13688,7 +13851,7 @@ msgstr ""
 msgid "Security check failed while saving retention settings."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1090
+#: functions/cpt/cpt-documents.php:1138
 #: functions/woocommerce/ajax-review.php:23
 msgid "Security check failed."
 msgstr ""
@@ -13769,6 +13932,12 @@ msgid ""
 "automatically."
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:310
+msgid ""
+"Select an existing city or enter a new one. A new city will be created "
+"automatically when the office is saved."
+msgstr ""
+
 #: woocommerce/myaccount/form-edit-address.php:101
 msgid "Select an option…"
 msgstr ""
@@ -13844,7 +14013,7 @@ msgstr ""
 msgid "Select Footer Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:271
+#: redux-framework/sample/sections/codeweber/cpt-type.php:278
 msgid "Select footer from available options"
 msgstr ""
 
@@ -13887,7 +14056,7 @@ msgstr ""
 msgid "Select Header Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:264
+#: redux-framework/sample/sections/codeweber/cpt-type.php:271
 msgid "Select header from available options"
 msgstr ""
 
@@ -13908,7 +14077,7 @@ msgstr ""
 msgid "Select icon from Unicons library"
 msgstr ""
 
-#: functions/user.php:26 functions/cpt/cpt-offices.php:736
+#: functions/user.php:26 functions/cpt/cpt-offices.php:1054
 #: functions/woocommerce/product-video.php:96
 msgid "Select Image"
 msgstr ""
@@ -13927,11 +14096,11 @@ msgstr ""
 msgid "Select main button display type"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:329
+#: functions/integrations/image-licenses/image-licenses.php:375
 msgid "Select media files"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:357
+#: functions/integrations/image-licenses/image-licenses.php:403
 msgid "Select media files to attach to this license"
 msgstr ""
 
@@ -13939,11 +14108,17 @@ msgstr ""
 msgid "Select object image"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:753
+#: functions/cpt/cpt-offices.php:1071
 msgid "Select Office Image"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:733
+#: functions/cpt/cpt-offices.php:391
+msgid ""
+"Select one or more days for each schedule. If a day appears in multiple rows,"
+" the last row takes priority."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:805
 msgid "Select option"
 msgstr ""
 
@@ -13955,7 +14130,7 @@ msgstr ""
 msgid "Select Page Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:278
+#: redux-framework/sample/sections/codeweber/cpt-type.php:285
 msgid "Select page header from available options"
 msgstr ""
 
@@ -14031,11 +14206,11 @@ msgstr ""
 msgid "Select swatch image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:404
+#: redux-framework/sample/sections/codeweber/cpt-type.php:411
 msgid "Select template for archive page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:414
+#: redux-framework/sample/sections/codeweber/cpt-type.php:421
 msgid "Select template for single page"
 msgstr ""
 
@@ -14082,7 +14257,7 @@ msgstr ""
 msgid "Select User:"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:658
+#: functions/cpt/cpt-events.php:685
 msgid "Select Video"
 msgstr ""
 
@@ -14090,7 +14265,7 @@ msgstr ""
 msgid "Select widget side position"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:736
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:808
 msgid "Select..."
 msgstr ""
 
@@ -14146,11 +14321,11 @@ msgstr ""
 msgid "Send by Email — Rate Limits"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:996
+#: functions/cpt/cpt-documents.php:1044
 msgid "Send Document"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:964
+#: functions/cpt/cpt-documents.php:1012
 msgid "Send Document by Email"
 msgstr ""
 
@@ -14167,13 +14342,13 @@ msgid "Send form submissions to a Telegram chat or channel"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:161
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:229
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:454
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1260
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:234
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:460
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1357
 msgid "Send Message"
 msgstr ""
 
-#: functions/admin/events-settings.php:191 functions/cpt/cpt-events.php:426
+#: functions/admin/events-settings.php:191 functions/cpt/cpt-events.php:453
 msgid "Send Request"
 msgstr ""
 
@@ -14196,17 +14371,17 @@ msgid "Send to Email"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:164
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:465
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1264
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:532
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1361
 msgid "Sending"
 msgstr ""
 
 #: functions/enqueues.php:263 functions/sidebars.php:1009
-#: functions/cpt/cpt-documents.php:995
+#: functions/cpt/cpt-documents.php:1043
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:361
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:462
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:503
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:996
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1070
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
 msgstr ""
@@ -14244,7 +14419,7 @@ msgstr ""
 msgid "Separate tags with commas"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:436
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:442
 msgid "Sepia"
 msgstr ""
 
@@ -14264,21 +14439,21 @@ msgstr ""
 msgid "Service archive"
 msgstr ""
 
-#: functions/post-cards-registry.php:250
+#: functions/post-cards-registry.php:288
 msgid "Service card with primary-colored overlay on hover. Large padding p-10."
 msgstr ""
 
-#: functions/post-cards-registry.php:240
+#: functions/post-cards-registry.php:278
 msgid ""
 "Service card with primary-colored overlay on hover; title and excerpt slide "
 "in from the left"
 msgstr ""
 
-#: functions/post-cards-registry.php:235
+#: functions/post-cards-registry.php:273
 msgid "Service card: title bottom, category badge top, excerpt on hover"
 msgstr ""
 
-#: functions/post-cards-registry.php:245
+#: functions/post-cards-registry.php:283
 msgid ""
 "Service card: title bottom, category badge top, excerpt on hover. Large "
 "padding p-10."
@@ -14312,7 +14487,7 @@ msgstr ""
 msgid "Service updated"
 msgstr ""
 
-#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:995
+#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:1399
 #: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
 #: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
 msgid "Services"
@@ -14343,7 +14518,7 @@ msgstr ""
 msgid "Set featured Image for this staff"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:362
+#: functions/cpt/cpt-events.php:389
 msgid "Set to 0 for unlimited seats."
 msgstr ""
 
@@ -14375,7 +14550,7 @@ msgstr ""
 msgid "Settings Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:231
+#: redux-framework/sample/sections/codeweber/cpt-type.php:238
 msgid "Settings for custom post types."
 msgstr ""
 
@@ -14383,7 +14558,7 @@ msgstr ""
 msgid "Settings for floating social network widget"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:22
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:27
 msgid "Settings for Yandex Maps integration"
 msgstr ""
 
@@ -14431,11 +14606,11 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:440
+#: redux-framework/sample/sections/codeweber/style.php:424
 msgid "Share Button Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:460
+#: redux-framework/sample/sections/codeweber/style.php:444
 msgid "Share Button Type"
 msgstr ""
 
@@ -14451,27 +14626,27 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: functions/post-cards-registry.php:305
+#: functions/post-cards-registry.php:343
 msgid "Shop 2"
 msgstr ""
 
-#: functions/post-cards-registry.php:280
+#: functions/post-cards-registry.php:318
 msgid "Shop Card"
 msgstr ""
 
-#: functions/post-cards-registry.php:285
+#: functions/post-cards-registry.php:323
 msgid "Shop Card MD"
 msgstr ""
 
-#: functions/post-cards-registry.php:290
+#: functions/post-cards-registry.php:328
 msgid "Shop Compact"
 msgstr ""
 
-#: functions/post-cards-registry.php:295
+#: functions/post-cards-registry.php:333
 msgid "Shop List"
 msgstr ""
 
-#: functions/post-cards-registry.php:300
+#: functions/post-cards-registry.php:338
 msgid "Shop List SM"
 msgstr ""
 
@@ -14479,7 +14654,7 @@ msgstr ""
 msgid "Shop Navigation Mode"
 msgstr ""
 
-#: functions/cpt/services-meta-fields.php:43
+#: functions/cpt/services-meta-fields.php:55
 #: redux-framework/sample/sections/codeweber/woocommerce.php:556
 msgid "Short Description"
 msgstr ""
@@ -14488,7 +14663,7 @@ msgstr ""
 msgid "Short description"
 msgstr ""
 
-#: functions/cpt/services-meta-fields.php:61
+#: functions/cpt/services-meta-fields.php:81
 msgid ""
 "Short description for service cards. Falls back to the standard excerpt if "
 "left empty."
@@ -14606,7 +14781,7 @@ msgstr ""
 msgid "Shortcode: [redux_option key=\"text-about-company\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:111
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:116
 msgid "Show \"My location\" button on the map"
 msgstr ""
 
@@ -14648,7 +14823,7 @@ msgstr ""
 msgid "Show booked seats count"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:118
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:123
 msgid "Show button to build route on the map"
 msgstr ""
 
@@ -14660,15 +14835,15 @@ msgstr ""
 msgid "Show buttons to switch number of products per page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:364
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:369
 msgid "Show Close Button"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:365
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:370
 msgid "Show close button on balloon"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:455
+#: functions/cpt/cpt-events.php:482
 msgid "Show Comment field"
 msgstr ""
 
@@ -14696,7 +14871,7 @@ msgstr ""
 msgid "Show email field"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:294
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:299
 msgid "Show filters in sidebar"
 msgstr ""
 
@@ -14704,7 +14879,7 @@ msgstr ""
 msgid "Show floating map button on mobile devices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:110
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:115
 msgid "Show Geolocation Control"
 msgstr ""
 
@@ -14745,7 +14920,7 @@ msgstr ""
 msgid "Show map of projects"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:942 functions/cpt/cpt-vacancies.php:1015
+#: functions/cpt/cpt-events.php:969 functions/cpt/cpt-vacancies.php:1015
 msgid "Show map on frontend"
 msgstr ""
 
@@ -14826,7 +15001,7 @@ msgstr ""
 msgid "Show related products slider"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:117
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:122
 msgid "Show Route Button"
 msgstr ""
 
@@ -14834,15 +15009,15 @@ msgstr ""
 msgid "Show Sale Badge"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:125
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:130
 msgid "Show search box on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:124
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:129
 msgid "Show Search Control"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:459
+#: functions/cpt/cpt-events.php:486
 msgid "Show Seats field (number of seats to reserve)"
 msgstr ""
 
@@ -14850,7 +15025,7 @@ msgstr ""
 msgid "Show seats progress bar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:256
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:261
 msgid "Show sidebar with list of markers"
 msgstr ""
 
@@ -14938,7 +15113,7 @@ msgstr ""
 msgid "Shown for featured products (WooCommerce \"Featured\" flag)."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:696
+#: functions/cpt/cpt-events.php:723
 msgid ""
 "Shown instead of the main content when the event has ended. Use for post-"
 "event reports, summaries, or photo descriptions."
@@ -14963,41 +15138,41 @@ msgstr ""
 msgid "Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:463
+#: redux-framework/sample/sections/codeweber/cpt-type.php:470
 #, php-format
 msgid "Sidebar Breakpoint for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:263
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:268
 msgid "Sidebar Position"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:452
+#: redux-framework/sample/sections/codeweber/cpt-type.php:459
 #, php-format
 msgid "Sidebar Position for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:441
+#: redux-framework/sample/sections/codeweber/cpt-type.php:448
 #, php-format
 msgid "Sidebar Position for Single %s"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:533
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:248
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:253
 msgid "Sidebar Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:276
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:281
 msgid "Sidebar Title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:357
+#: redux-framework/sample/sections/codeweber/style.php:341
 msgid "Sidebar Widgets"
 msgstr ""
 
 #: functions/admin/events-settings.php:165
-#: functions/admin/events-settings.php:187 functions/cpt/cpt-events.php:394
-#: functions/cpt/cpt-events.php:422
+#: functions/admin/events-settings.php:187 functions/cpt/cpt-events.php:421
+#: functions/cpt/cpt-events.php:449
 msgid "Sign Up"
 msgstr ""
 
@@ -15011,6 +15186,10 @@ msgstr ""
 msgid "Signal"
 msgstr ""
 
+#: functions/integrations/yandex-maps/presets.php:30
+msgid "Silver"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1217
 msgid "Simple"
 msgstr ""
@@ -15019,23 +15198,19 @@ msgstr ""
 msgid "Simple Admin"
 msgstr ""
 
-#: functions/post-cards-registry.php:113
-msgid "Simple blockquote with icon, without rating"
-msgstr ""
-
-#: functions/post-cards-registry.php:36
+#: functions/post-cards-registry.php:41
 msgid "Simple layout with figure overlay and post header/footer"
 msgstr ""
 
-#: functions/post-cards-registry.php:77
+#: functions/post-cards-registry.php:82
 msgid "Simple logo for Swiper slider"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:600
-#: redux-framework/sample/sections/codeweber/cpt-type.php:620
-#: redux-framework/sample/sections/codeweber/cpt-type.php:636
-#: redux-framework/sample/sections/codeweber/cpt-type.php:652
-#: redux-framework/sample/sections/codeweber/cpt-type.php:756
+#: redux-framework/sample/sections/codeweber/cpt-type.php:607
+#: redux-framework/sample/sections/codeweber/cpt-type.php:627
+#: redux-framework/sample/sections/codeweber/cpt-type.php:643
+#: redux-framework/sample/sections/codeweber/cpt-type.php:659
+#: redux-framework/sample/sections/codeweber/cpt-type.php:763
 #: redux-framework/sample/sections/codeweber/woocommerce.php:405
 msgid "Single"
 msgstr ""
@@ -15050,7 +15225,7 @@ msgstr ""
 msgid "Single Staff"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:413
+#: redux-framework/sample/sections/codeweber/cpt-type.php:420
 #, php-format
 msgid "Single Template for %s"
 msgstr ""
@@ -15090,7 +15265,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:191
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:196
 msgid "Size of logo in marker (pixels)"
 msgstr ""
 
@@ -15120,6 +15295,7 @@ msgstr ""
 msgid "Skipped:"
 msgstr ""
 
+#: functions/integrations/yandex-maps/presets.php:32
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:282
 msgid "Sky"
 msgstr ""
@@ -15132,7 +15308,7 @@ msgstr ""
 msgid "Skype"
 msgstr ""
 
-#: functions/post-cards-registry.php:50
+#: functions/post-cards-registry.php:55
 msgid "Slider"
 msgstr ""
 
@@ -15140,7 +15316,7 @@ msgstr ""
 msgid "Slider / Spinner"
 msgstr ""
 
-#: functions/post-cards-registry.php:51
+#: functions/post-cards-registry.php:56
 msgid "Slider layout with category on image and excerpt"
 msgstr ""
 
@@ -15151,7 +15327,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:183
 #: redux-framework/sample/sections/codeweber/header.php:260
 #: redux-framework/sample/sections/codeweber/header.php:335
-#: redux-framework/sample/sections/codeweber/style.php:431
+#: redux-framework/sample/sections/codeweber/style.php:415
 msgid "Small"
 msgstr ""
 
@@ -15199,7 +15375,7 @@ msgstr ""
 msgid "Social Button Size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:429
+#: redux-framework/sample/sections/codeweber/style.php:413
 msgid "Social Button Size (global)"
 msgstr ""
 
@@ -15209,7 +15385,7 @@ msgstr ""
 msgid "Social Button Style"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:419
+#: redux-framework/sample/sections/codeweber/style.php:403
 msgid "Social Button Style (global)"
 msgstr ""
 
@@ -15217,7 +15393,7 @@ msgstr ""
 msgid "Social Icon Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:401
+#: redux-framework/sample/sections/codeweber/style.php:385
 msgid "Social Icon Type (global)"
 msgstr ""
 
@@ -15263,8 +15439,8 @@ msgid "Socials"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:158
-#: redux-framework/sample/sections/codeweber/style.php:254
-#: redux-framework/sample/sections/codeweber/style.php:463
+#: redux-framework/sample/sections/codeweber/style.php:238
+#: redux-framework/sample/sections/codeweber/style.php:447
 msgid "Soft"
 msgstr ""
 
@@ -15274,19 +15450,19 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:451
 #: redux-framework/sample/sections/codeweber/body-bg.php:15
-#: redux-framework/sample/sections/codeweber/cpt-type.php:669
+#: redux-framework/sample/sections/codeweber/cpt-type.php:676
 msgid "Soft Leaf"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:449
 #: redux-framework/sample/sections/codeweber/body-bg.php:13
-#: redux-framework/sample/sections/codeweber/cpt-type.php:667
+#: redux-framework/sample/sections/codeweber/cpt-type.php:674
 msgid "Soft Primary"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:450
 #: redux-framework/sample/sections/codeweber/body-bg.php:14
-#: redux-framework/sample/sections/codeweber/cpt-type.php:668
+#: redux-framework/sample/sections/codeweber/cpt-type.php:675
 msgid "Soft Secondary"
 msgstr ""
 
@@ -15301,8 +15477,8 @@ msgid "Software"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:157
-#: redux-framework/sample/sections/codeweber/style.php:253
-#: redux-framework/sample/sections/codeweber/style.php:462
+#: redux-framework/sample/sections/codeweber/style.php:237
+#: redux-framework/sample/sections/codeweber/style.php:446
 msgid "Solid"
 msgstr ""
 
@@ -15346,7 +15522,7 @@ msgstr ""
 msgid "Sorting Options"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:560
+#: redux-framework/sample/sections/codeweber/style.php:544
 msgid "Spacious — gy-10 gy-md-13 gx-md-8"
 msgstr ""
 
@@ -15360,7 +15536,7 @@ msgstr ""
 msgid "Spam detected."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:291
+#: functions/integrations/image-licenses/image-licenses.php:295
 msgid "Specific item or project the license is for"
 msgstr ""
 
@@ -15377,10 +15553,11 @@ msgid "Spinner on card"
 msgstr ""
 
 #: functions/admin/projects-settings.php:480
+#: functions/integrations/stock-photos/stock-photos.php:287
 msgid "Square"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:994 functions/cpt/cpt-staff.php:12
+#: functions/cpt/cpt-offices.php:1398 functions/cpt/cpt-staff.php:12
 #: functions/cpt/cpt-staff.php:13 functions/cpt/cpt-staff.php:14
 #: functions/cpt/cpt-staff.php:32 functions/cpt/cpt-staff.php:41
 msgid "Staff"
@@ -15398,7 +15575,7 @@ msgstr ""
 msgid "Staff list"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:140
+#: functions/cpt/cpt-offices.php:230
 msgid "Staff Members"
 msgstr ""
 
@@ -15447,7 +15624,7 @@ msgstr ""
 msgid "Start date"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:236
+#: functions/cpt/cpt-events.php:263
 msgid "Start Date & Time"
 msgstr ""
 
@@ -15512,24 +15689,33 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1181
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1431
+msgid "Step %d"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1274
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1409
 msgid "Step %d of %d"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:197
+#: functions/integrations/stock-photos/inc/import.php:452
 msgid "Stock attribution"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:148
-msgid "Stock Photos"
+msgid "Stock Media (Photos & Video)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:154
+msgid "Stock Media: enable"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/proxy.php:86
 msgid "Stock Photos (Unsplash / Pexels / Pixabay / Openverse)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:154
-msgid "Stock Photos: enable"
+#: functions/integrations/image-licenses/image-licenses.php:324
+msgid "Stock source, e.g. Vecteezy, Pexels, Pixabay"
 msgstr ""
 
 #: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:27
@@ -15563,15 +15749,15 @@ msgstr ""
 msgid "Street, House Number and Office"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:231
+#: functions/cpt/cpt-offices.php:313
 msgid "Street, House, Office"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:233
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:238
 msgid "Style of cluster icons"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:471
+#: redux-framework/sample/sections/codeweber/style.php:455
 msgid ""
 "Style of prev/next links on single project page. Share button is always "
 "shown."
@@ -15710,11 +15896,11 @@ msgstr ""
 msgid "Submit a request"
 msgstr ""
 
-#: functions/admin/events-settings.php:161 functions/cpt/cpt-events.php:390
+#: functions/admin/events-settings.php:161 functions/cpt/cpt-events.php:417
 msgid "Submit an Application"
 msgstr ""
 
-#: functions/admin/events-settings.php:183 functions/cpt/cpt-events.php:418
+#: functions/admin/events-settings.php:183 functions/cpt/cpt-events.php:445
 msgid "Submit Application"
 msgstr ""
 
@@ -15945,7 +16131,7 @@ msgstr ""
 msgid "Successful form submission"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1094
+#: functions/cpt/cpt-offices.php:1483
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 msgid "Sunday"
 msgstr ""
@@ -16095,11 +16281,11 @@ msgstr ""
 msgid "Temporary file not found."
 msgstr ""
 
-#: functions/post-cards-registry.php:266
+#: functions/post-cards-registry.php:304
 msgid "Term card with primary-colored overlay on hover"
 msgstr ""
 
-#: functions/post-cards-registry.php:261
+#: functions/post-cards-registry.php:299
 msgid "Term card: title on bottom overlay, description and count on hover"
 msgstr ""
 
@@ -16111,9 +16297,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/api.php:77
 #: redux-framework/sample/sections/codeweber/api.php:93
 #: redux-framework/sample/sections/codeweber/api.php:140
-#: redux-framework/sample/sections/codeweber/api.php:187
-#: redux-framework/sample/sections/codeweber/api.php:204
-#: redux-framework/sample/sections/codeweber/api.php:221
+#: redux-framework/sample/sections/codeweber/api.php:200
+#: redux-framework/sample/sections/codeweber/api.php:217
+#: redux-framework/sample/sections/codeweber/api.php:234
+#: redux-framework/sample/sections/codeweber/api.php:258
 #: redux-framework/sample/sections/codeweber/proxy.php:98
 msgid "Test"
 msgstr ""
@@ -16122,7 +16309,7 @@ msgstr ""
 msgid "Test (no registration)"
 msgstr ""
 
-#: functions/admin/api-test.php:205
+#: functions/admin/api-test.php:206
 msgid "Test CodeWeber — bot connected!"
 msgstr ""
 
@@ -16183,11 +16370,11 @@ msgstr ""
 msgid "Test payment"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:201
+#: redux-framework/sample/sections/codeweber/api.php:214
 msgid "Test Pexels"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:218
+#: redux-framework/sample/sections/codeweber/api.php:231
 msgid "Test Pixabay"
 msgstr ""
 
@@ -16207,8 +16394,12 @@ msgstr ""
 msgid "Test Telegram"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:184
+#: redux-framework/sample/sections/codeweber/api.php:197
 msgid "Test Unsplash"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:255
+msgid "Test Vecteezy"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:75
@@ -16241,7 +16432,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:695
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1010
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:219
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:57
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:177
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:538
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
@@ -16299,6 +16490,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:35
 msgid "Testimonial Reply"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:1359
+msgid "Testimonial resolved avatar URL"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:37
@@ -16372,7 +16567,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:522
 #: redux-framework/sample/sections/codeweber/body-bg.php:129
-#: redux-framework/sample/sections/codeweber/cpt-type.php:740
+#: redux-framework/sample/sections/codeweber/cpt-type.php:747
 msgid "Text Color"
 msgstr ""
 
@@ -16384,7 +16579,7 @@ msgstr ""
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:473
+#: redux-framework/sample/sections/codeweber/style.php:457
 msgid "Text Links"
 msgstr ""
 
@@ -16396,11 +16591,11 @@ msgstr ""
 msgid "Text only"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:146
+#: redux-framework/sample/sections/codeweber/style.php:130
 msgid "Text shown on dark backgrounds."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:108
+#: redux-framework/sample/sections/codeweber/style.php:100
 msgid "Text shown on light backgrounds."
 msgstr ""
 
@@ -16408,7 +16603,7 @@ msgstr ""
 msgid "Text when no seats available"
 msgstr ""
 
-#: functions/post-cards-registry.php:177
+#: functions/post-cards-registry.php:215
 msgid "Text-only card: title + contacts, no image."
 msgstr ""
 
@@ -16470,9 +16665,9 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:992
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1026
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:612
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:206
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1130
-#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:228
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:211
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1204
+#: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:366
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:309
 msgid "Thank you! Your message has been sent."
 msgstr ""
@@ -16496,7 +16691,7 @@ msgstr ""
 msgid "The address verification service is temporarily unavailable."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:343
+#: functions/cpt/cpt-events.php:370
 msgid "The built-in registration form will open in a modal window."
 msgstr ""
 
@@ -16564,11 +16759,11 @@ msgstr ""
 msgid "Theme Information 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:307
+#: redux-framework/sample/sections/codeweber/style.php:291
 msgid "Theme Logo Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:306
+#: redux-framework/sample/sections/codeweber/style.php:290
 msgid "Theme Logo Light"
 msgstr ""
 
@@ -16590,20 +16785,14 @@ msgstr ""
 msgid "Theme style"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:100
-msgid ""
-"Theme/Bootstrap color class for the dark-variant icon (uses currentColor)."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/style.php:138
-msgid ""
-"Theme/Bootstrap color class for the light-variant icon (uses currentColor)."
-msgstr ""
-
 #: functions/integrations/ajax-search-module/search-statistics.php:686
 msgid ""
 "This action will permanently delete all search statistics data. This cannot "
 "be undone."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:355
+msgid "This asset was generated by AI"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:476
@@ -16659,6 +16848,10 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:122
 msgid "This Post Settings"
+msgstr ""
+
+#: functions/integrations/stock-photos/inc/proxy.php:186
+msgid "This provider has no video search"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1037
@@ -16734,7 +16927,7 @@ msgstr ""
 msgid "Thumbnails Mousewheel"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1091
+#: functions/cpt/cpt-offices.php:1480
 #: redux-framework/sample/sections/codeweber/company-details.php:12
 msgid "Thursday"
 msgstr ""
@@ -16786,7 +16979,7 @@ msgstr ""
 msgid "title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:277
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:282
 msgid "Title for sidebar"
 msgstr ""
 
@@ -16801,11 +16994,11 @@ msgstr ""
 msgid "Title Purpose of processing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:494
+#: redux-framework/sample/sections/codeweber/style.php:478
 msgid "Title size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:517
+#: redux-framework/sample/sections/codeweber/style.php:501
 msgid "Title Text Color"
 msgstr ""
 
@@ -16818,7 +17011,7 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:479
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:471
 msgid "To"
 msgstr ""
 
@@ -16925,7 +17118,7 @@ msgstr ""
 msgid "Total:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:414
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:419
 msgid "Touch Optimized"
 msgstr ""
 
@@ -16962,6 +17155,10 @@ msgstr ""
 msgid "Transfer (distribution, provision, access) Data"
 msgstr ""
 
+#: functions/post-cards-registry.php:143
+msgid "Translucent light card with rating, for dark backgrounds"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:242
 #: redux-framework/sample/sections/codeweber/header.php:130
 msgid "Transparent"
@@ -16983,7 +17180,7 @@ msgstr ""
 msgid "Trigger Type"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1089
+#: functions/cpt/cpt-offices.php:1478
 #: redux-framework/sample/sections/codeweber/company-details.php:10
 msgid "Tuesday"
 msgstr ""
@@ -17029,63 +17226,63 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:150
 #: redux-framework/sample/sections/codeweber/header.php:229
 #: redux-framework/sample/sections/codeweber/header.php:304
-#: redux-framework/sample/sections/codeweber/style.php:404
+#: redux-framework/sample/sections/codeweber/style.php:388
 msgid "Type 1"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:151
 #: redux-framework/sample/sections/codeweber/header.php:230
 #: redux-framework/sample/sections/codeweber/header.php:305
-#: redux-framework/sample/sections/codeweber/style.php:405
+#: redux-framework/sample/sections/codeweber/style.php:389
 msgid "Type 2"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:152
 #: redux-framework/sample/sections/codeweber/header.php:231
 #: redux-framework/sample/sections/codeweber/header.php:306
-#: redux-framework/sample/sections/codeweber/style.php:406
+#: redux-framework/sample/sections/codeweber/style.php:390
 msgid "Type 3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:153
 #: redux-framework/sample/sections/codeweber/header.php:232
 #: redux-framework/sample/sections/codeweber/header.php:307
-#: redux-framework/sample/sections/codeweber/style.php:407
+#: redux-framework/sample/sections/codeweber/style.php:391
 msgid "Type 4"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:154
 #: redux-framework/sample/sections/codeweber/header.php:233
 #: redux-framework/sample/sections/codeweber/header.php:308
-#: redux-framework/sample/sections/codeweber/style.php:408
+#: redux-framework/sample/sections/codeweber/style.php:392
 msgid "Type 5"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 #: redux-framework/sample/sections/codeweber/header.php:234
 #: redux-framework/sample/sections/codeweber/header.php:309
-#: redux-framework/sample/sections/codeweber/style.php:409
+#: redux-framework/sample/sections/codeweber/style.php:393
 msgid "Type 6"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:156
 #: redux-framework/sample/sections/codeweber/header.php:235
 #: redux-framework/sample/sections/codeweber/header.php:310
-#: redux-framework/sample/sections/codeweber/style.php:410
+#: redux-framework/sample/sections/codeweber/style.php:394
 msgid "Type 7"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:157
 #: redux-framework/sample/sections/codeweber/header.php:236
 #: redux-framework/sample/sections/codeweber/header.php:311
-#: redux-framework/sample/sections/codeweber/style.php:411
+#: redux-framework/sample/sections/codeweber/style.php:395
 msgid "Type 8"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:158
 #: redux-framework/sample/sections/codeweber/header.php:237
 #: redux-framework/sample/sections/codeweber/header.php:312
-#: redux-framework/sample/sections/codeweber/style.php:412
+#: redux-framework/sample/sections/codeweber/style.php:396
 msgid "Type 9"
 msgstr ""
 
@@ -17131,6 +17328,10 @@ msgstr ""
 msgid "unique form identifier (required)"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:334
+msgid "Unique license identifier issued by the provider"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/search-statistics.php:599
 msgid "Unique Queries"
 msgstr ""
@@ -17151,7 +17352,7 @@ msgid "Unknown"
 msgstr ""
 
 #: functions/demo/demo-clients.php:306 functions/demo/demo-faq.php:396
-#: functions/demo/demo-forms.php:296 functions/demo/demo-offices.php:308
+#: functions/demo/demo-forms.php:296 functions/demo/demo-offices.php:377
 #: functions/demo/demo-products.php:1753 functions/demo/demo-staff.php:395
 msgid "unknown"
 msgstr ""
@@ -17160,27 +17361,27 @@ msgstr ""
 msgid "Unknown action."
 msgstr ""
 
-#: functions/admin/api-test.php:228
+#: functions/admin/api-test.php:229
 msgid "Unknown error"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/proxy.php:129
+#: functions/integrations/stock-photos/inc/proxy.php:207
 msgid "Unknown provider"
 msgstr ""
 
-#: functions/cpt/redux_cpt.php:16
+#: functions/cpt/redux_cpt.php:23
 msgid "Unnamed"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:165
+#: redux-framework/sample/sections/codeweber/api.php:177
 msgid "Unsplash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:175
+#: redux-framework/sample/sections/codeweber/api.php:188
 msgid "Unsplash Access Key"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:177
+#: redux-framework/sample/sections/codeweber/api.php:190
 msgid "Unsplash Developers"
 msgstr ""
 
@@ -17339,7 +17540,7 @@ msgstr ""
 msgid "Upload PDF"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:317
+#: redux-framework/sample/sections/codeweber/style.php:301
 msgid "Upload SVG image"
 msgstr ""
 
@@ -17351,11 +17552,11 @@ msgstr ""
 msgid "Upload to this Price Package"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:627 functions/cpt/cpt-events.php:679
+#: functions/cpt/cpt-events.php:654 functions/cpt/cpt-events.php:706
 msgid "Upload Video"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:603
+#: functions/cpt/cpt-events.php:630
 msgid "Upload video file"
 msgstr ""
 
@@ -17402,7 +17603,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:598
+#: functions/cpt/cpt-events.php:625
 msgid "URL (YouTube / Vimeo / Rutube / VK)"
 msgstr ""
 
@@ -17410,7 +17611,7 @@ msgstr ""
 msgid "URL to scan:"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:310
+#: functions/integrations/image-licenses/image-licenses.php:314
 msgid "URL to the licensed item if available online"
 msgstr ""
 
@@ -17484,7 +17685,7 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/admin/term-thumbnail.php:243 functions/cpt/cpt-offices.php:754
+#: functions/admin/term-thumbnail.php:243 functions/cpt/cpt-offices.php:1072
 #: functions/cpt/cpt-testimonials.php:346
 #: functions/woocommerce/product-video.php:116
 #: functions/woocommerce/swatches.php:97
@@ -17500,7 +17701,7 @@ msgstr ""
 msgid "Use this template instead of the default hardcoded email."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:659
+#: functions/cpt/cpt-events.php:686
 msgid "Use this video"
 msgstr ""
 
@@ -17715,7 +17916,7 @@ msgstr ""
 msgid "utm_term"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:993 functions/cpt/cpt-vacancies.php:10
+#: functions/cpt/cpt-offices.php:1396 functions/cpt/cpt-vacancies.php:10
 #: functions/cpt/cpt-vacancies.php:12 functions/cpt/cpt-vacancies.php:30
 msgid "Vacancies"
 msgstr ""
@@ -17784,6 +17985,39 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:181
+msgid "Vecteezy (attribution required, 500 downloads/mo)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:239
+msgid "Vecteezy Account ID"
+msgstr ""
+
+#: functions/integrations/stock-photos/inc/import.php:274
+msgid "Vecteezy credentials are missing"
+msgstr ""
+
+#: functions/integrations/stock-photos/inc/proxy.php:37
+msgid "Vecteezy credentials missing"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:241
+msgid "Vecteezy Developers"
+msgstr ""
+
+#: functions/integrations/stock-photos/stock-photos.php:96
+msgid ""
+"Vecteezy Free License. Attribution is required and is stored automatically."
+msgstr ""
+
+#: functions/integrations/stock-photos/inc/proxy.php:31
+msgid "Vecteezy not available"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:247
+msgid "Vecteezy Secret Key"
+msgstr ""
+
 #: functions/admin/admin_user_profil.php:17
 msgid "Verified"
 msgstr ""
@@ -17823,26 +18057,27 @@ msgid "Version:"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:492
+#: functions/integrations/stock-photos/stock-photos.php:286
 #: redux-framework/sample/sections/codeweber/body-bg.php:96
-#: redux-framework/sample/sections/codeweber/cpt-type.php:710
+#: redux-framework/sample/sections/codeweber/cpt-type.php:717
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:407
 #: redux-framework/sample/sections/codeweber/woocommerce.php:425
 msgid "Vertical"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:644
+#: redux-framework/sample/sections/codeweber/style.php:628
 msgid "Vertical Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:619
+#: redux-framework/sample/sections/codeweber/style.php:603
 msgid "Vertical Gap (xs)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:686
+#: redux-framework/sample/sections/codeweber/style.php:670
 msgid "Vertical padding from md breakpoint and above."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:670
+#: redux-framework/sample/sections/codeweber/style.php:654
 msgid "Vertical padding on screens below md breakpoint."
 msgstr ""
 
@@ -17857,7 +18092,11 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:617
+#: functions/integrations/stock-photos/stock-photos.php:281
+msgid "Video by"
+msgstr ""
+
+#: functions/cpt/cpt-events.php:644
 msgid "Video File"
 msgstr ""
 
@@ -17865,12 +18104,20 @@ msgstr ""
 msgid "Video Poster (optional)"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:593 functions/woocommerce/product-video.php:64
+#: functions/cpt/cpt-events.php:620 functions/woocommerce/product-video.php:64
 msgid "Video Type"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:608 functions/woocommerce/product-video.php:79
+#: functions/cpt/cpt-events.php:635 functions/woocommerce/product-video.php:79
 msgid "Video URL"
+msgstr ""
+
+#: functions/integrations/stock-photos/stock-photos.php:283
+msgid "Videos"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:166
+msgid "Videos (Pexels, Pixabay)"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:125
@@ -17997,8 +18244,8 @@ msgid "View Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:62
-#: functions/integrations/image-licenses/image-licenses.php:609
-#: functions/integrations/image-licenses/image-licenses.php:670
+#: functions/integrations/image-licenses/image-licenses.php:661
+#: functions/integrations/image-licenses/image-licenses.php:722
 msgid "View License"
 msgstr ""
 
@@ -18022,7 +18269,7 @@ msgstr ""
 msgid "View Offices"
 msgstr ""
 
-#: functions/integrations/stock-photos/inc/import.php:193
+#: functions/integrations/stock-photos/inc/import.php:448
 msgid "View original"
 msgstr ""
 
@@ -18035,7 +18282,7 @@ msgid "View Page Headers"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:169
-#: functions/integrations/image-licenses/image-licenses.php:555
+#: functions/integrations/image-licenses/image-licenses.php:607
 msgid "View PDF"
 msgstr ""
 
@@ -18148,11 +18395,11 @@ msgid "Vimeo"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:278
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:235
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:240
 msgid "Violet"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:159
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:164
 msgid "Violet Dot"
 msgstr ""
 
@@ -18251,10 +18498,10 @@ msgid ""
 "improve and helps others make better decisions."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:333
+#: functions/cpt/cpt-offices.php:545
 #: functions/integrations/telegram/telegram-init.php:361
-#: templates/singles/offices/offices_1.php:231
-#: templates/singles/offices/offices_5.php:176
+#: templates/singles/offices/offices_1.php:230
+#: templates/singles/offices/offices_5.php:175
 #: templates/singles/staff/staff_2.php:159
 #: templates/singles/staff/staff_4.php:147
 #: templates/singles/staff/staff_5.php:168
@@ -18279,7 +18526,7 @@ msgstr ""
 msgid "WeChat"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1090
+#: functions/cpt/cpt-offices.php:1479
 #: redux-framework/sample/sections/codeweber/company-details.php:11
 msgid "Wednesday"
 msgstr ""
@@ -18316,7 +18563,7 @@ msgid "Whatsapp"
 msgstr ""
 
 #. %s: URL to Projects Settings
-#: redux-framework/sample/sections/codeweber/cpt-type.php:393
+#: redux-framework/sample/sections/codeweber/cpt-type.php:400
 #, php-format
 msgid "When \"IT / Web\" is selected, the specific template is chosen in %s."
 msgstr ""
@@ -18327,13 +18574,13 @@ msgid ""
 "Disable to turn off the module without removing any data."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:985
+#: functions/cpt/cpt-events.php:1012
 msgid ""
 "When enabled, the \"Add to Calendar\" dropdown button is hidden in the event "
 "sidebar."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:955
+#: functions/cpt/cpt-events.php:982
 msgid ""
 "When enabled, the author block is hidden in the event sidebar on the "
 "frontend."
@@ -18345,12 +18592,12 @@ msgid ""
 "frontend."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:965
+#: functions/cpt/cpt-events.php:992
 msgid ""
 "When enabled, the event thumbnail in the sidebar is hidden on the frontend."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:975
+#: functions/cpt/cpt-events.php:1002
 msgid ""
 "When enabled, the seats counter and progress bar are hidden in the sidebar."
 msgstr ""
@@ -18371,11 +18618,11 @@ msgstr ""
 msgid "When form is displayed/opened"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:250
+#: functions/cpt/cpt-events.php:277
 msgid "When registration becomes available. Leave empty to open immediately."
 msgstr ""
 
-#: functions/cpt/cpt-events.php:258
+#: functions/cpt/cpt-events.php:285
 msgid "When registration stops. Leave empty to close when event starts."
 msgstr ""
 
@@ -18399,7 +18646,7 @@ msgstr ""
 msgid "Which sort options to show in the dropdown"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:162
+#: redux-framework/sample/sections/codeweber/api.php:174
 msgid "Which sources to show in the search UI"
 msgstr ""
 
@@ -18407,7 +18654,7 @@ msgstr ""
 msgid "White"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:559
+#: redux-framework/sample/sections/codeweber/style.php:543
 msgid "Wide — gy-10 gx-md-8"
 msgstr ""
 
@@ -18461,7 +18708,7 @@ msgstr ""
 msgid "Widget area on the right side of the Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:365
+#: redux-framework/sample/sections/codeweber/style.php:349
 msgid "Widget Heading Size"
 msgstr ""
 
@@ -18543,7 +18790,7 @@ msgstr ""
 msgid "Woocommerce"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:527
+#: redux-framework/sample/sections/codeweber/style.php:511
 msgid "WooCommerce Archive Title Color"
 msgstr ""
 
@@ -18588,12 +18835,12 @@ msgstr ""
 msgid "Work schedule:"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:241
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:486
-#: templates/singles/offices/default.php:226
-#: templates/singles/offices/offices_1.php:177
-#: templates/singles/offices/offices_2.php:216
-#: templates/singles/offices/offices_5.php:209
+#: functions/cpt/cpt-offices.php:344 functions/cpt/cpt-offices.php:492
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:479
+#: templates/singles/offices/default.php:212
+#: templates/singles/offices/offices_1.php:176
+#: templates/singles/offices/offices_2.php:195
+#: templates/singles/offices/offices_5.php:208
 msgid "Working Hours"
 msgstr ""
 
@@ -18653,7 +18900,7 @@ msgstr ""
 msgid "Yandex"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:883 functions/cpt/cpt-vacancies.php:962
+#: functions/cpt/cpt-events.php:910 functions/cpt/cpt-vacancies.php:962
 msgid ""
 "Yandex API key is not set. Please configure it in Theme Options > API > "
 "Yandex API Key."
@@ -18677,11 +18924,11 @@ msgstr ""
 msgid "Yandex Map Location"
 msgstr ""
 
-#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:527
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:520
 msgid "Yandex Maps API key is not configured."
 msgstr ""
 
-#: archive-offices.php:124 functions/cpt/cpt-offices.php:525
+#: archive-offices.php:124 functions/cpt/cpt-offices.php:813
 msgid ""
 "Yandex Maps API key is not configured. Please set it in Redux Framework "
 "settings."
@@ -18691,11 +18938,11 @@ msgstr ""
 msgid "Yandex Maps API key is not configured. Set it in Redux settings."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:154
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:159
 msgid "Yandex Maps marker preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:20
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:25
 msgid "Yandex Maps Settings"
 msgstr ""
 
@@ -18784,7 +19031,7 @@ msgid ""
 "old browsers"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:1195
+#: functions/cpt/cpt-documents.php:1243
 #, php-format
 msgid "You requested %s on %s"
 msgstr ""
@@ -18817,12 +19064,12 @@ msgstr ""
 msgid "Your Email"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:978
+#: functions/cpt/cpt-documents.php:1026
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:111
 msgid "Your email"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:981
+#: functions/cpt/cpt-documents.php:1029
 msgid "Your Email *"
 msgstr ""
 
@@ -18851,7 +19098,7 @@ msgid "Your Position"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:112
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:567
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:636
 msgid "Your position"
 msgstr ""
 
@@ -18915,7 +19162,7 @@ msgstr ""
 msgid "Zoho"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:907 functions/cpt/cpt-vacancies.php:985
+#: functions/cpt/cpt-events.php:934 functions/cpt/cpt-vacancies.php:985
 msgid "Zoom"
 msgstr ""
 
@@ -18923,7 +19170,7 @@ msgstr ""
 msgid "Zoom (1-19)"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:550
+#: functions/cpt/cpt-offices.php:854
 #: redux-framework/sample/sections/codeweber/map_geo.php:171
 msgid "Zoom Level"
 msgstr ""
@@ -18947,31 +19194,27 @@ msgstr ""
 msgid "—"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:430
+#: functions/cpt/cpt-events.php:457
 msgid "— Default —"
 msgstr ""
 
-#: functions/admin/events-settings.php:171 functions/cpt/cpt-events.php:401
+#: functions/admin/events-settings.php:171 functions/cpt/cpt-events.php:428
 msgid "— No heading —"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:651
+#: functions/integrations/image-licenses/image-licenses.php:703
 msgid "— No License —"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:572
-#: redux-framework/sample/sections/codeweber/style.php:597
-#: redux-framework/sample/sections/codeweber/style.php:622
-#: redux-framework/sample/sections/codeweber/style.php:647
+#: redux-framework/sample/sections/codeweber/style.php:556
+#: redux-framework/sample/sections/codeweber/style.php:581
+#: redux-framework/sample/sections/codeweber/style.php:606
+#: redux-framework/sample/sections/codeweber/style.php:631
 msgid "— none —"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:260
+#: functions/integrations/image-licenses/image-licenses.php:264
 msgid "— Select Author —"
-msgstr ""
-
-#: functions/cpt/cpt-offices.php:221
-msgid "— Select City —"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:390 functions/cpt/cpt-vacancies.php:428
@@ -18982,15 +19225,12 @@ msgstr ""
 msgid "— Select Item —"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:272
-msgid "— Select Manager —"
-msgstr ""
-
 #: functions/cpt/cpt-notifications.php:197
 msgid "— Select Modal —"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:179 functions/cpt/cpt-vacancies.php:748
+#: functions/cpt/cpt-events.php:237 functions/cpt/cpt-staff.php:179
+#: functions/cpt/cpt-vacancies.php:748
 msgid "— Select Office —"
 msgstr ""
 
@@ -19004,7 +19244,7 @@ msgstr ""
 #: functions/admin/faq-settings.php:217 functions/admin/faq-settings.php:248
 #: functions/admin/testimonials-settings.php:108
 #: functions/admin/testimonials-settings.php:139
-#: functions/cpt/cpt-events.php:492 functions/cpt/cpt-events.php:520
+#: functions/cpt/cpt-events.php:519 functions/cpt/cpt-events.php:547
 #: functions/integrations/cf7/cf7-consents-panel.php:92
 #: functions/integrations/cf7/cf7-consents-panel.php:330
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116

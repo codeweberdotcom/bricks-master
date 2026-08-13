@@ -23,7 +23,7 @@ class Codeweber_Yandex_Maps {
     /**
      * @var string Версия модуля
      */
-    private $version = '1.2.0';
+    private $version = '1.3.11';
     
     /**
      * @var string Путь к модулю
@@ -65,6 +65,7 @@ class Codeweber_Yandex_Maps {
         'marker_size' => 0,    // v3: 0 = авторазмер по типу маркера
         'show_sidebar' => false,
         'sidebar_position' => 'left', // left, right
+        'sidebar_style' => 'default', // default, compact
         'sidebar_title' => '',
         'show_filters' => false,
         'filter_by_city' => false,
@@ -433,28 +434,6 @@ class Codeweber_Yandex_Maps {
             return;
         }
 
-        wp_enqueue_script(
-            'yandex-maps-api',
-            'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr( $this->api_key ) . '&lang=' . esc_attr( $this->default_settings['language'] ),
-            [],
-            null,
-            true
-        );
-        wp_enqueue_script(
-            'codeweber-yandex-maps',
-            $this->url . '/assets/js/yandex-maps.js',
-            array( 'yandex-maps-api' ),
-            $this->version,
-            true
-        );
-        wp_enqueue_style(
-            'codeweber-yandex-maps',
-            $this->url . '/assets/css/yandex-maps.css',
-            [],
-            $this->version
-        );
-        wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
-
         // Enqueue v3 scripts for ServerSideRender preview in block editor
         wp_enqueue_script( 'yandex-maps-api-v3' );
         wp_enqueue_script( 'codeweber-yandex-maps-v3' );
@@ -475,6 +454,11 @@ class Codeweber_Yandex_Maps {
             'language'      => $this->default_settings['language'],
             'defaultCenter' => $this->default_settings['center'],
             'defaultZoom'   => $this->default_settings['zoom'],
+            'editorStyles'  => array(
+                get_template_directory_uri() . '/dist/assets/css/plugins.css',
+                get_template_directory_uri() . '/dist/assets/css/style.css',
+                $this->url . '/assets/css/yandex-maps.css',
+            ),
             // Lightweight preset list (slug + label + swatch) for the block
             // editor — the full customization arrays are resolved server-side.
             'stylePresets'  => function_exists( 'codeweber_yandex_map_style_presets' )
@@ -490,6 +474,7 @@ class Codeweber_Yandex_Maps {
                 'offices'       => __( 'Offices', 'codeweber' ),
                 'city'          => __( 'City', 'codeweber' ),
                 'address'       => __( 'Address', 'codeweber' ),
+                'landmark'      => __( 'Landmark', 'codeweber' ),
                 'phone'         => __( 'Phone', 'codeweber' ),
                 'workingHours'  => __( 'Working Hours', 'codeweber' ),
                 'viewDetails'   => __( 'Go', 'codeweber' ),
@@ -588,17 +573,21 @@ class Codeweber_Yandex_Maps {
             'sidebar' => array(
                 'show' => $settings['show_sidebar'],
                 'position' => $settings['sidebar_position'],
+                'style' => isset($settings['sidebar_style']) && $settings['sidebar_style'] === 'compact' ? 'compact' : 'default',
                 'title' => $settings['sidebar_title'],
                 'showFilters' => $settings['show_filters'],
                 'filterByCity' => $settings['filter_by_city'],
                 'filterByCategory' => $settings['filter_by_category'],
-                'fields' => isset($settings['sidebar_fields']) ? $settings['sidebar_fields'] : array(
+                'fields' => wp_parse_args(isset($settings['sidebar_fields']) && is_array($settings['sidebar_fields']) ? $settings['sidebar_fields'] : array(), array(
+                    'showTitle' => true,
                     'showCity' => true,
                     'showAddress' => false,
+                    'showLandmark' => false,
+                    'showStatus' => false,
                     'showPhone' => false,
                     'showWorkingHours' => true,
                     'showDescription' => true,
-                ),
+                )),
             ),
             'route' => array(
                 'show' => $settings['show_route'],
@@ -738,11 +727,24 @@ class Codeweber_Yandex_Maps {
                 'link' => isset($marker['link']) ? $marker['link'] : '',
                 // Дополнительные поля для балуна офиса
                 'address' => isset($marker['address']) ? $marker['address'] : '',
+                'landmark' => isset($marker['landmark']) ? $marker['landmark'] : '',
                 'phone' => isset($marker['phone']) ? $marker['phone'] : '',
+                'phones' => isset($marker['phones']) && is_array($marker['phones']) ? array_values($marker['phones']) : [],
                 'workingHours' => isset($marker['workingHours']) ? $marker['workingHours'] : '',
                 'description' => isset($marker['description']) ? $marker['description'] : '',
                 'image' => isset($marker['image']) ? $marker['image'] : '',
             );
+
+            $office_id = isset($marker['id']) ? absint($marker['id']) : 0;
+            if ($office_id && get_post_type($office_id) === 'offices' && function_exists('codeweber_get_office_hours')) {
+                $prepared_marker['officeHours'] = codeweber_get_office_hours($office_id);
+                $prepared_marker['timezone'] = wp_timezone_string();
+                $prepared_marker['landmark'] = get_post_meta($office_id, '_office_landmark', true);
+                $office_phones = get_post_meta($office_id, '_office_phones', true);
+                if (is_array($office_phones) && !empty($office_phones)) {
+                    $prepared_marker['phones'] = array_values(array_filter(array_map('sanitize_text_field', $office_phones)));
+                }
+            }
             
             // Если используется кастомный маркер или логотип
             if ($settings['marker_type'] === 'custom' || $settings['marker_type'] === 'logo') {
@@ -797,5 +799,3 @@ class Codeweber_Yandex_Maps {
         return $this->version;
     }
 }
-
-

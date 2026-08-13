@@ -35,7 +35,6 @@ if (!empty($town_terms) && !is_wp_error($town_terms)) {
 $phone = get_post_meta($post_id, '_office_phone', true);
 $phone_2 = get_post_meta($post_id, '_office_phone_2', true);
 $email = get_post_meta($post_id, '_office_email', true);
-$fax = get_post_meta($post_id, '_office_fax', true);
 $website = get_post_meta($post_id, '_office_website', true);
 
 // Получаем координаты для карты
@@ -212,15 +211,6 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!empty($fax)) : ?>
-                            <div class="btn btn-sm btn-icon btn-icon-start btn-outline-primary justify-content-between d-flex w-100 mb-2 disabled<?php echo esc_attr($button_class); ?>">
-                                <i class="uil uil-fax"></i>
-                                <div class="d-flex flex-wrap text-end justify-content-end">
-                                    <span class="fs-12 lh-1 mb-1 w-100"><?php esc_html_e('Fax', 'codeweber'); ?></span>
-                                    <span class="lh-1 fs-11"><?php echo esc_html($fax); ?></span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
                     </div>
                     <!--/column -->
                 </div>
@@ -253,5 +243,4 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
         </div>
     </div>
 <?php endif; ?>
-
 

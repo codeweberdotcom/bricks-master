@@ -32,6 +32,58 @@
 .codeweber-map-sidebar-item:hover  { background: var(--bs-gray-100); }
 .codeweber-map-sidebar-item.active { background: var(--bs-primary-bg-subtle); }
 
+.codeweber-map-sidebar-item .cwgb-office-status {
+    margin-bottom: 3px !important;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* Compact sidebar design. */
+.codeweber-map-sidebar-compact {
+    max-width: 320px;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-sidebar-item {
+    padding: 14px 18px !important;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-sidebar-item .h6 {
+    margin-bottom: 4px !important;
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-sidebar-item .fs-sm {
+    font-size: 13px !important;
+    line-height: 1.35;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-filter {
+    padding: 12px !important;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-filter label {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.codeweber-map-sidebar-compact .codeweber-map-filter select {
+    min-height: 34px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 13px;
+}
+
+/* Keep filters visible while the office list scrolls. */
+.codeweber-map-filter {
+    background: var(--bs-white, #fff);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.codeweber-map-sidebar-title {
+    z-index: 4;
+}
+
 /* Кнопка открытия (мобильные) */
 .codeweber-map-sidebar-toggle {
     position: absolute;

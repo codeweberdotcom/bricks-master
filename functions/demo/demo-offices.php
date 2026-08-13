@@ -77,7 +77,7 @@ function cw_demo_create_towns() {
  * 
  * @return array Массив данных офисов
  */
-function cw_demo_get_offices_data() {
+function cw_demo_get_legacy_moscow_offices_data() {
     // Адреса в Москве с координатами
     $moscow_offices = array(
         array(
@@ -181,6 +181,56 @@ function cw_demo_get_offices_data() {
 }
 
 /**
+ * Get demo offices distributed across cities of the Rostov region.
+ *
+ * @return array
+ */
+function cw_demo_get_offices_data() {
+    $offices = array(
+        array('city' => 'Ростов-на-Дону', 'title' => 'Офис в Ростове-на-Дону', 'street' => 'ул. Большая Садовая, д. 51', 'postal_code' => '344002', 'latitude' => 47.222078, 'longitude' => 39.720349, 'phone' => '+7 (863) 200-10-01'),
+        array('city' => 'Таганрог', 'title' => 'Офис в Таганроге', 'street' => 'ул. Петровская, д. 67', 'postal_code' => '347900', 'latitude' => 47.209490, 'longitude' => 38.935154, 'phone' => '+7 (8634) 61-10-02'),
+        array('city' => 'Шахты', 'title' => 'Офис в Шахтах', 'street' => 'просп. Победа Революции, д. 111', 'postal_code' => '346500', 'latitude' => 47.708485, 'longitude' => 40.215958, 'phone' => '+7 (8636) 22-10-03'),
+        array('city' => 'Новочеркасск', 'title' => 'Офис в Новочеркасске', 'street' => 'Платовский просп., д. 59', 'postal_code' => '346400', 'latitude' => 47.422052, 'longitude' => 40.093725, 'phone' => '+7 (8635) 22-10-04'),
+        array('city' => 'Батайск', 'title' => 'Офис в Батайске', 'street' => 'ул. Кирова, д. 51', 'postal_code' => '346880', 'latitude' => 47.138333, 'longitude' => 39.744469, 'phone' => '+7 (8635) 44-10-05'),
+        array('city' => 'Азов', 'title' => 'Офис в Азове', 'street' => 'Петровский бул., д. 7', 'postal_code' => '346780', 'latitude' => 47.112442, 'longitude' => 39.423581, 'phone' => '+7 (8634) 26-10-06'),
+        array('city' => 'Волгодонск', 'title' => 'Офис в Волгодонске', 'street' => 'ул. Ленина, д. 52', 'postal_code' => '347360', 'latitude' => 47.516518, 'longitude' => 42.198453, 'phone' => '+7 (8639) 22-10-07'),
+        array('city' => 'Каменск-Шахтинский', 'title' => 'Офис в Каменске-Шахтинском', 'street' => 'просп. Карла Маркса, д. 42', 'postal_code' => '347800', 'latitude' => 48.320515, 'longitude' => 40.268923, 'phone' => '+7 (8636) 57-10-08'),
+        array('city' => 'Сальск', 'title' => 'Офис в Сальске', 'street' => 'ул. Ленина, д. 21', 'postal_code' => '347630', 'latitude' => 46.474897, 'longitude' => 41.541266, 'phone' => '+7 (8637) 25-10-09'),
+        array('city' => 'Аксай', 'title' => 'Офис в Аксае', 'street' => 'ул. Ленина, д. 18', 'postal_code' => '346720', 'latitude' => 47.269804, 'longitude' => 39.862615, 'phone' => '+7 (8635) 05-10-10'),
+    );
+
+    $landmarks = array(
+        'Ростов-на-Дону' => 'Рядом с парком имени Максима Горького, вход со стороны Большой Садовой',
+        'Таганрог' => 'В квартале от Центрального городского рынка',
+        'Шахты' => 'Рядом с площадью Ленина и зданием городской администрации',
+        'Новочеркасск' => 'Недалеко от площади Ермака и Вознесенского собора',
+        'Батайск' => 'Напротив городского парка культуры и отдыха',
+        'Азов' => 'Рядом с Петровской площадью и Азовским музеем-заповедником',
+        'Волгодонск' => 'В центральной части города, рядом с площадью Победы',
+        'Каменск-Шахтинский' => 'Рядом с центральным рынком, вход с проспекта Карла Маркса',
+        'Сальск' => 'Недалеко от администрации города и центральной площади',
+        'Аксай' => 'В центре города, рядом с районной администрацией',
+    );
+
+    foreach ($offices as $index => &$office) {
+        $office['country'] = 'Россия';
+        $office['region'] = 'Ростовская область';
+        $office['full_address'] = 'Россия, Ростовская область, ' . $office['city'] . ', ' . $office['street'];
+        $office['phone_2'] = '+7 (800) 555-10-' . str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
+        $office['email'] = 'office' . ($index + 1) . '@donstrax.ru';
+        $office['website'] = home_url('/');
+        $office['working_hours'] = 'Пн–Пт: 09:00–18:00; Сб–Вс: выходной';
+        $office['zoom'] = 15;
+        $office['yandex_address'] = $office['full_address'];
+        $office['landmark'] = $landmarks[$office['city']];
+        $office['description'] = '<p>Офис компании «ДонСтрах» в городе ' . $office['city'] . '. Здесь можно оформить страховые продукты, получить консультацию специалиста, внести изменения в действующий договор и обратиться по страховому случаю.</p><p><strong>Как нас найти:</strong> ' . $office['landmark'] . '.</p>';
+    }
+    unset($office);
+
+    return $offices;
+}
+
+/**
  * Создать одну запись офиса
  * 
  * @param array $office_data Данные офиса
@@ -220,6 +270,7 @@ function cw_demo_create_office_post($office_data) {
         'office_street' => sanitize_text_field($office_data['street'] ?? ''),
         'office_postal_code' => sanitize_text_field($office_data['postal_code'] ?? ''),
         'office_full_address' => sanitize_textarea_field($office_data['full_address'] ?? ''),
+        'office_landmark' => sanitize_text_field($office_data['landmark'] ?? ''),
         'office_phone' => sanitize_text_field($office_data['phone'] ?? ''),
         'office_phone_2' => sanitize_text_field($office_data['phone_2'] ?? ''),
         'office_email' => sanitize_email($office_data['email'] ?? ''),
@@ -237,6 +288,24 @@ function cw_demo_create_office_post($office_data) {
         if (!empty($value)) {
             update_post_meta($post_id, '_' . $key, $value);
         }
+    }
+
+    // Primary storage for the phone repeater; legacy fields above remain in sync.
+    $phones = array_values(array_filter(array(
+        sanitize_text_field($office_data['phone'] ?? ''),
+        sanitize_text_field($office_data['phone_2'] ?? ''),
+    )));
+    update_post_meta($post_id, '_office_phones', $phones);
+
+    $workday = wp_json_encode(array(
+        'closed' => 0, 'opens_1' => '09:00', 'closes_1' => '18:00',
+        'opens_2' => '', 'closes_2' => '',
+    ));
+    foreach (array('monday', 'tuesday', 'wednesday', 'thursday', 'friday') as $day) {
+        update_post_meta($post_id, '_office_hours_' . $day, $workday);
+    }
+    foreach (array('saturday', 'sunday') as $day) {
+        update_post_meta($post_id, '_office_hours_' . $day, wp_json_encode(array('closed' => 1)));
     }
     
     // Сохраняем город в метаполе для совместимости
@@ -368,4 +437,3 @@ function cw_demo_delete_offices() {
         'errors' => $errors
     );
 }
-

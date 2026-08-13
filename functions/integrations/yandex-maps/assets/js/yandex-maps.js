@@ -8,6 +8,61 @@
 (function() {
     'use strict';
 
+    function officeStatus(markerData) {
+        const hours = markerData.officeHours;
+        if (!hours || typeof hours !== 'object') return null;
+        const weekdayMap = { Mon: 'monday', Tue: 'tuesday', Wed: 'wednesday', Thu: 'thursday', Fri: 'friday', Sat: 'saturday', Sun: 'sunday' };
+        let currentDate = new Date();
+        let timeZone = markerData.timezone || undefined;
+        if (timeZone && /^[+-]\d{2}:\d{2}$/.test(timeZone)) {
+            const sign = timeZone[0] === '-' ? -1 : 1;
+            const offset = sign * (parseInt(timeZone.slice(1, 3), 10) * 60 + parseInt(timeZone.slice(4, 6), 10));
+            currentDate = new Date(currentDate.getTime() + offset * 60000);
+            timeZone = 'UTC';
+        }
+        const parts = new Intl.DateTimeFormat('en-US', {
+            timeZone, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+        }).formatToParts(currentDate).reduce((result, part) => (result[part.type] = part.value, result), {});
+        const row = hours[weekdayMap[parts.weekday]];
+        const now = parseInt(parts.hour, 10) * 60 + parseInt(parts.minute, 10);
+        const minutes = value => {
+            if (!value || !/^\d{2}:\d{2}$/.test(value)) return null;
+            const bits = value.split(':').map(Number);
+            return bits[0] * 60 + bits[1];
+        };
+        const result = (text, state) => ({ text, state });
+        const plural = number => number + ' ' + (number % 10 === 1 && number % 100 !== 11 ? 'минуту' : ([2, 3, 4].includes(number % 10) && ![12, 13, 14].includes(number % 100) ? 'минуты' : 'минут'));
+        if (!row || row.closed) return result('Закрыто', 'closed');
+        const open1 = minutes(row.opens_1), close1 = minutes(row.closes_1), open2 = minutes(row.opens_2), close2 = minutes(row.closes_2);
+        if (open1 === null) return result('Закрыто', 'closed');
+        const finalClose = close2 !== null ? close2 : close1;
+		const firstClose = open2 === null && close1 === null ? close2 : close1;
+        if (now < open1) {
+            const left = open1 - now;
+            return left <= 60 ? result('Откроется через ' + plural(left), 'soon') : result('Закрыто', 'closed');
+        }
+        if (firstClose !== null && now < firstClose) {
+            const left = firstClose - now;
+            if (open2 !== null && left <= 30) return result('До перерыва ' + plural(left), 'soon');
+            if (open2 === null && left <= 60) return result('Закроется через ' + plural(left), 'soon');
+            return result('Работает', 'open');
+        }
+        if (open2 !== null && now < open2) return result('Перерыв до ' + row.opens_2, 'break');
+        if (open2 !== null && close2 !== null && now < close2) {
+            const left = close2 - now;
+            return left <= 60 ? result('Закроется через ' + plural(left), 'soon') : result('Работает', 'open');
+        }
+        if (finalClose !== null && now >= finalClose) return result('Закрыто', 'closed');
+        return result('Работает', 'open');
+    }
+
+    function officeStatusHtml(markerData) {
+        const status = officeStatus(markerData);
+        if (!status) return '';
+        const colors = { open: '#198754', closed: '#dc3545', soon: '#fd7e14', break: '#fd7e14' };
+        return `<div class="cwgb-office-status" data-state="${status.state}" style="color:${colors[status.state]};font-weight:600;margin-bottom:6px;">${status.text}</div>`;
+    }
+
     /**
      * Основной класс для работы с Яндекс картами
      */
@@ -35,6 +90,7 @@
                 try {
                     this.createMap();
                     this.addMarkers();
+					this.statusTimer = setInterval(() => this.refreshOfficeStatuses(), 60000);
                     this.initSidebar();
                     this.initFilters();
                     this.initRoute();
@@ -42,6 +98,15 @@
                     // ignore
                 }
                 this.hideLoader();
+            });
+        }
+
+        refreshOfficeStatuses() {
+            Object.keys(this.placemarks).forEach(id => {
+                const placemark = this.placemarks[id];
+                if (placemark && placemark._cwMarkerData) {
+                    placemark.properties.set('balloonContentBody', this.buildBalloonContent(placemark._cwMarkerData));
+                }
             });
         }
 
@@ -256,6 +321,7 @@
                 },
                 Object.assign({}, iconOptions, balloonOptions, { hideIconOnBalloonOpen: false })
             );
+			placemark._cwMarkerData = markerData;
 
             // Обработчик клика на маркер
             placemark.events.add('click', () => {
@@ -303,6 +369,8 @@
                 return markerData.balloonContent;
             }
 
+			content += officeStatusHtml(markerData);
+
             // Получаем настройки полей балуна
             const balloonFields = this.config.balloon?.fields || {
                 showCity: true,
@@ -320,11 +388,20 @@
             if (balloonFields.showAddress && markerData.address) {
                 content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.address}:</span><br>${markerData.address}</div>`;
             }
-            if (balloonFields.showPhone && markerData.phone) {
-                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.phone}:</span><br><a href="tel:${markerData.phone.replace(/[^0-9+]/g, '')}">${markerData.phone}</a></div>`;
+            const phones = Array.isArray(markerData.phones)
+                ? markerData.phones.filter(Boolean)
+                : (markerData.phone ? markerData.phone.split(/\s*[·|]\s*/).filter(Boolean) : []);
+            if (balloonFields.showPhone && phones.length) {
+                const phoneLinks = phones.map(phone => `<a href="tel:${phone.replace(/[^0-9+]/g, '')}" style="display:block;">${phone}</a>`).join('');
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.phone}:</span>${phoneLinks}</div>`;
             }
             if (balloonFields.showWorkingHours && markerData.workingHours) {
-                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.workingHours}:</span><br>${markerData.workingHours}</div>`;
+                const hoursLines = markerData.workingHours
+                    .split(/\s*;\s*/)
+                    .filter(Boolean)
+                    .map(line => `<span style="display:block;">${line}</span>`)
+                    .join('');
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.workingHours}:</span>${hoursLines}</div>`;
             }
             if (balloonFields.showDescription && markerData.description) {
                 content += `<div class="mb-2">${markerData.description}</div>`;

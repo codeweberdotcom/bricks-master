@@ -100,69 +100,147 @@ add_action('init', 'cptui_register_my_taxes_towns');
 function codeweber_add_offices_meta_boxes()
 {
    add_meta_box(
-      'office_basic_info',
-      esc_html__('Office Information', 'codeweber'),
-      'codeweber_office_basic_info_callback',
+      'office_information_location',
+      esc_html__('Office Information & Location', 'codeweber'),
+      'codeweber_office_information_location_callback',
       'offices',
       'normal',
       'high'
    );
 
    add_meta_box(
-      'office_contact',
-      esc_html__('Contact Details', 'codeweber'),
-      'codeweber_office_contact_callback',
+      'office_contact_schedule',
+      esc_html__('Contact Details & Working Hours', 'codeweber'),
+      'codeweber_office_contact_schedule_callback',
       'offices',
       'normal',
       'default'
    );
 
    add_meta_box(
-      'office_location',
-      esc_html__('Location & Map', 'codeweber'),
-      'codeweber_office_location_callback',
+      'office_relations',
+      esc_html__('Office Relations', 'codeweber'),
+      'codeweber_office_relations_callback',
       'offices',
-      'side',
-      'default'
-   );
-
-   add_meta_box(
-      'office_vacancies',
-      esc_html__('Related Vacancies', 'codeweber'),
-      'codeweber_office_vacancies_callback',
-      'offices',
-      'side',
-      'default'
-   );
-
-   add_meta_box(
-      'office_staff',
-      esc_html__('Staff Members', 'codeweber'),
-      'codeweber_office_staff_callback',
-      'offices',
-      'side',
-      'default'
-   );
-
-   add_meta_box(
-      'office_services',
-      esc_html__('Available Services', 'codeweber'),
-      'codeweber_office_services_callback',
-      'offices',
-      'side',
-      'default'
-   );
-
-   add_meta_box(
-      'office_additional',
-      esc_html__('Additional Information', 'codeweber'),
-      'codeweber_office_additional_callback',
-      'offices',
-      'side',
+      'normal',
       'default'
    );
 }
 add_action('add_meta_boxes', 'codeweber_add_offices_meta_boxes');
+
+/**
+ * Render office details and the Yandex map in a responsive two-column layout.
+ */
+function codeweber_office_information_location_callback($post)
+{
+   ?>
+   <style>
+      .codeweber-office-information-grid {
+         display: grid;
+         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+         gap: 24px;
+         align-items: start;
+      }
+      .codeweber-office-information-grid__column > h3 {
+         margin: 0 0 16px;
+         padding-bottom: 10px;
+         border-bottom: 1px solid #dcdcde;
+      }
+      .codeweber-office-information-grid__map {
+         padding-left: 24px;
+         border-left: 1px solid #dcdcde;
+      }
+      @media screen and (max-width: 1100px) {
+         .codeweber-office-information-grid {
+            grid-template-columns: 1fr;
+         }
+         .codeweber-office-information-grid__map {
+            padding-top: 24px;
+            padding-left: 0;
+            border-top: 1px solid #dcdcde;
+            border-left: 0;
+         }
+      }
+   </style>
+   <div class="codeweber-office-information-grid">
+      <section class="codeweber-office-information-grid__column">
+         <h3><?php echo esc_html__('Office Information', 'codeweber'); ?></h3>
+         <?php codeweber_office_basic_info_callback($post); ?>
+      </section>
+      <section class="codeweber-office-information-grid__column codeweber-office-information-grid__map">
+         <h3><?php echo esc_html__('Location & Map', 'codeweber'); ?></h3>
+         <?php codeweber_office_location_callback($post); ?>
+      </section>
+   </div>
+   <?php
+}
+
+/**
+ * Render services, staff and vacancies in one responsive three-column box.
+ */
+function codeweber_office_relations_callback($post)
+{
+   ?>
+   <style>
+      .codeweber-office-relations-grid {
+         display: grid;
+         grid-template-columns: repeat(4, minmax(0, 1fr));
+         gap: 0;
+      }
+      .codeweber-office-relations-grid__column {
+         min-width: 0;
+         padding: 0 20px;
+         border-left: 1px solid #dcdcde;
+      }
+      .codeweber-office-relations-grid__column:first-child {
+         padding-left: 0;
+         border-left: 0;
+      }
+      .codeweber-office-relations-grid__column:last-child {
+         padding-right: 0;
+      }
+      .codeweber-office-relations-grid__column > h3 {
+         margin: 0 0 12px;
+         padding-bottom: 10px;
+         border-bottom: 1px solid #dcdcde;
+      }
+      @media screen and (max-width: 1100px) {
+         .codeweber-office-relations-grid {
+            grid-template-columns: 1fr;
+         }
+         .codeweber-office-relations-grid__column,
+         .codeweber-office-relations-grid__column:first-child,
+         .codeweber-office-relations-grid__column:last-child {
+            padding: 20px 0;
+            border-top: 1px solid #dcdcde;
+            border-left: 0;
+         }
+         .codeweber-office-relations-grid__column:first-child {
+            padding-top: 0;
+            border-top: 0;
+         }
+      }
+   </style>
+   <div class="codeweber-office-relations-grid">
+      <section class="codeweber-office-relations-grid__column">
+         <h3><?php echo esc_html__('Available Services', 'codeweber'); ?></h3>
+         <?php codeweber_office_services_callback($post); ?>
+      </section>
+      <section class="codeweber-office-relations-grid__column">
+         <h3><?php echo esc_html__('Staff Members', 'codeweber'); ?></h3>
+         <?php codeweber_office_staff_callback($post); ?>
+      </section>
+      <section class="codeweber-office-relations-grid__column">
+         <h3><?php echo esc_html__('Related Vacancies', 'codeweber'); ?></h3>
+         <?php codeweber_office_vacancies_callback($post); ?>
+      </section>
+      <section class="codeweber-office-relations-grid__column">
+         <h3><?php echo esc_html__('Events', 'codeweber'); ?></h3>
+         <?php codeweber_office_events_callback($post); ?>
+      </section>
+   </div>
+   <?php
+}
 
 // Force-load TinyMCE scripts for wp_editor() inside Gutenberg meta boxes.
 add_action('admin_enqueue_scripts', function(string $hook): void {
@@ -184,12 +262,23 @@ function codeweber_office_basic_info_callback($post)
    $street = get_post_meta($post->ID, '_office_street', true);
    $postal_code = get_post_meta($post->ID, '_office_postal_code', true);
    $full_address = get_post_meta($post->ID, '_office_full_address', true);
+   $landmark = get_post_meta($post->ID, '_office_landmark', true);
+   $description = get_post_meta($post->ID, '_office_description', true);
    $office_hours = codeweber_get_office_hours( $post->ID );
-   $manager_id = get_post_meta($post->ID, '_office_manager', true);
 
    // Get selected term from towns taxonomy
    $town_terms = wp_get_post_terms($post->ID, 'towns', array('fields' => 'ids'));
    $selected_town_id = !empty($town_terms) && !is_wp_error($town_terms) ? $town_terms[0] : '';
+   $selected_town_name = '';
+   if ($selected_town_id) {
+      $selected_town = get_term($selected_town_id, 'towns');
+      if ($selected_town && !is_wp_error($selected_town)) {
+         $selected_town_name = $selected_town->name;
+      }
+   }
+   if ($selected_town_name === '') {
+      $selected_town_name = (string) get_post_meta($post->ID, '_office_city', true);
+   }
 
    // Get list of towns taxonomy terms
    $towns = get_terms(array(
@@ -199,14 +288,6 @@ function codeweber_office_basic_info_callback($post)
       'order' => 'ASC'
    ));
 
-   // Get list of staff members
-   $staff_posts = get_posts(array(
-      'post_type' => 'staff',
-      'post_status' => 'publish',
-      'posts_per_page' => -1,
-      'orderby' => 'title',
-      'order' => 'ASC'
-   ));
 ?>
 
    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center;">
@@ -217,16 +298,17 @@ function codeweber_office_basic_info_callback($post)
       <input type="text" id="office_region" name="office_region" value="<?php echo esc_attr($region); ?>" style="width: 100%; padding: 8px;">
 
       <label for="office_city"><strong><?php echo esc_html__('City', 'codeweber'); ?>:</strong></label>
-      <select id="office_city" name="office_city" style="width: 100%; padding: 8px;">
-         <option value=""><?php echo esc_html__('— Select City —', 'codeweber'); ?></option>
-         <?php if (!empty($towns) && !is_wp_error($towns)) : ?>
-            <?php foreach ($towns as $town) : ?>
-               <option value="<?php echo esc_attr($town->term_id); ?>" <?php selected($selected_town_id, $town->term_id); ?>>
-                  <?php echo esc_html($town->name); ?>
-               </option>
-            <?php endforeach; ?>
-         <?php endif; ?>
-      </select>
+      <div>
+         <input type="text" id="office_city" name="office_city" list="office-city-list" value="<?php echo esc_attr($selected_town_name); ?>" style="width:100%;padding:8px;" autocomplete="off">
+         <datalist id="office-city-list">
+            <?php if (!empty($towns) && !is_wp_error($towns)) : ?>
+               <?php foreach ($towns as $town) : ?>
+                  <option value="<?php echo esc_attr($town->name); ?>"></option>
+               <?php endforeach; ?>
+            <?php endif; ?>
+         </datalist>
+         <p class="description"><?php echo esc_html__('Select an existing city or enter a new one. A new city will be created automatically when the office is saved.', 'codeweber'); ?></p>
+      </div>
 
       <label for="office_street"><strong><?php echo esc_html__('Street, House, Office', 'codeweber'); ?>:</strong></label>
       <input type="text" id="office_street" name="office_street" value="<?php echo esc_attr($street); ?>" style="width: 100%; padding: 8px;">
@@ -237,72 +319,192 @@ function codeweber_office_basic_info_callback($post)
       <label for="office_full_address"><strong><?php echo esc_html__('Full Address', 'codeweber'); ?>:</strong></label>
       <textarea id="office_full_address" name="office_full_address" rows="3" style="width: 100%; padding: 8px;"><?php echo esc_textarea($full_address); ?></textarea>
 
+      <label for="office_landmark"><strong><?php echo esc_html__('Landmark', 'codeweber'); ?>:</strong></label>
+      <input type="text" id="office_landmark" name="office_landmark" value="<?php echo esc_attr($landmark); ?>" style="width: 100%; padding: 8px;" placeholder="<?php echo esc_attr__('For example: entrance from the courtyard', 'codeweber'); ?>">
+
       <div style="grid-column: 1 / -1;">
-         <strong><?php echo esc_html__('Working Hours', 'codeweber'); ?>:</strong>
-         <table class="widefat" style="margin-top: 8px;">
-            <thead>
-               <tr>
-                  <th><?php esc_html_e('Day', 'codeweber'); ?></th>
-                  <th><?php esc_html_e('Opens', 'codeweber'); ?></th>
-                  <th><?php esc_html_e('Break start', 'codeweber'); ?></th>
-                  <th><?php esc_html_e('Break end', 'codeweber'); ?></th>
-                  <th><?php esc_html_e('Closes', 'codeweber'); ?></th>
-               </tr>
-            </thead>
-            <tbody>
-               <?php
-               $days = codeweber_opening_hours_days();
-               foreach ( $days as $day_key => $day_label ) :
-                  $h = isset( $office_hours[ $day_key ] ) ? $office_hours[ $day_key ] : [];
-               ?>
-               <tr>
-                  <td><strong><?php echo esc_html( $day_label ); ?></strong></td>
-                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][opens_1]" value="<?php echo esc_attr( $h['opens_1'] ?? '' ); ?>" placeholder="09:00" style="width:70px;"></td>
-                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][closes_1]" value="<?php echo esc_attr( $h['closes_1'] ?? '' ); ?>" placeholder="13:00" style="width:70px;"></td>
-                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][opens_2]" value="<?php echo esc_attr( $h['opens_2'] ?? '' ); ?>" placeholder="14:00" style="width:70px;"></td>
-                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][closes_2]" value="<?php echo esc_attr( $h['closes_2'] ?? '' ); ?>" placeholder="18:00" style="width:70px;"></td>
-               </tr>
-               <?php endforeach; ?>
-            </tbody>
-         </table>
+         <label for="office_description" style="display:block;margin-bottom:5px;font-weight:bold;">
+            <?php echo esc_html__('Description', 'codeweber'); ?>:
+         </label>
+         <?php
+         wp_editor($description, 'office_description', array(
+            'textarea_name' => 'office_description',
+            'textarea_rows' => 7,
+            'media_buttons' => false,
+            'teeny' => true,
+         ));
+         ?>
       </div>
 
-      <label for="office_manager"><strong><?php echo esc_html__('Manager', 'codeweber'); ?>:</strong></label>
-      <select id="office_manager" name="office_manager" style="width: 100%; padding: 8px;">
-         <option value=""><?php echo esc_html__('— Select Manager —', 'codeweber'); ?></option>
-         <?php if (!empty($staff_posts)) : ?>
-            <?php foreach ($staff_posts as $staff_post) : ?>
-               <?php
-               $name = get_post_meta($staff_post->ID, '_staff_name', true);
-               $surname = get_post_meta($staff_post->ID, '_staff_surname', true);
-               $position = get_post_meta($staff_post->ID, '_staff_position', true);
+      <div style="grid-column: 1 / -1;">
+         <?php codeweber_office_additional_callback($post); ?>
+      </div>
 
-               $display_name = '';
-               if (!empty($name) || !empty($surname)) {
-                  $full_name = trim($name . ' ' . $surname);
-                  if (!empty($position)) {
-                     $display_name = $full_name . ' (' . $position . ')';
-                  } else {
-                     $display_name = $full_name;
-                  }
-               } else {
-                  $display_name = get_the_title($staff_post->ID);
-               }
-               ?>
-               <option value="<?php echo esc_attr($staff_post->ID); ?>" <?php selected($manager_id, $staff_post->ID); ?>>
-                  <?php echo esc_html($display_name); ?>
-               </option>
+      <div id="office-hours-section" style="grid-column: 1 / -1;">
+         <strong class="office-hours-inline-title"><?php echo esc_html__('Working Hours', 'codeweber'); ?>:</strong>
+         <?php
+         $days = codeweber_opening_hours_days();
+         $schedule_groups = [];
+         foreach ( $days as $day_key => $day_label ) {
+            $schedule = $office_hours[ $day_key ] ?? [ 'closed' => 1 ];
+            $schedule = [
+               'closed'   => ! empty( $schedule['closed'] ) ? 1 : 0,
+               'opens_1'  => $schedule['opens_1'] ?? '',
+               'closes_1' => $schedule['closes_1'] ?? '',
+               'opens_2'  => $schedule['opens_2'] ?? '',
+               'closes_2' => $schedule['closes_2'] ?? '',
+            ];
+            $signature = wp_json_encode( $schedule );
+            if ( ! isset( $schedule_groups[ $signature ] ) ) {
+               $schedule_groups[ $signature ] = [ 'days' => [], 'schedule' => $schedule ];
+            }
+            $schedule_groups[ $signature ]['days'][] = $day_key;
+         }
+         $schedule_groups = array_values( $schedule_groups );
+         ?>
+         <input type="hidden" name="office_hours_groups_submitted" value="1">
+         <div id="office-hours-repeater" style="margin-top:8px;display:flex;flex-direction:column;gap:12px;">
+            <?php foreach ( $schedule_groups as $group_index => $group ) : ?>
+               <div class="office-hours-group" style="padding:12px;border:1px solid #dcdcde;background:#fff;border-radius:4px;">
+                  <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+                     <div class="office-hours-days" style="display:flex;flex-wrap:wrap;gap:8px 12px;">
+                        <?php foreach ( $days as $day_key => $day_label ) : ?>
+                           <label><input type="checkbox" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][days][]" value="<?php echo esc_attr( $day_key ); ?>" <?php checked( in_array( $day_key, $group['days'], true ) ); ?>> <?php echo esc_html( $day_label ); ?></label>
+                        <?php endforeach; ?>
+                     </div>
+                     <button type="button" class="button-link-delete office-hours-remove"><?php esc_html_e('Remove', 'codeweber'); ?></button>
+                  </div>
+                  <label style="display:block;margin-top:12px;font-weight:600;">
+                     <input type="checkbox" class="office-hours-closed" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][closed]" value="1" <?php checked( ! empty( $group['schedule']['closed'] ) ); ?>>
+                     <?php esc_html_e('Day off', 'codeweber'); ?>
+                  </label>
+                  <div class="office-hours-times" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+                     <label><?php esc_html_e('Opens', 'codeweber'); ?><br><input type="time" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][opens_1]" value="<?php echo esc_attr( $group['schedule']['opens_1'] ); ?>"></label>
+                     <label><?php esc_html_e('Break start', 'codeweber'); ?><br><input type="time" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][closes_1]" value="<?php echo esc_attr( $group['schedule']['closes_1'] ); ?>"></label>
+                     <label><?php esc_html_e('Break end', 'codeweber'); ?><br><input type="time" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][opens_2]" value="<?php echo esc_attr( $group['schedule']['opens_2'] ); ?>"></label>
+                     <label><?php esc_html_e('Closes', 'codeweber'); ?><br><input type="time" name="office_hours_groups[<?php echo esc_attr( $group_index ); ?>][closes_2]" value="<?php echo esc_attr( $group['schedule']['closes_2'] ); ?>"></label>
+                  </div>
+               </div>
             <?php endforeach; ?>
-         <?php endif; ?>
-      </select>
-      <?php if (empty($staff_posts)) : ?>
-         <p style="margin-top: 5px; color: #666; font-size: 12px;">
-            <?php echo esc_html__('No staff members found. Please create staff members first.', 'codeweber'); ?>
-         </p>
-      <?php endif; ?>
+         </div>
+         <button type="button" class="button" id="office-hours-add" style="margin-top:10px;"><?php esc_html_e('Add schedule', 'codeweber'); ?></button>
+         <p class="description"><?php esc_html_e('Select one or more days for each schedule. If a day appears in multiple rows, the last row takes priority.', 'codeweber'); ?></p>
+
+         <script type="text/html" id="tmpl-office-hours-group">
+            <div class="office-hours-group" style="padding:12px;border:1px solid #dcdcde;background:#fff;border-radius:4px;">
+               <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+                  <div class="office-hours-days" style="display:flex;flex-wrap:wrap;gap:8px 12px;">
+                     <?php foreach ( $days as $day_key => $day_label ) : ?>
+                        <label><input type="checkbox" name="office_hours_groups[__INDEX__][days][]" value="<?php echo esc_attr( $day_key ); ?>"> <?php echo esc_html( $day_label ); ?></label>
+                     <?php endforeach; ?>
+                  </div>
+                  <button type="button" class="button-link-delete office-hours-remove"><?php esc_html_e('Remove', 'codeweber'); ?></button>
+               </div>
+               <label style="display:block;margin-top:12px;font-weight:600;"><input type="checkbox" class="office-hours-closed" name="office_hours_groups[__INDEX__][closed]" value="1"> <?php esc_html_e('Day off', 'codeweber'); ?></label>
+               <div class="office-hours-times" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+                  <label><?php esc_html_e('Opens', 'codeweber'); ?><br><input type="time" name="office_hours_groups[__INDEX__][opens_1]" value="09:00"></label>
+                  <label><?php esc_html_e('Break start', 'codeweber'); ?><br><input type="time" name="office_hours_groups[__INDEX__][closes_1]"></label>
+                  <label><?php esc_html_e('Break end', 'codeweber'); ?><br><input type="time" name="office_hours_groups[__INDEX__][opens_2]"></label>
+                  <label><?php esc_html_e('Closes', 'codeweber'); ?><br><input type="time" name="office_hours_groups[__INDEX__][closes_2]" value="18:00"></label>
+               </div>
+            </div>
+         </script>
+         <script>
+         (function() {
+            var list = document.getElementById('office-hours-repeater');
+            var add = document.getElementById('office-hours-add');
+            var template = document.getElementById('tmpl-office-hours-group');
+            if (!list || !add || !template) return;
+            var nextIndex = <?php echo (int) count( $schedule_groups ); ?>;
+
+            function syncClosed(group) {
+               var closed = group.querySelector('.office-hours-closed').checked;
+               group.querySelectorAll('.office-hours-times input').forEach(function(input) { input.disabled = closed; });
+               group.querySelector('.office-hours-times').style.opacity = closed ? '.45' : '1';
+            }
+            list.querySelectorAll('.office-hours-group').forEach(syncClosed);
+            add.addEventListener('click', function() {
+               var holder = document.createElement('div');
+               holder.innerHTML = template.innerHTML.replace(/__INDEX__/g, nextIndex++).trim();
+               var group = holder.firstElementChild;
+               list.appendChild(group);
+               syncClosed(group);
+            });
+            list.addEventListener('change', function(event) {
+               if (event.target.classList.contains('office-hours-closed')) syncClosed(event.target.closest('.office-hours-group'));
+            });
+            list.addEventListener('click', function(event) {
+               if (!event.target.classList.contains('office-hours-remove')) return;
+               event.target.closest('.office-hours-group').remove();
+            });
+         })();
+         </script>
+      </div>
+
    </div>
 
 <?php
+}
+
+/**
+ * Render contact details and working hours in a responsive 50/50 layout.
+ */
+function codeweber_office_contact_schedule_callback($post)
+{
+   ?>
+   <style>
+      .codeweber-office-contact-schedule-grid {
+         display: grid;
+         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+         gap: 24px;
+         align-items: start;
+      }
+      .codeweber-office-contact-schedule-grid__column > h3 {
+         margin: 0 0 16px;
+         padding-bottom: 10px;
+         border-bottom: 1px solid #dcdcde;
+      }
+      .codeweber-office-contact-schedule-grid__hours {
+         padding-left: 24px;
+         border-left: 1px solid #dcdcde;
+      }
+      .codeweber-office-contact-schedule-grid__hours .office-hours-inline-title {
+         display: none;
+      }
+      @media screen and (max-width: 1100px) {
+         .codeweber-office-contact-schedule-grid {
+            grid-template-columns: 1fr;
+         }
+         .codeweber-office-contact-schedule-grid__hours {
+            padding-top: 24px;
+            padding-left: 0;
+            border-top: 1px solid #dcdcde;
+            border-left: 0;
+         }
+      }
+   </style>
+   <div class="codeweber-office-contact-schedule-grid">
+      <section class="codeweber-office-contact-schedule-grid__column">
+         <h3><?php echo esc_html__('Contact Details', 'codeweber'); ?></h3>
+         <?php codeweber_office_contact_callback($post); ?>
+      </section>
+      <section class="codeweber-office-contact-schedule-grid__column codeweber-office-contact-schedule-grid__hours">
+         <h3><?php echo esc_html__('Working Hours', 'codeweber'); ?></h3>
+         <div id="office-hours-section-target"></div>
+      </section>
+   </div>
+   <script>
+   (function() {
+      function moveOfficeHours() {
+         var hours = document.getElementById('office-hours-section');
+         var target = document.getElementById('office-hours-section-target');
+         if (hours && target && hours.parentNode !== target) target.appendChild(hours);
+      }
+      moveOfficeHours();
+      document.addEventListener('DOMContentLoaded', moveOfficeHours, { once: true });
+   })();
+   </script>
+   <?php
 }
 
 /**
@@ -312,27 +514,67 @@ function codeweber_office_contact_callback($post)
 {
    $phone = get_post_meta($post->ID, '_office_phone', true);
    $phone_2 = get_post_meta($post->ID, '_office_phone_2', true);
+   $phones = get_post_meta($post->ID, '_office_phones', true);
+   if (!is_array($phones)) {
+      $phones = array_values(array_filter([$phone, $phone_2]));
+   }
+   if (empty($phones)) {
+      $phones = [''];
+   }
    $email = get_post_meta($post->ID, '_office_email', true);
-   $fax = get_post_meta($post->ID, '_office_fax', true);
    $website = get_post_meta($post->ID, '_office_website', true);
 ?>
 
    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center;">
-      <label for="office_phone"><strong><?php echo esc_html__('Phone', 'codeweber'); ?>:</strong></label>
-      <input type="tel" id="office_phone" name="office_phone" value="<?php echo esc_attr($phone); ?>" style="width: 100%; padding: 8px;">
-
-      <label for="office_phone_2"><strong><?php echo esc_html__('Phone 2', 'codeweber'); ?>:</strong></label>
-      <input type="tel" id="office_phone_2" name="office_phone_2" value="<?php echo esc_attr($phone_2); ?>" style="width: 100%; padding: 8px;">
+      <label style="align-self: start; padding-top: 8px;"><strong><?php echo esc_html__('Phones', 'codeweber'); ?>:</strong></label>
+      <div id="office-phones-repeater">
+         <div id="office-phones-list" style="display:flex;flex-direction:column;gap:8px;">
+            <?php foreach ($phones as $office_phone) : ?>
+               <div class="office-phone-row" style="display:flex;gap:8px;align-items:center;">
+                  <input type="tel" name="office_phones[]" value="<?php echo esc_attr($office_phone); ?>" style="width:100%;padding:8px;" placeholder="+7 (___) ___-__-__">
+                  <button type="button" class="button office-phone-remove" aria-label="<?php echo esc_attr__('Remove phone', 'codeweber'); ?>">&times;</button>
+               </div>
+            <?php endforeach; ?>
+         </div>
+         <button type="button" class="button" id="office-phone-add" style="margin-top:8px;"><?php echo esc_html__('Add phone', 'codeweber'); ?></button>
+      </div>
 
       <label for="office_email"><strong><?php echo esc_html__('Email', 'codeweber'); ?>:</strong></label>
       <input type="email" id="office_email" name="office_email" value="<?php echo esc_attr($email); ?>" style="width: 100%; padding: 8px;">
 
-      <label for="office_fax"><strong><?php echo esc_html__('Fax', 'codeweber'); ?>:</strong></label>
-      <input type="tel" id="office_fax" name="office_fax" value="<?php echo esc_attr($fax); ?>" style="width: 100%; padding: 8px;">
-
       <label for="office_website"><strong><?php echo esc_html__('Website', 'codeweber'); ?>:</strong></label>
       <input type="url" id="office_website" name="office_website" value="<?php echo esc_attr($website); ?>" placeholder="https://..." style="width: 100%; padding: 8px;">
    </div>
+
+   <script>
+   (function() {
+      var list = document.getElementById('office-phones-list');
+      var addButton = document.getElementById('office-phone-add');
+      if (!list || !addButton) return;
+
+      function addPhone(value) {
+         var row = document.createElement('div');
+         row.className = 'office-phone-row';
+         row.style.cssText = 'display:flex;gap:8px;align-items:center;';
+         row.innerHTML = '<input type="tel" name="office_phones[]" style="width:100%;padding:8px;" placeholder="+7 (___) ___-__-__">' +
+            '<button type="button" class="button office-phone-remove" aria-label="<?php echo esc_js(__('Remove phone', 'codeweber')); ?>">&times;</button>';
+         row.querySelector('input').value = value || '';
+         list.appendChild(row);
+         row.querySelector('input').focus();
+      }
+
+      addButton.addEventListener('click', function() { addPhone(''); });
+      list.addEventListener('click', function(event) {
+         if (!event.target.classList.contains('office-phone-remove')) return;
+         var rows = list.querySelectorAll('.office-phone-row');
+         if (rows.length === 1) {
+            rows[0].querySelector('input').value = '';
+         } else {
+            event.target.closest('.office-phone-row').remove();
+         }
+      });
+   })();
+   </script>
 
 <?php
 }
@@ -397,6 +639,12 @@ function codeweber_office_location_callback($post)
                var zoomField    = document.querySelector("input[name='office_zoom']");
                var addressField = document.querySelector("input[name='office_yandex_address']");
                var searchInput  = document.getElementById('office-map-search');
+               var countryField = document.getElementById('office_country');
+               var regionField  = document.getElementById('office_region');
+               var cityField    = document.getElementById('office_city');
+               var streetField  = document.getElementById('office_street');
+               var postalField  = document.getElementById('office_postal_code');
+               var fullAddressField = document.getElementById('office_full_address');
 
                var lat = 55.76, lng = 37.64, zoom = <?php echo (int) ($zoom ?: 10); ?>;
                if (coordField && coordField.value) {
@@ -449,10 +697,50 @@ function codeweber_office_location_callback($post)
                         .then(function(r) { return r.json(); })
                         .then(function(d) {
                            var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
-                           if (fm && fm.length) { addressField.value = fm[0].GeoObject.metaDataProperty.GeocoderMetaData.text; addressField.dispatchEvent(new Event('input',{bubbles:true})); }
+                           if (fm && fm.length) { applyAddress(fm[0].GeoObject); }
                         });
                   }
                }
+
+                function setField(field, value) {
+                   if (!field || !value) return;
+                   field.value = value;
+                   field.dispatchEvent(new Event('input', { bubbles: true }));
+                   field.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                function selectCity(city) {
+                   if (!cityField || !city) return;
+                   setField(cityField, city.trim());
+                }
+
+                function applyAddress(geoObject) {
+                   var meta = geoObject && geoObject.metaDataProperty && geoObject.metaDataProperty.GeocoderMetaData;
+                   if (!meta) return;
+                   var address = meta.Address || {};
+                   var components = address.Components || [];
+                   var byKind = function(kinds) {
+                      for (var i = components.length - 1; i >= 0; i--) {
+                         if (kinds.indexOf(components[i].kind) !== -1) return components[i].name || '';
+                      }
+                      return '';
+                   };
+                   var country = byKind(['country']);
+                   var region = byKind(['province']) || byKind(['area']);
+                   var city = byKind(['locality']) || byKind(['district']);
+                   var street = byKind(['street']);
+                   var house = byKind(['house']);
+                   var streetAndHouse = [street, house].filter(Boolean).join(', ');
+                   var fullAddress = meta.text || address.formatted || '';
+
+                   setField(countryField, country);
+                   setField(regionField, region);
+                   selectCity(city);
+                   setField(streetField, streetAndHouse);
+                   setField(postalField, address.postal_code || meta.AddressDetails && meta.AddressDetails.postal_code || '');
+                   setField(fullAddressField, fullAddress);
+                   setField(addressField, fullAddress);
+                }
 
                function geocodeAndMove(query) {
                   if (!query) return;
@@ -527,7 +815,23 @@ function codeweber_office_location_callback($post)
       <?php endif; ?>
    </div>
 
-   <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px;">
+   <style>
+      .codeweber-office-map-fields {
+         display: grid;
+         grid-template-columns: repeat(3, minmax(0, 1fr));
+         gap: 12px;
+         margin-top: 15px;
+      }
+      .codeweber-office-map-fields__address {
+         grid-column: 1 / -1;
+      }
+      @media screen and (max-width: 782px) {
+         .codeweber-office-map-fields {
+            grid-template-columns: 1fr;
+         }
+      }
+   </style>
+   <div class="codeweber-office-map-fields">
       <!-- Hidden field for coordinates in string format (for compatibility) -->
       <input type="hidden" id="office_coordinates" name="office_coordinates" value="<?php echo esc_attr($coordinates); ?>">
 
@@ -552,7 +856,7 @@ function codeweber_office_location_callback($post)
          <input type="number" id="office_zoom" name="office_zoom" value="<?php echo esc_attr($zoom); ?>" min="1" max="19" style="width: 100%; padding: 8px;" placeholder="10">
       </div>
 
-      <div>
+      <div class="codeweber-office-map-fields__address">
          <label for="office_yandex_address" style="display: block; margin-bottom: 5px; font-weight: bold;">
             <?php echo esc_html__('Address (from map)', 'codeweber'); ?>
          </label>
@@ -601,6 +905,38 @@ function codeweber_office_vacancies_callback($post)
       <?php endif; ?>
    </div>
 <?php
+}
+
+/**
+ * Related events (multiple).
+ */
+function codeweber_office_events_callback($post)
+{
+   $selected_events = get_post_meta($post->ID, '_office_events', true);
+   $selected_events = is_array($selected_events) ? $selected_events : [];
+   $event_posts = get_posts([
+      'post_type'      => 'events',
+      'post_status'    => ['publish', 'future', 'draft'],
+      'posts_per_page' => -1,
+      'orderby'        => 'date',
+      'order'          => 'DESC',
+   ]);
+   ?>
+   <div>
+      <?php if ($event_posts) : ?>
+         <div style="max-height:300px;overflow-y:auto;border:1px solid #ddd;padding:10px;background:#fff;">
+            <?php foreach ($event_posts as $event_post) : ?>
+               <label style="display:block;margin-bottom:8px;padding:5px;cursor:pointer;">
+                  <input type="checkbox" name="office_events[]" value="<?php echo esc_attr($event_post->ID); ?>" <?php checked(in_array($event_post->ID, $selected_events)); ?> style="margin-right:8px;">
+                  <?php echo esc_html(get_the_title($event_post->ID)); ?>
+               </label>
+            <?php endforeach; ?>
+         </div>
+      <?php else : ?>
+         <p style="color:#666;font-size:12px;"><?php echo esc_html__('No events found. Please create events first.', 'codeweber'); ?></p>
+      <?php endif; ?>
+   </div>
+   <?php
 }
 
 /**
@@ -673,9 +1009,6 @@ function codeweber_office_services_callback($post)
 ?>
 
    <div>
-      <label style="display: block; margin-bottom: 10px; font-weight: bold;">
-         <?php echo esc_html__('Available Services', 'codeweber'); ?>
-      </label>
       <?php if (!empty($service_posts)) : ?>
          <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fff;">
             <?php foreach ($service_posts as $service_post) : ?>
@@ -700,27 +1033,12 @@ function codeweber_office_services_callback($post)
  */
 function codeweber_office_additional_callback($post)
 {
-   $description = get_post_meta($post->ID, '_office_description', true);
    $image_id = get_post_meta($post->ID, '_office_image', true);
    $image_url = '';
    if ($image_id) {
       $image_url = wp_get_attachment_image_url($image_id, 'thumbnail');
    }
 ?>
-
-   <div style="margin-bottom: 20px;">
-      <label for="office_description" style="display: block; margin-bottom: 5px; font-weight: bold;">
-         <?php echo esc_html__('Description', 'codeweber'); ?>
-      </label>
-      <?php
-      wp_editor($description, 'office_description', array(
-         'textarea_name' => 'office_description',
-         'textarea_rows' => 5,
-         'media_buttons' => false,
-         'teeny' => true
-      ));
-      ?>
-   </div>
 
    <div>
       <label style="display: block; margin-bottom: 5px; font-weight: bold;">
@@ -800,7 +1118,28 @@ function codeweber_save_office_meta($post_id)
 
    // Синхронизация города с таксономией towns
    if (isset($_POST['office_city'])) {
-      $town_id = !empty($_POST['office_city']) ? intval($_POST['office_city']) : '';
+      $city_name = trim( sanitize_text_field( wp_unslash( $_POST['office_city'] ) ) );
+      $town_id = 0;
+
+      if ( $city_name !== '' ) {
+         $existing = term_exists( $city_name, 'towns' );
+         if ( $existing ) {
+            $town_id = (int) ( is_array( $existing ) ? $existing['term_id'] : $existing );
+         } else {
+            $taxonomy = get_taxonomy( 'towns' );
+            $capability = $taxonomy && ! empty( $taxonomy->cap->manage_terms )
+               ? $taxonomy->cap->manage_terms
+               : 'manage_categories';
+            if ( current_user_can( $capability ) ) {
+               $created = wp_insert_term( $city_name, 'towns' );
+               if ( ! is_wp_error( $created ) ) {
+                  $town_id = (int) $created['term_id'];
+               } elseif ( 'term_exists' === $created->get_error_code() ) {
+                  $town_id = (int) $created->get_error_data();
+               }
+            }
+         }
+      }
       
       if ($town_id) {
          // Устанавливаем термин таксономии для поста
@@ -825,11 +1164,8 @@ function codeweber_save_office_meta($post_id)
       'office_street',
       'office_postal_code',
       'office_full_address',
-      'office_manager',
-      'office_phone',
-      'office_phone_2',
+      'office_landmark',
       'office_email',
-      'office_fax',
       'office_website',
       'office_latitude',
       'office_longitude',
@@ -850,13 +1186,6 @@ function codeweber_save_office_meta($post_id)
             update_post_meta($post_id, '_' . $field, esc_url_raw($_POST[$field]));
          } elseif ($field === 'office_email') {
             update_post_meta($post_id, '_' . $field, sanitize_email($_POST[$field]));
-         } elseif ($field === 'office_manager') {
-            $value = !empty($_POST[$field]) ? intval($_POST[$field]) : '';
-            if ($value) {
-               update_post_meta($post_id, '_' . $field, $value);
-            } else {
-               delete_post_meta($post_id, '_' . $field);
-            }
          } else {
             update_post_meta($post_id, '_' . $field, sanitize_text_field($_POST[$field]));
          }
@@ -865,23 +1194,72 @@ function codeweber_save_office_meta($post_id)
       }
    }
 
-   // Save opening hours per day.
-   if ( isset( $_POST['office_hours'] ) && is_array( $_POST['office_hours'] ) ) {
+   // Save the phone repeater and keep the two legacy meta fields in sync.
+   $phones = [];
+   if (isset($_POST['office_phones']) && is_array($_POST['office_phones'])) {
+      $phones = array_values(array_filter(array_map(
+         static function ($value) {
+            return sanitize_text_field(wp_unslash($value));
+         },
+         $_POST['office_phones']
+      )));
+   }
+
+   if ($phones) {
+      update_post_meta($post_id, '_office_phones', $phones);
+   } else {
+      delete_post_meta($post_id, '_office_phones');
+   }
+
+   if (isset($phones[0])) {
+      update_post_meta($post_id, '_office_phone', $phones[0]);
+   } else {
+      delete_post_meta($post_id, '_office_phone');
+   }
+
+   if (isset($phones[1])) {
+      update_post_meta($post_id, '_office_phone_2', $phones[1]);
+   } else {
+      delete_post_meta($post_id, '_office_phone_2');
+   }
+
+   // Expand schedule groups back to the existing per-day storage format.
+   if ( isset( $_POST['office_hours_groups_submitted'] ) ) {
       $days = codeweber_opening_hours_days();
-      foreach ( array_keys( $days ) as $day_key ) {
-         $day_data = isset( $_POST['office_hours'][ $day_key ] ) ? $_POST['office_hours'][ $day_key ] : [];
-         $clean = [
-            'opens_1'  => sanitize_text_field( $day_data['opens_1'] ?? '' ),
-            'closes_1' => sanitize_text_field( $day_data['closes_1'] ?? '' ),
-            'opens_2'  => sanitize_text_field( $day_data['opens_2'] ?? '' ),
-            'closes_2' => sanitize_text_field( $day_data['closes_2'] ?? '' ),
-         ];
-         // Only save if at least opens_1 is set.
-         if ( ! empty( $clean['opens_1'] ) ) {
-            update_post_meta( $post_id, '_office_hours_' . $day_key, wp_json_encode( $clean ) );
-         } else {
-            delete_post_meta( $post_id, '_office_hours_' . $day_key );
+      $schedule_by_day = array_fill_keys( array_keys( $days ), [ 'closed' => 1 ] );
+      $submitted_groups = isset( $_POST['office_hours_groups'] ) && is_array( $_POST['office_hours_groups'] )
+         ? $_POST['office_hours_groups']
+         : [];
+      $sanitize_time = static function ( $value ): string {
+         $value = sanitize_text_field( wp_unslash( $value ?? '' ) );
+         return preg_match( '/^(?:[01]\d|2[0-3]):[0-5]\d$/', $value ) ? $value : '';
+      };
+
+      foreach ( $submitted_groups as $group ) {
+         if ( ! is_array( $group ) || empty( $group['days'] ) || ! is_array( $group['days'] ) ) {
+            continue;
          }
+         $is_closed = ! empty( $group['closed'] );
+         $schedule = $is_closed
+            ? [ 'closed' => 1 ]
+            : [
+               'closed'   => 0,
+               'opens_1'  => $sanitize_time( $group['opens_1'] ?? '' ),
+               'closes_1' => $sanitize_time( $group['closes_1'] ?? '' ),
+               'opens_2'  => $sanitize_time( $group['opens_2'] ?? '' ),
+               'closes_2' => $sanitize_time( $group['closes_2'] ?? '' ),
+            ];
+
+         foreach ( $group['days'] as $day_key ) {
+            $day_key = sanitize_key( $day_key );
+            if ( array_key_exists( $day_key, $days ) ) {
+               $schedule_by_day[ $day_key ] = $schedule;
+            }
+         }
+      }
+
+      foreach ( $schedule_by_day as $day_key => $schedule ) {
+         update_post_meta( $post_id, '_office_hours_' . $day_key, wp_json_encode( $schedule ) );
       }
    }
 
@@ -952,6 +1330,32 @@ function codeweber_save_office_meta($post_id)
       }
    }
 
+   // Save events array + bidirectional sync _event_office.
+   $prev_events = get_post_meta($post_id, '_office_events', true);
+   $prev_events = is_array($prev_events) ? $prev_events : [];
+   $new_events = isset($_POST['office_events']) && is_array($_POST['office_events'])
+      ? array_values(array_filter(array_map('intval', $_POST['office_events'])))
+      : [];
+   update_post_meta($post_id, '_office_events', $new_events);
+
+   foreach ($new_events as $event_id) {
+      $old_office = (int) get_post_meta($event_id, '_event_office', true);
+      if ($old_office !== $post_id) {
+         if ($old_office) {
+            $old_list = get_post_meta($old_office, '_office_events', true);
+            if (is_array($old_list)) {
+               update_post_meta($old_office, '_office_events', array_values(array_diff($old_list, [$event_id])));
+            }
+         }
+         update_post_meta($event_id, '_event_office', $post_id);
+      }
+   }
+   foreach (array_diff($prev_events, $new_events) as $event_id) {
+      if ((int) get_post_meta($event_id, '_event_office', true) === $post_id) {
+         delete_post_meta($event_id, '_event_office');
+      }
+   }
+
    // Save image
    if (isset($_POST['office_image_id'])) {
       update_post_meta($post_id, '_office_image', intval($_POST['office_image_id']));
@@ -989,8 +1393,8 @@ function codeweber_add_offices_admin_columns($columns)
       'office_city' => esc_html__('City', 'codeweber'),
       'office_phone' => esc_html__('Phone', 'codeweber'),
       'office_email' => esc_html__('Email', 'codeweber'),
-      'office_manager'   => esc_html__('Manager', 'codeweber'),
       'office_vacancies' => esc_html__('Vacancies', 'codeweber'),
+      'office_events'    => esc_html__('Events', 'codeweber'),
       'office_staff'     => esc_html__('Staff', 'codeweber'),
       'office_services'  => esc_html__('Services', 'codeweber'),
       'date' => $columns['date']
@@ -1023,32 +1427,17 @@ function codeweber_fill_offices_admin_columns($column, $post_id)
             echo '<a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>';
          }
          break;
-      case 'office_manager':
-         $manager_id = get_post_meta($post_id, '_office_manager', true);
-         if (!empty($manager_id)) {
-            $name = get_post_meta($manager_id, '_staff_name', true);
-            $surname = get_post_meta($manager_id, '_staff_surname', true);
-            $position = get_post_meta($manager_id, '_staff_position', true);
-
-            $display_name = '';
-            if (!empty($name) || !empty($surname)) {
-               $full_name = trim($name . ' ' . $surname);
-               if (!empty($position)) {
-                  $display_name = $full_name . ' (' . $position . ')';
-               } else {
-                  $display_name = $full_name;
-               }
-            } else {
-               $display_name = get_the_title($manager_id);
-            }
-            echo esc_html($display_name);
-         }
-         break;
       case 'office_vacancies':
          $vacancies = get_post_meta($post_id, '_office_vacancies', true);
          if (!empty($vacancies) && is_array($vacancies)) {
             $titles = array_map('get_the_title', $vacancies);
             echo esc_html(implode(', ', $titles));
+         }
+         break;
+      case 'office_events':
+         $events = get_post_meta($post_id, '_office_events', true);
+         if (is_array($events) && $events) {
+            echo esc_html(implode(', ', array_map('get_the_title', $events)));
          }
          break;
       case 'office_staff':
@@ -1127,31 +1516,47 @@ function codeweber_get_office_hours( int $post_id ): array {
 function codeweber_format_office_hours( int $post_id ): string {
 	$hours = codeweber_get_office_hours( $post_id );
 	$days  = codeweber_opening_hours_days();
-	$lines = [];
+	$groups = [];
 
 	foreach ( $days as $day_key => $day_label ) {
 		if ( empty( $hours[ $day_key ] ) ) {
 			continue;
 		}
-
-		$h    = $hours[ $day_key ];
-		$time = '';
-
-		if ( ! empty( $h['opens_1'] ) && ! empty( $h['closes_1'] ) ) {
-			$time = $h['opens_1'] . '-' . $h['closes_1'];
+		$h = $hours[ $day_key ];
+		if ( ! empty( $h['closed'] ) ) {
+			$value = str_starts_with( determine_locale(), 'ru' ) ? 'Выходной' : __( 'Day off', 'codeweber' );
+		} else {
+			$intervals = [];
+			if ( ! empty( $h['opens_1'] ) ) {
+				$closes = ! empty( $h['closes_1'] ) ? $h['closes_1'] : ( $h['closes_2'] ?? '' );
+				if ( $closes ) {
+					$intervals[] = $h['opens_1'] . '–' . $closes;
+				}
+			}
+			if ( ! empty( $h['opens_2'] ) && ! empty( $h['closes_2'] ) && ! empty( $h['closes_1'] ) ) {
+				$intervals[] = $h['opens_2'] . '–' . $h['closes_2'];
+			}
+			$value = implode( ', ', $intervals );
 		}
 
-		if ( ! empty( $h['opens_2'] ) && ! empty( $h['closes_2'] ) ) {
-			$time .= ', ' . $h['opens_2'] . '-' . $h['closes_2'];
-		} elseif ( ! empty( $h['opens_1'] ) && ! empty( $h['closes_2'] ) && empty( $h['closes_1'] ) ) {
-			$time = $h['opens_1'] . '-' . $h['closes_2'];
+		if ( $value === '' ) {
+			continue;
 		}
-
-		if ( ! empty( $time ) ) {
-			$short = mb_substr( $day_label, 0, 2 );
-			$lines[] = $short . ': ' . $time;
+		$last_index = count( $groups ) - 1;
+		if ( $last_index >= 0 && $groups[ $last_index ]['value'] === $value ) {
+			$groups[ $last_index ]['end'] = $day_label;
+		} else {
+			$groups[] = [ 'start' => $day_label, 'end' => $day_label, 'value' => $value ];
 		}
 	}
+
+	$lines = array_map( static function ( array $group ): string {
+		global $wp_locale;
+		$start = $wp_locale->get_weekday_abbrev( $group['start'] );
+		$end   = $wp_locale->get_weekday_abbrev( $group['end'] );
+		$label = $start === $end ? $start : $start . '–' . $end;
+		return $label . ': ' . $group['value'];
+	}, $groups );
 
 	return implode( '; ', $lines );
 }

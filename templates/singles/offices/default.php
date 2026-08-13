@@ -19,7 +19,6 @@ $street = get_post_meta($post_id, '_office_street', true);
 $postal_code = get_post_meta($post_id, '_office_postal_code', true);
 $full_address = get_post_meta($post_id, '_office_full_address', true);
 $working_hours = get_post_meta($post_id, '_office_working_hours', true);
-$manager_id = get_post_meta($post_id, '_office_manager', true);
 
 // Получаем город из таксономии
 $town_terms = wp_get_post_terms($post_id, 'towns', array('fields' => 'names'));
@@ -34,7 +33,6 @@ if (!empty($town_terms) && !is_wp_error($town_terms)) {
 $phone = get_post_meta($post_id, '_office_phone', true);
 $phone_2 = get_post_meta($post_id, '_office_phone_2', true);
 $email = get_post_meta($post_id, '_office_email', true);
-$fax = get_post_meta($post_id, '_office_fax', true);
 $website = get_post_meta($post_id, '_office_website', true);
 
 // Получаем координаты для карты
@@ -149,7 +147,7 @@ $display_location = implode(', ', $location_parts);
                     <?php endif; ?>
 
                     <!-- Контактная информация -->
-                    <?php if ($display_address || !empty($phone) || !empty($phone_2) || !empty($email) || !empty($fax) || !empty($working_hours)) : ?>
+                    <?php if ($display_address || !empty($phone) || !empty($phone_2) || !empty($email) || !empty($working_hours)) : ?>
                         <h3 class="mb-4"><?php echo esc_html__('Contact Information', 'codeweber'); ?></h3>
                         <div class="row g-4 mb-6">
                             <?php if ($display_address) : ?>
@@ -201,18 +199,6 @@ $display_location = implode(', ', $location_parts);
                                             <a href="mailto:<?php echo esc_attr($email); ?>" class="link-body">
                                                 <?php echo esc_html($email); ?>
                                             </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (!empty($fax)) : ?>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center">
-                                        <i class="uil uil-fax fs-20 text-primary me-3"></i>
-                                        <div>
-                                            <strong><?php echo esc_html__('Fax', 'codeweber'); ?>:</strong><br>
-                                            <span class="text-body"><?php echo esc_html($fax); ?></span>
                                         </div>
                                     </div>
                                 </div>

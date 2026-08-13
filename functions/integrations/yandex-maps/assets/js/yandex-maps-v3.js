@@ -8,6 +8,66 @@
 (function () {
 	'use strict';
 
+	function officeStatus( markerData ) {
+		const hours = markerData.officeHours;
+		if ( ! hours || typeof hours !== 'object' ) return null;
+		const weekdayMap = { Mon: 'monday', Tue: 'tuesday', Wed: 'wednesday', Thu: 'thursday', Fri: 'friday', Sat: 'saturday', Sun: 'sunday' };
+		let currentDate = new Date();
+		let timeZone = markerData.timezone || undefined;
+		if ( timeZone && /^[+-]\d{2}:\d{2}$/.test( timeZone ) ) {
+			const sign = timeZone[0] === '-' ? -1 : 1;
+			const offset = sign * ( parseInt( timeZone.slice( 1, 3 ), 10 ) * 60 + parseInt( timeZone.slice( 4, 6 ), 10 ) );
+			currentDate = new Date( currentDate.getTime() + offset * 60000 );
+			timeZone = 'UTC';
+		}
+		const parts = new Intl.DateTimeFormat( 'en-US', {
+			timeZone, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+		} ).formatToParts( currentDate ).reduce( ( result, part ) => ( result[ part.type ] = part.value, result ), {} );
+		const row = hours[ weekdayMap[ parts.weekday ] ];
+		const now = parseInt( parts.hour, 10 ) * 60 + parseInt( parts.minute, 10 );
+		const minutes = value => {
+			if ( ! value || ! /^\d{2}:\d{2}$/.test( value ) ) return null;
+			const bits = value.split( ':' ).map( Number );
+			return bits[0] * 60 + bits[1];
+		};
+		const result = ( text, state, isOpen = false ) => ( { text, state, isOpen } );
+		const plural = number => number + ' ' + ( number % 10 === 1 && number % 100 !== 11 ? 'минуту' : ( [2, 3, 4].includes( number % 10 ) && ! [12, 13, 14].includes( number % 100 ) ? 'минуты' : 'минут' ) );
+
+		if ( ! row ) return result( 'Закрыто', 'closed' );
+		if ( row.closed ) return result( 'Выходной', 'closed' );
+		const open1 = minutes( row.opens_1 );
+		const close1 = minutes( row.closes_1 );
+		const open2 = minutes( row.opens_2 );
+		const close2 = minutes( row.closes_2 );
+		if ( open1 === null ) return result( 'Закрыто', 'closed' );
+		const finalClose = close2 !== null ? close2 : close1;
+		const firstClose = open2 === null && close1 === null ? close2 : close1;
+		if ( now < open1 ) {
+			const left = open1 - now;
+			return left <= 60 ? result( 'Откроется через ' + plural( left ), 'soon' ) : result( 'Закрыто', 'closed' );
+		}
+		if ( firstClose !== null && now < firstClose ) {
+			const left = firstClose - now;
+			if ( open2 !== null && left <= 30 ) return result( 'До перерыва ' + plural( left ), 'soon', true );
+			if ( open2 === null && left <= 60 ) return result( 'Закроется через ' + plural( left ), 'soon', true );
+			return result( 'Работает', 'open', true );
+		}
+		if ( open2 !== null && now < open2 ) return result( 'Перерыв до ' + row.opens_2, 'break' );
+		if ( open2 !== null && close2 !== null && now < close2 ) {
+			const left = close2 - now;
+			return left <= 60 ? result( 'Закроется через ' + plural( left ), 'soon', true ) : result( 'Работает', 'open', true );
+		}
+		if ( finalClose !== null && now >= finalClose ) return result( 'Закрыто', 'closed' );
+		return result( 'Работает', 'open', true );
+	}
+
+	function officeStatusHtml( markerData ) {
+		const status = officeStatus( markerData );
+		if ( ! status ) return '';
+		const colors = { open: '#198754', closed: '#dc3545', soon: '#fd7e14', break: '#fd7e14' };
+		return `<div class="cwgb-office-status" data-state="${ status.state }" style="color:${ colors[ status.state ] };font-weight:600;margin-bottom:6px;">${ status.text }</div>`;
+	}
+
 	var COLOR_PRESETS = {
 		light:     { theme: 'light' },
 		dark:      { theme: 'dark' },
@@ -103,6 +163,7 @@
 
 			// Markers
 			this.addMarkers();
+			this.statusTimer = setInterval( () => this.refreshOfficeStatus(), 60000 );
 
 			// Sidebar
 			if ( this.config.sidebar && this.config.sidebar.show ) {
@@ -251,12 +312,54 @@
 				balloon.style.left   = ( entry.w / 2 ) + 'px';
 			}
 			el.appendChild( balloon );
+			this.setMarkerZIndex( entry, 10000 );
 			this.activeMarkerId = String( markerData.id );
 
 			this.highlightSidebarItem( markerData.id );
 			const zoom   = this.config.markerClickZoom || this.config.zoom || 15;
 			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude, zoom );
 			this.map.update( { location: { center, zoom, duration: 400 } } );
+		}
+
+		refreshOfficeStatus() {
+			if ( this.openNowOnly ) this.applySidebarFilters();
+			if ( this.sidebar ) {
+				this.sidebar.querySelectorAll( '.codeweber-map-sidebar-item' ).forEach( item => {
+					const entry = this.markerEls[ item.dataset.markerId ];
+					const current = item.querySelector( '.cwgb-office-status' );
+					const status = entry ? officeStatus( entry.data ) : null;
+					if ( current && status ) {
+						current.textContent = status.text;
+						current.dataset.state = status.state;
+						current.style.color = { open: '#198754', closed: '#dc3545', soon: '#fd7e14', break: '#fd7e14' }[ status.state ];
+					}
+				} );
+			}
+			if ( ! this.activeMarkerId ) return;
+			const entry = this.markerEls[ this.activeMarkerId ];
+			const current = entry && entry.el.querySelector( '.cwgb-office-status' );
+			const status = entry ? officeStatus( entry.data ) : null;
+			if ( current && status ) {
+				current.textContent = status.text;
+				current.dataset.state = status.state;
+				current.style.color = { open: '#198754', closed: '#dc3545', soon: '#fd7e14', break: '#fd7e14' }[ status.state ];
+			}
+		}
+
+		/**
+		 * Raise the whole YMapMarker while its balloon is open.
+		 * A balloon z-index alone is not enough because every marker is rendered
+		 * in its own stacking context by Yandex Maps.
+		 */
+		setMarkerZIndex( entry, zIndex ) {
+			if ( ! entry ) return;
+
+			if ( entry.marker && typeof entry.marker.update === 'function' ) {
+				entry.marker.update( { zIndex } );
+			}
+
+			// DOM fallback for API builds where marker.update does not repaint zIndex.
+			entry.el.style.zIndex = String( zIndex );
 		}
 
 		getCurrentZoom() {
@@ -282,6 +385,7 @@
 			if ( entry ) {
 				const b = entry.el.querySelector( '.cwgb-balloon-v3' );
 				if ( b ) b.remove();
+				this.setMarkerZIndex( entry, 0 );
 			}
 			this.activeMarkerId = null;
 			this.wrapper.querySelectorAll( '.codeweber-map-sidebar-item.active' )
@@ -301,18 +405,33 @@
 			const i18n     = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
 
 			let body = '';
+			body += officeStatusHtml( markerData );
 			if ( fields.showCity && markerData.city ) {
-				body += `<div class="mb-1"><small class="text-muted">${ i18n.city || 'City' }:</small><br>${ markerData.city }</div>`;
+				body += `<div style="margin-bottom:2px;line-height:1.35;"><small class="text-muted" style="display:block;">${ i18n.city || 'City' }:</small>${ markerData.city }</div>`;
 			}
 			if ( fields.showAddress && markerData.address ) {
-				body += `<div class="mb-1">${ markerData.address }</div>`;
+				body += `<div style="margin-bottom:2px;line-height:1.35;">${ markerData.address }</div>`;
 			}
-			if ( fields.showPhone && markerData.phone ) {
-				const tel = markerData.phone.replace( /[^0-9+]/g, '' );
-				body += `<div class="mb-1"><small class="text-muted">${ i18n.phone || 'Phone' }:</small><br><a href="tel:${ tel }">${ markerData.phone }</a></div>`;
+			if ( fields.showAddress && markerData.landmark ) {
+				body += `<div class="mb-1" style="line-height:1.35;"><small class="text-muted" style="display:block;">${ i18n.landmark || 'Landmark' }:</small>${ markerData.landmark }</div>`;
+			}
+			const phones = Array.isArray( markerData.phones )
+				? markerData.phones.filter( Boolean )
+				: ( markerData.phone ? markerData.phone.split( /\s*[·|]\s*/ ).filter( Boolean ) : [] );
+			if ( fields.showPhone && phones.length ) {
+				const phoneLinks = phones.map( phone => {
+					const tel = phone.replace( /[^0-9+]/g, '' );
+					return `<a href="tel:${ tel }" style="display:block;">${ phone }</a>`;
+				} ).join( '' );
+				body += `<div class="mb-1"><small class="text-muted">${ i18n.phone || 'Phone' }:</small>${ phoneLinks }</div>`;
 			}
 			if ( fields.showWorkingHours && markerData.workingHours ) {
-				body += `<div class="mb-1"><small class="text-muted">${ i18n.workingHours || 'Working Hours' }:</small><br>${ markerData.workingHours }</div>`;
+				const hoursLines = markerData.workingHours
+					.split( /\s*;\s*/ )
+					.filter( Boolean )
+					.map( line => `<span style="display:block;">${ line }</span>` )
+					.join( '' );
+				body += `<div class="mb-1"><small class="text-muted">${ i18n.workingHours || 'Working Hours' }:</small>${ hoursLines }</div>`;
 			}
 			if ( fields.showDescription && markerData.description ) {
 				body += `<div class="mb-2">${ markerData.description }</div>`;
@@ -356,7 +475,8 @@
 			const i18n       = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
 
 			const sidebar = document.createElement( 'div' );
-			sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${ sidebarCfg.position } bg-white text-dark rounded shadow overflow-auto d-none d-md-block`;
+			const sidebarStyle = sidebarCfg.style === 'compact' ? 'compact' : 'default';
+			sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${ sidebarCfg.position } codeweber-map-sidebar-${ sidebarStyle } bg-white text-dark rounded shadow overflow-auto d-none d-md-block`;
 
 			if ( sidebarCfg.title ) {
 				const title = document.createElement( 'div' );
@@ -395,10 +515,11 @@
 
 		createSidebarItem( marker ) {
 			const sidebarCfg = this.config.sidebar || {};
-			const fields     = sidebarCfg.fields || {
-				showCity: true, showAddress: false, showPhone: false,
+			const fields = Object.assign( {
+				showTitle: true, showCity: true, showAddress: false,
+				showLandmark: false, showStatus: false, showPhone: false,
 				showWorkingHours: true, showDescription: true,
-			};
+			}, sidebarCfg.fields || {} );
 
 			const item = document.createElement( 'div' );
 			item.className = 'codeweber-map-sidebar-item border-bottom p-5';
@@ -407,10 +528,14 @@
 			item.dataset.category = marker.category || '';
 
 			let html = '';
-			if ( marker.title ) html += `<div class="h6 mb-1 text-reset">${ marker.title }</div>`;
+			if ( fields.showTitle && marker.title ) html += `<div class="h6 mb-1 text-reset">${ marker.title }</div>`;
+			if ( fields.showStatus ) html += officeStatusHtml( marker );
 			if ( fields.showDescription && marker.description ) html += `<p class="fs-sm mb-0 text-reset">${ marker.description }</p>`;
-			if ( fields.showCity && marker.city ) html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-location-pin-alt me-1"></i>${ marker.city }</p>`;
-			if ( fields.showAddress && marker.address ) html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-map-marker me-1"></i>${ marker.address }</p>`;
+			const locationParts = [];
+			if ( fields.showCity && marker.city ) locationParts.push( marker.city );
+			if ( fields.showAddress && marker.address ) locationParts.push( marker.address );
+			if ( locationParts.length ) html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-map-marker me-1"></i>${ locationParts.join( ', ' ) }</p>`;
+			if ( fields.showLandmark && marker.landmark ) html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-compass me-1"></i>${ marker.landmark }</p>`;
 			if ( fields.showPhone && marker.phone ) {
 				const tel = marker.phone.replace( /[^0-9+]/g, '' );
 				html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-phone me-1"></i><a href="tel:${ tel }">${ marker.phone }</a></p>`;
@@ -455,6 +580,19 @@
 
 			if ( sidebarCfg.filterByCity ) this.createCityFilter( list );
 			if ( sidebarCfg.filterByCategory ) this.createCategoryFilter( list );
+			this.createOpenNowFilter( list );
+		}
+
+		getFilterContainer( list ) {
+			let container = list.parentElement.querySelector( '.codeweber-map-filter' );
+			if ( container ) return container;
+			container = document.createElement( 'div' );
+			container.className = 'codeweber-map-filter position-sticky bg-white p-3 border-bottom';
+			container.style.zIndex = '3';
+			const sidebarTitle = this.sidebar ? this.sidebar.querySelector( '.codeweber-map-sidebar-title' ) : null;
+			container.style.top = sidebarTitle ? sidebarTitle.offsetHeight + 'px' : '0';
+			list.parentElement.insertBefore( container, list );
+			return container;
 		}
 
 		createCityFilter( list ) {
@@ -463,8 +601,7 @@
 			( this.config.markers || [] ).forEach( m => { if ( m.city ) cities.add( m.city ); } );
 			if ( cities.size === 0 ) return;
 
-			const fc = document.createElement( 'div' );
-			fc.className = 'codeweber-map-filter p-3 border-bottom';
+			const fc = this.getFilterContainer( list );
 
 			const label = document.createElement( 'label' );
 			label.className = 'form-label fs-sm';
@@ -494,19 +631,37 @@
 
 			fc.appendChild( label );
 			fc.appendChild( select );
-			list.parentElement.insertBefore( fc, list );
+		}
+
+		createOpenNowFilter( list ) {
+			const fc = this.getFilterContainer( list );
+			const row = document.createElement( 'div' );
+			row.className = 'form-check mt-2';
+			const checkbox = document.createElement( 'input' );
+			checkbox.type = 'checkbox';
+			checkbox.id = `${ this.config.id }-open-now-filter`;
+			checkbox.className = 'form-check-input';
+			const label = document.createElement( 'label' );
+			label.className = 'form-check-label fs-sm';
+			label.htmlFor = checkbox.id;
+			label.textContent = 'Открыто сейчас';
+			checkbox.addEventListener( 'change', () => {
+				this.openNowOnly = checkbox.checked;
+				this.applySidebarFilters();
+			} );
+			row.appendChild( checkbox );
+			row.appendChild( label );
+			fc.appendChild( row );
 		}
 
 		filterByCity( city ) {
-			const showAll = city === '';
-			const { YMapMarker } = ymaps3;
-			const visibleMarkers = [];
+			this.activeCityFilter = city;
+			this.applySidebarFilters();
+		}
 
-			if ( this.sidebar ) {
-				this.sidebar.querySelectorAll( '.codeweber-map-sidebar-item' ).forEach( item => {
-					item.style.display = ( showAll || item.dataset.city === city ) ? '' : 'none';
-				} );
-			}
+		applySidebarFilters() {
+			const city = this.activeCityFilter || '';
+			const visibleMarkers = [];
 
 			this.closeBalloon();
 
@@ -514,8 +669,14 @@
 				const entry = this.markerEls[ markerData.id ];
 				if ( ! entry ) return;
 				try { this.map.removeChild( entry.marker ); } catch ( e ) {}
+				const cityMatches = ! city || markerData.city === city;
+				const status = officeStatus( markerData );
+				const openMatches = ! this.openNowOnly || ( status && status.isOpen );
+				const visible = cityMatches && openMatches;
+				const item = this.sidebar ? this.sidebar.querySelector( `.codeweber-map-sidebar-item[data-marker-id="${ markerData.id }"]` ) : null;
+				if ( item ) item.style.display = visible ? '' : 'none';
 
-				if ( showAll || markerData.city === city ) {
+				if ( visible ) {
 					this.map.addChild( entry.marker );
 					visibleMarkers.push( markerData );
 				}
@@ -611,7 +772,61 @@
 		}
 	}
 
+	function observeEditorFrames() {
+		document.querySelectorAll( 'iframe' ).forEach( function ( frame ) {
+			try {
+				const frameDocument = frame.contentDocument;
+				if ( ! frameDocument || ! frameDocument.head || ! frame.contentWindow ) return;
+				if ( ! frameDocument.querySelector( '.codeweber-yandex-map-wrapper' ) ) return;
+
+				frame.contentWindow.codeweberYandexMaps = window.codeweberYandexMaps || {};
+				const editorStyles = ( window.codeweberYandexMaps && window.codeweberYandexMaps.editorStyles ) || [];
+				editorStyles.forEach( function ( href, index ) {
+					const id = 'codeweber-map-editor-style-' + index;
+					if ( frameDocument.getElementById( id ) ) return;
+					const link = frameDocument.createElement( 'link' );
+					link.id = id;
+					link.rel = 'stylesheet';
+					link.href = href;
+					frameDocument.head.appendChild( link );
+				} );
+
+				const copyElement = function ( source, targetId ) {
+					if ( ! source || frameDocument.getElementById( targetId ) ) return null;
+					const clone = frameDocument.createElement( source.tagName.toLowerCase() );
+					Array.from( source.attributes ).forEach( attr => clone.setAttribute( attr.name, attr.value ) );
+					clone.id = targetId;
+					if ( clone.tagName === 'SCRIPT' ) clone.async = false;
+					frameDocument.head.appendChild( clone );
+					return clone;
+				};
+
+				const cssSource = document.getElementById( 'codeweber-yandex-maps-v3-css' )
+					|| document.querySelector( 'link[href*="yandex-maps.css"]' );
+				copyElement( cssSource, 'codeweber-yandex-maps-v3-editor-css' );
+
+				const apiSource = document.getElementById( 'yandex-maps-api-v3-js' )
+					|| document.querySelector( 'script[src*="api-maps.yandex.ru/v3/"]' );
+				const runtimeSource = document.getElementById( 'codeweber-yandex-maps-v3-js' )
+					|| document.querySelector( 'script[src*="yandex-maps-v3.js"]' );
+				const apiClone = copyElement( apiSource, 'yandex-maps-api-v3-editor-js' );
+				const loadRuntime = function () {
+					copyElement( runtimeSource, 'codeweber-yandex-maps-v3-editor-js' );
+				};
+				if ( frame.contentWindow.ymaps3 ) {
+					loadRuntime();
+				} else if ( apiClone ) {
+					apiClone.addEventListener( 'load', loadRuntime, { once: true } );
+				}
+			} catch ( e ) {
+				// Ignore unrelated cross-origin frames.
+			}
+		} );
+	}
+
 	function initMaps() {
+		observeEditorFrames();
+		setInterval( observeEditorFrames, 1000 );
 		document.querySelectorAll( '.codeweber-yandex-map-wrapper' ).forEach( function ( w ) {
 			// Skip maps inside closed offcanvases — init lazily on shown.bs.offcanvas
 			var offcanvas = w.closest( '.offcanvas' );

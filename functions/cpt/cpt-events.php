@@ -212,8 +212,35 @@ function codeweber_events_add_meta_boxes() {
 		'side',
 		'default'
 	);
+	add_meta_box(
+		'codeweber_event_office',
+		__( 'Office', 'codeweber' ),
+		'codeweber_events_render_office_metabox',
+		'events',
+		'side',
+		'default'
+	);
 }
 add_action( 'add_meta_boxes', 'codeweber_events_add_meta_boxes' );
+
+function codeweber_events_render_office_metabox( \WP_Post $post ): void {
+	$selected = (int) get_post_meta( $post->ID, '_event_office', true );
+	$offices = get_posts( [
+		'post_type'      => 'offices',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'orderby'        => 'title',
+		'order'          => 'ASC',
+	] );
+	?>
+	<select name="_event_office" style="width:100%;">
+		<option value=""><?php esc_html_e( '— Select Office —', 'codeweber' ); ?></option>
+		<?php foreach ( $offices as $office ) : ?>
+			<option value="<?php echo esc_attr( $office->ID ); ?>" <?php selected( $selected, $office->ID ); ?>><?php echo esc_html( get_the_title( $office->ID ) ); ?></option>
+		<?php endforeach; ?>
+	</select>
+	<?php
+}
 
 // Disable Gutenberg for events — traditional metaboxes + wp_editor() require classic editor.
 add_filter( 'use_block_editor_for_post_type', function ( bool $enabled, string $post_type ): bool {
@@ -1095,6 +1122,31 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		isset( $_POST['event_hide_seats_counter'] ) ? '1' : '' );
 	update_post_meta( $post_id, '_event_hide_add_to_calendar',
 		isset( $_POST['event_hide_add_to_calendar'] ) ? '1' : '' );
+
+	// Office relation + bidirectional sync with _office_events.
+	$old_office = (int) get_post_meta( $post_id, '_event_office', true );
+	$new_office = isset( $_POST['_event_office'] ) ? absint( $_POST['_event_office'] ) : 0;
+	if ( $new_office ) {
+		update_post_meta( $post_id, '_event_office', $new_office );
+	} else {
+		delete_post_meta( $post_id, '_event_office' );
+	}
+	if ( $old_office !== $new_office ) {
+		if ( $old_office ) {
+			$old_events = get_post_meta( $old_office, '_office_events', true );
+			if ( is_array( $old_events ) ) {
+				update_post_meta( $old_office, '_office_events', array_values( array_diff( $old_events, [ $post_id ] ) ) );
+			}
+		}
+		if ( $new_office ) {
+			$new_events = get_post_meta( $new_office, '_office_events', true );
+			$new_events = is_array( $new_events ) ? $new_events : [];
+			if ( ! in_array( $post_id, $new_events, true ) ) {
+				$new_events[] = $post_id;
+				update_post_meta( $new_office, '_office_events', $new_events );
+			}
+		}
+	}
 }
 add_action( 'save_post_events', 'codeweber_events_save_meta', 10, 2 );
 

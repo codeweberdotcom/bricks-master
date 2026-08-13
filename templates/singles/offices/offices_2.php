@@ -19,7 +19,6 @@ $street = get_post_meta($post_id, '_office_street', true);
 $postal_code = get_post_meta($post_id, '_office_postal_code', true);
 $full_address = get_post_meta($post_id, '_office_full_address', true);
 $working_hours = codeweber_format_office_hours( $post_id );
-$manager_id = get_post_meta($post_id, '_office_manager', true);
 $description = get_post_meta($post_id, '_office_description', true);
 
 // Получаем город из таксономии
@@ -35,32 +34,12 @@ if (!empty($town_terms) && !is_wp_error($town_terms)) {
 $phone = get_post_meta($post_id, '_office_phone', true);
 $phone_2 = get_post_meta($post_id, '_office_phone_2', true);
 $email = get_post_meta($post_id, '_office_email', true);
-$fax = get_post_meta($post_id, '_office_fax', true);
 $website = get_post_meta($post_id, '_office_website', true);
 
 // Получаем координаты для карты
 $latitude = get_post_meta($post_id, '_office_latitude', true);
 $longitude = get_post_meta($post_id, '_office_longitude', true);
 $zoom = get_post_meta($post_id, '_office_zoom', true);
-
-// Получаем менеджера
-$manager_name = '';
-$manager_link = '';
-$manager_position = '';
-if ($manager_id) {
-    $manager_name = get_the_title($manager_id);
-    $manager_link = get_permalink($manager_id);
-    $manager_name_meta = get_post_meta($manager_id, '_staff_name', true);
-    $manager_surname_meta = get_post_meta($manager_id, '_staff_surname', true);
-    $manager_position = get_post_meta($manager_id, '_staff_position', true);
-    
-    if (!empty($manager_name_meta) || !empty($manager_surname_meta)) {
-        $manager_name = trim($manager_name_meta . ' ' . $manager_surname_meta);
-        if (empty($manager_name)) {
-            $manager_name = get_the_title($manager_id);
-        }
-    }
-}
 
 // Получаем настройки из Redux
 global $opt_name;
@@ -219,22 +198,6 @@ $display_location = implode(', ', $location_parts);
                         </div>
                     <?php endif; ?>
 
-                    <?php if (!empty($manager_name) && !empty($manager_link)) : ?>
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
-                                <i class="uil uil-user"></i>
-                            </div>
-                            <div>
-                                <div class="mb-1 h6"><?php esc_html_e('Office Manager', 'codeweber'); ?></div>
-                                <a href="<?php echo esc_url($manager_link); ?>" class="link-body">
-                                    <strong><?php echo esc_html($manager_name); ?></strong>
-                                </a>
-                                <?php if (!empty($manager_position)) : ?>
-                                    <br><span class="text-muted"><?php echo esc_html($manager_position); ?></span>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                 </div>
                 <!--/column -->
             </div>
@@ -266,4 +229,3 @@ $display_location = implode(', ', $location_parts);
         </div>
     </div>
 <?php endif; ?>
-

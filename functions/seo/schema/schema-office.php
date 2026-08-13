@@ -134,11 +134,6 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$business['email'] = $email;
 	}
 
-	$fax = get_post_meta( $post_id, '_office_fax', true );
-	if ( ! empty( $fax ) ) {
-		$business['faxNumber'] = $fax;
-	}
-
 	$website = get_post_meta( $post_id, '_office_website', true );
 	if ( ! empty( $website ) ) {
 		$business['sameAs'] = $website;
