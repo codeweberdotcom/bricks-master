@@ -23,7 +23,7 @@ class Codeweber_Yandex_Maps {
     /**
      * @var string Версия модуля
      */
-    private $version = '1.3.11';
+    private $version = '1.3.12';
     
     /**
      * @var string Путь к модулю
@@ -738,6 +738,14 @@ class Codeweber_Yandex_Maps {
             $office_id = isset($marker['id']) ? absint($marker['id']) : 0;
             if ($office_id && get_post_type($office_id) === 'offices' && function_exists('codeweber_get_office_hours')) {
                 $prepared_marker['officeHours'] = codeweber_get_office_hours($office_id);
+
+                // The structured repeater is the canonical schedule storage.
+                // Older offices may also have _office_working_hours, but newly
+                // created offices should not need that legacy text field.
+                if (empty($prepared_marker['workingHours']) && function_exists('codeweber_format_office_hours')) {
+                    $prepared_marker['workingHours'] = codeweber_format_office_hours($office_id);
+                }
+
                 $prepared_marker['timezone'] = wp_timezone_string();
                 $prepared_marker['landmark'] = get_post_meta($office_id, '_office_landmark', true);
                 $office_phones = get_post_meta($office_id, '_office_phones', true);
