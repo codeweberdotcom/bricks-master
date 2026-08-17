@@ -23,7 +23,7 @@ class Codeweber_Yandex_Maps {
     /**
      * @var string Версия модуля
      */
-    private $version = '1.3.12';
+    private $version = '1.3.13';
     
     /**
      * @var string Путь к модулю

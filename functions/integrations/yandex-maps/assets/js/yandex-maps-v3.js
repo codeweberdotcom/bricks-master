@@ -68,6 +68,17 @@
 		return `<div class="cwgb-office-status" data-state="${ status.state }" style="color:${ colors[ status.state ] };font-weight:600;margin-bottom:6px;">${ status.text }</div>`;
 	}
 
+	function officeHoursHtml( workingHours ) {
+		return String( workingHours || '' )
+			.split( /\s*;\s*/ )
+			.filter( Boolean )
+			.map( line => {
+				const isDayOff = /(?:Выходной|Day off)/i.test( line );
+				return `<span class="cwgb-office-hours-line${ isDayOff ? ' cwgb-office-hours-line--day-off' : '' }">${ line }</span>`;
+			} )
+			.join( '' );
+	}
+
 	var COLOR_PRESETS = {
 		light:     { theme: 'light' },
 		dark:      { theme: 'dark' },
@@ -426,11 +437,7 @@
 				body += `<div class="mb-1"><small class="text-muted">${ i18n.phone || 'Phone' }:</small>${ phoneLinks }</div>`;
 			}
 			if ( fields.showWorkingHours && markerData.workingHours ) {
-				const hoursLines = markerData.workingHours
-					.split( /\s*;\s*/ )
-					.filter( Boolean )
-					.map( line => `<span style="display:block;">${ line }</span>` )
-					.join( '' );
+				const hoursLines = officeHoursHtml( markerData.workingHours );
 				body += `<div class="mb-1"><small class="text-muted">${ i18n.workingHours || 'Working Hours' }:</small>${ hoursLines }</div>`;
 			}
 			if ( fields.showDescription && markerData.description ) {
@@ -540,7 +547,7 @@
 				const tel = marker.phone.replace( /[^0-9+]/g, '' );
 				html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-phone me-1"></i><a href="tel:${ tel }">${ marker.phone }</a></p>`;
 			}
-			if ( fields.showWorkingHours && marker.workingHours ) html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-clock me-1"></i>${ marker.workingHours }</p>`;
+			if ( fields.showWorkingHours && marker.workingHours ) html += `<div class="fs-sm mb-0 text-reset cwgb-office-hours"><i class="uil uil-clock me-1"></i><span>${ officeHoursHtml( marker.workingHours ) }</span></div>`;
 
 			item.innerHTML = html;
 			item.addEventListener( 'click', () => this.onSidebarItemClick( marker.id ) );

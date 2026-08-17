@@ -38,6 +38,23 @@
     line-height: 1.3;
 }
 
+.cwgb-office-hours-line {
+    display: block;
+}
+
+.cwgb-office-hours-line--day-off {
+    color: var(--bs-danger, #dc3545);
+}
+
+.codeweber-map-sidebar-item .cwgb-office-hours {
+    display: flex;
+    align-items: flex-start;
+}
+
+.codeweber-map-sidebar-item .cwgb-office-hours > span {
+    min-width: 0;
+}
+
 /* Compact sidebar design. */
 .codeweber-map-sidebar-compact {
     max-width: 320px;
