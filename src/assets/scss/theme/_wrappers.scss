@@ -67,6 +67,9 @@ footer.bg-dark,
   &.bg-overlay-800:before {
     background: rgba($gray-900, 0.8);
   }
+  &.bg-overlay-900:before {
+    background: rgba($gray-900, 0.9);
+  }
   &.bg-overlay-light-300:before {
     background: rgba(var(--#{$prefix}white-rgb), 0.3);
   }
@@ -84,6 +87,9 @@ footer.bg-dark,
   }
   &.bg-overlay-light-800:before {
     background: rgba(var(--#{$prefix}white-rgb), 0.8);
+  }
+  &.bg-overlay-light-900:before {
+    background: rgba(var(--#{$prefix}white-rgb), 0.9);
   }
   &.bg-overlay:not(.bg-content) *,
   &.bg-overlay.bg-content .content {
@@ -162,12 +168,14 @@ footer.bg-dark,
   &.bg-overlay-600:after { background: rgba($gray-900, 0.6); }
   &.bg-overlay-700:after { background: rgba($gray-900, 0.7); }
   &.bg-overlay-800:after { background: rgba($gray-900, 0.8); }
+  &.bg-overlay-900:after { background: rgba($gray-900, 0.9); }
   &.bg-overlay-light-300:after { background: rgba(var(--#{$prefix}white-rgb), 0.3); }
   &.bg-overlay-light-400:after { background: rgba(var(--#{$prefix}white-rgb), 0.4); }
   &.bg-overlay-light-500:after { background: rgba(var(--#{$prefix}white-rgb), 0.5); }
   &.bg-overlay-light-600:after { background: rgba(var(--#{$prefix}white-rgb), 0.6); }
   &.bg-overlay-light-700:after { background: rgba(var(--#{$prefix}white-rgb), 0.7); }
   &.bg-overlay-light-800:after { background: rgba(var(--#{$prefix}white-rgb), 0.8); }
+  &.bg-overlay-light-900:after { background: rgba(var(--#{$prefix}white-rgb), 0.9); }
   &.bg-overlay.bg-overlay-gradient:after {
     opacity: 0.4;
     background: linear-gradient(120deg, #542461 50%, #332487 100%);

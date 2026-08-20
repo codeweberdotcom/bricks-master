@@ -32,3 +32,8 @@
 @each $color, $value in $colors-soft {
   @include table-variant($color, $value);
 }
+
+// Solid color variants — generates .table-blue-solid, .table-red-solid, etc.
+@each $color, $value in $colors {
+  @include table-variant("#{$color}-solid", $value);
+}
