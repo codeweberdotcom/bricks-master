@@ -55,7 +55,7 @@ function cptui_register_my_cpts_services()
 		"can_export" => true,
 		"rewrite" => ["slug" => "services", "with_front" => true],
 		"query_var" => true,
-		"supports" => ["title", "editor", "thumbnail", "excerpt", "revisions", "comments"],
+		"supports" => ["title", "editor", "thumbnail", "excerpt", "revisions", "comments", "page-attributes"],
 		"taxonomies" => ["service_category", "types_of_services"],
 		"show_in_graphql" => false,
 	];
@@ -86,7 +86,7 @@ function cptui_register_my_taxes_service_category()
 		"show_in_nav_menus" => true,
 		"query_var" => true,
 		"rewrite" => ['slug' => 'service_category', 'with_front' => true],
-		"show_admin_column" => false,
+		"show_admin_column" => true,
 		"show_in_rest" => true,
 		"show_tagcloud" => false,
 		"rest_base" => "service_category",
@@ -122,7 +122,7 @@ function cptui_register_my_taxes_types_of_services()
 		"show_in_nav_menus" => true,
 		"query_var" => true,
 		"rewrite" => ['slug' => 'types_of_services', 'with_front' => true],
-		"show_admin_column" => false,
+		"show_admin_column" => true,
 		"show_in_rest" => true,
 		"show_tagcloud" => false,
 		"rest_base" => "types_of_services",
@@ -136,6 +136,46 @@ function cptui_register_my_taxes_types_of_services()
 }
 
 add_action('init', 'cptui_register_my_taxes_types_of_services');
+
+/**
+ * Фильтры по таксономиям над таблицей услуг.
+ */
+function codeweber_services_taxonomy_filters()
+{
+	global $typenow;
+
+	if ($typenow !== 'services') {
+		return;
+	}
+
+	$filters = [
+		'service_category'  => __('All Service Categories', 'codeweber'),
+		'types_of_services' => __('All Types', 'codeweber'),
+	];
+
+	foreach ($filters as $taxonomy => $show_all_label) {
+		if (!taxonomy_exists($taxonomy)) {
+			continue;
+		}
+
+		$taxonomy_object = get_taxonomy($taxonomy);
+		$selected = isset($_GET[$taxonomy]) ? sanitize_text_field(wp_unslash($_GET[$taxonomy])) : '';
+
+		wp_dropdown_categories([
+			'show_option_all' => $show_all_label,
+			'taxonomy'        => $taxonomy,
+			'name'            => $taxonomy,
+			'value_field'     => 'slug',
+			'selected'        => $selected,
+			'hierarchical'    => $taxonomy_object ? (bool) $taxonomy_object->hierarchical : false,
+			'show_count'      => true,
+			'hide_empty'      => false,
+			'orderby'         => 'name',
+		]);
+	}
+}
+add_action('restrict_manage_posts', 'codeweber_services_taxonomy_filters');
+
 
 // Meta-поля, относящиеся к services. Подключаются только при активном CPT,
 // чтобы соответствовать Redux-свитчеру `cpt_switch_services`.
