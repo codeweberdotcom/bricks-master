@@ -251,6 +251,55 @@ function add_faq_taxonomy_filters()
 add_action('restrict_manage_posts', 'add_faq_taxonomy_filters');
 
 /**
+ * Применяем выбранные в фильтрах термины к списку FAQ.
+ *
+ * Обе таксономии зарегистрированы с query_var => false (термины не должны быть
+ * доступны на фронте отдельными URL), поэтому WP_Query::parse_tax_query() их
+ * пропускает и GET-параметры сами по себе ни на что не влияют. Собираем
+ * tax_query вручную — только в админском списке.
+ */
+function codeweber_faq_apply_taxonomy_filters($query)
+{
+	global $pagenow;
+
+	if (!is_admin() || 'edit.php' !== $pagenow || !$query->is_main_query()) {
+		return;
+	}
+
+	if ('faq' !== ($query->get('post_type') ?: '')) {
+		return;
+	}
+
+	$tax_query = [];
+
+	foreach (['faq_categories', 'faq_tag'] as $taxonomy) {
+		// "0" приходит от пункта "All ..." в wp_dropdown_categories.
+		$value = isset($_GET[$taxonomy]) ? sanitize_text_field(wp_unslash($_GET[$taxonomy])) : '';
+		if ('' === $value || '0' === $value) {
+			continue;
+		}
+
+		$tax_query[] = [
+			'taxonomy' => $taxonomy,
+			'field'    => 'slug',
+			'terms'    => $value,
+		];
+	}
+
+	if (!$tax_query) {
+		return;
+	}
+
+	if (count($tax_query) > 1) {
+		$tax_query['relation'] = 'AND';
+	}
+
+	$query->set('tax_query', $tax_query);
+}
+add_action('parse_query', 'codeweber_faq_apply_taxonomy_filters');
+
+
+/**
  * Добавляем быстрые действия (Quick Edit) для таксономий
  */
 function add_faq_quick_edit_fields($column_name, $post_type)
