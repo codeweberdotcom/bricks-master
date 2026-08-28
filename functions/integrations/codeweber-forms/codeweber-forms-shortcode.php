@@ -18,6 +18,17 @@ class CodeweberFormsShortcode {
     }
 
     /**
+     * A non-published form is visible only to a user who can edit it
+     * (e.g. an editor previewing a draft) — never to an anonymous visitor.
+     */
+    private function form_is_viewable(\WP_Post $form_post): bool {
+        if ('publish' === $form_post->post_status) {
+            return true;
+        }
+        return current_user_can('edit_post', $form_post->ID);
+    }
+
+    /**
      * Render shortcode: [codeweber_form_steps id="blockId"]
      *
      * Standalone step-navigation panel for a multipage Form block whose
@@ -47,7 +58,7 @@ class CodeweberFormsShortcode {
         // 1. Fast path: auto-generated id "form-{cptId}" → look up that CPT post directly.
         if (preg_match('/^form-(\d+)$/', $block_id, $matches)) {
             $cpt_post = get_post((int) $matches[1]);
-            if ($cpt_post && $cpt_post->post_type === 'codeweber_form' && !empty($cpt_post->post_content)) {
+            if ($cpt_post && $cpt_post->post_type === 'codeweber_form' && $this->form_is_viewable($cpt_post) && !empty($cpt_post->post_content)) {
                 $form_block = $this->find_form_block_by_id(parse_blocks($cpt_post->post_content), $block_id);
             }
         }
@@ -219,7 +230,7 @@ class CodeweberFormsShortcode {
         }
 
         $form_post = get_post((int) $id);
-        if ($form_post && $form_post->post_type === 'codeweber_form') {
+        if ($form_post && $form_post->post_type === 'codeweber_form' && $this->form_is_viewable($form_post)) {
             return $this->parse_form_config($form_post);
         }
         

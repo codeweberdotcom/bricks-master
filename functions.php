@@ -56,6 +56,7 @@ require_once get_template_directory() . '/functions/admin/image-tag-taxonomy.php
 require_once get_template_directory() . '/functions/admin/image-canvas-editor.php';
 require_once get_template_directory() . '/functions/admin/term-thumbnail.php';
 require_once get_template_directory() . '/functions/admin/documents-settings.php';
+require_once get_template_directory() . '/functions/admin/duplicate-post.php';
 
 // ── Fetch / AJAX ──────────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
