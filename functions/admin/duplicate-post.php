@@ -38,6 +38,62 @@ if ( ! function_exists( 'codeweber_duplicate_post_get_post_types' ) ) {
 }
 
 // ---------------------------------------------------------------------------
+// Title uniqueness ("Title" -> "Title (1)" -> "Title (2)", scoped per post_type)
+// ---------------------------------------------------------------------------
+
+if ( ! function_exists( 'codeweber_duplicate_post_title_exists' ) ) {
+	/**
+	 * @param int $exclude_id Post ID to leave out of the check (not used by the
+	 *                        duplicate-post call site itself — the new post
+	 *                        doesn't exist yet at title-generation time, so
+	 *                        there's nothing of its own to exclude — but a
+	 *                        general-purpose title lookup needs the option, the
+	 *                        same way core's wp_unique_post_slug() does).
+	 */
+	function codeweber_duplicate_post_title_exists( string $title, string $post_type, int $exclude_id = 0 ): bool {
+		$args = [
+			'post_type'        => $post_type,
+			'post_status'      => get_post_stati(), // every registered status — draft/private/trash included
+			'title'            => $title,           // exact match ($wpdb post_title = %s), not a fuzzy `s` search
+			'posts_per_page'   => 1,
+			'fields'           => 'ids',
+			'no_found_rows'    => true,
+			'suppress_filters' => true,
+		];
+		if ( $exclude_id > 0 ) {
+			$args['post__not_in'] = [ $exclude_id ];
+		}
+
+		return (bool) get_posts( $args );
+	}
+}
+
+if ( ! function_exists( 'codeweber_duplicate_post_unique_title' ) ) {
+	/**
+	 * Any existing trailing " (N)" suffix is stripped first, so duplicating an
+	 * already-numbered copy renumbers from the same base instead of stacking
+	 * suffixes ("Title (1) (1)") — it finds the next free slot in the same
+	 * sequence regardless of which existing copy was duplicated.
+	 */
+	function codeweber_duplicate_post_unique_title( string $title, string $post_type, int $exclude_id = 0 ): string {
+		if ( '' === trim( $title ) ) {
+			return $title;
+		}
+
+		$base = preg_replace( '/\s\(\d+\)$/', '', $title );
+
+		$candidate = $base;
+		$suffix    = 1;
+		while ( codeweber_duplicate_post_title_exists( $candidate, $post_type, $exclude_id ) ) {
+			$candidate = $base . ' (' . $suffix . ')';
+			$suffix++;
+		}
+
+		return $candidate;
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Core: duplicate a single post
 // ---------------------------------------------------------------------------
 
@@ -51,7 +107,14 @@ if ( ! function_exists( 'codeweber_duplicate_post_create_duplicate' ) ) {
 	 * @return int|WP_Error
 	 */
 	function codeweber_duplicate_post_create_duplicate( WP_Post $post, ?array &$ctx = null ) {
-		if ( null === $ctx ) {
+		// Captured BEFORE $ctx is normalized below — this is the only reliable
+		// way to tell "user clicked Duplicate on this post directly" apart from
+		// "this call is a recursive form fork triggered from inside another
+		// duplication" (get_or_fork_form() always passes a non-null $ctx by
+		// reference). Checking `null !== $ctx` after normalizing it would always
+		// be true and misclassify every top-level duplication of a form itself.
+		$is_top_level = ( null === $ctx );
+		if ( $is_top_level ) {
 			$ctx = [
 				'fork_map'    => [],
 				'created_ids' => [],
@@ -74,12 +137,13 @@ if ( ! function_exists( 'codeweber_duplicate_post_create_duplicate' ) ) {
 		}
 
 		// Forked dependency forms (see get_or_fork_form()) mirror the original
-		// form's status so they work immediately; everything else becomes a draft.
-		$is_form_fork = ( 'codeweber_form' === $post->post_type ) && null !== $ctx;
+		// form's status so they work immediately; a directly-duplicated record
+		// (including a form duplicated from its own list) always becomes a draft.
+		$is_form_fork = ( 'codeweber_form' === $post->post_type ) && ! $is_top_level;
 		$status       = $is_form_fork ? $post->post_status : 'draft';
 
 		$new_post = apply_filters( 'codeweber_duplicate_post_new_post_args', [
-			'post_title'            => $post->post_title,
+			'post_title'            => codeweber_duplicate_post_unique_title( $post->post_title, $post->post_type ),
 			'post_content'          => $post->post_content, // raw — rewritten below, phase 2
 			'post_content_filtered' => $post->post_content_filtered,
 			'post_excerpt'          => $post->post_excerpt,
@@ -125,6 +189,25 @@ if ( ! function_exists( 'codeweber_duplicate_post_create_duplicate' ) ) {
 		do_action( 'codeweber_duplicate_post_after_duplicate', $new_id, $post );
 
 		return $new_id;
+	}
+}
+
+if ( ! function_exists( 'codeweber_duplicate_post_duplicate_top_level' ) ) {
+	/**
+	 * The single entry point for a user-initiated (top-level) duplication —
+	 * used by BOTH the real admin_action handler and by tests, so there is
+	 * exactly one place that can get the "$ctx must start as null" calling
+	 * convention wrong, instead of two call sites that can silently drift
+	 * apart (this is what happened before: the handler pre-filled $ctx with
+	 * an array, so create_duplicate()'s top-level detection never triggered
+	 * in production even though a test calling it with null passed).
+	 *
+	 * @return array{0: int|WP_Error, 1: array} [ $new_id_or_error, $ctx ]
+	 */
+	function codeweber_duplicate_post_duplicate_top_level( WP_Post $post ): array {
+		$ctx    = null;
+		$new_id = codeweber_duplicate_post_create_duplicate( $post, $ctx );
+		return [ $new_id, $ctx ];
 	}
 }
 
@@ -368,8 +451,7 @@ if ( ! function_exists( 'codeweber_duplicate_post_handle_action' ) ) {
 			);
 		}
 
-		$ctx    = [ 'fork_map' => [], 'created_ids' => [] ];
-		$new_id = codeweber_duplicate_post_create_duplicate( $post, $ctx );
+		[ $new_id, $ctx ] = codeweber_duplicate_post_duplicate_top_level( $post );
 
 		if ( is_wp_error( $new_id ) ) {
 			foreach ( $ctx['created_ids'] as $created_id ) {
@@ -421,5 +503,24 @@ if ( ! function_exists( 'codeweber_duplicate_post_admin_notice' ) ) {
 				esc_html__( 'Edit the duplicate', 'codeweber' )
 			)
 		);
+
+		// The "is-dismissible" × button only hides this DOM node for the current
+		// page view — it doesn't touch the URL. As long as ?cw_duplicated=N sits
+		// in the address bar, admin list-table links built from the current URL
+		// (row actions, bulk-action redirects) keep carrying it forward, so the
+		// notice keeps reappearing even after being dismissed. Strip it once,
+		// client-side, right after rendering.
+		?>
+		<script>
+		( function () {
+			if ( ! window.history || ! window.history.replaceState ) {
+				return;
+			}
+			var url = new URL( window.location.href );
+			url.searchParams.delete( 'cw_duplicated' );
+			window.history.replaceState( {}, document.title, url.toString() );
+		}() );
+		</script>
+		<?php
 	}
 }
