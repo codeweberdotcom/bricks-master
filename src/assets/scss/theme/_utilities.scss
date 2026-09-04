@@ -125,6 +125,16 @@ $custom-grays: (
   }
 }
 
+// Hover border color — .hover-border-{color} по карте $theme-colors
+[class*="hover-border-"] {
+  transition: border-color 0.2s ease-in-out;
+}
+@each $name, $value in $theme-colors {
+  .hover-border-#{$name}:hover {
+    border-color: var(--#{$prefix}#{$name}) !important;
+  }
+}
+
 //----------------------------------------------------------//
 //  CUSTOM UTILITY CLASSES
 //----------------------------------------------------------//
