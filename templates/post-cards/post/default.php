@@ -29,10 +29,12 @@ if ($template_args['enable_hover_scale']) {
 
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
 
-// Excerpt (опционально)
+// Excerpt (опционально; excerpt_length = 0 — без ограничения)
 $excerpt = '';
-if (!empty($display['show_excerpt']) && !empty($display['excerpt_length'])) {
-    $excerpt = wp_trim_words($post_data['excerpt'], (int) $display['excerpt_length'], '...');
+if (!empty($display['show_excerpt'])) {
+    $excerpt = (int) $display['excerpt_length'] > 0
+        ? wp_trim_words($post_data['excerpt'], (int) $display['excerpt_length'], '...')
+        : $post_data['excerpt'];
 }
 
 // Ограничение заголовка

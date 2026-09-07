@@ -20,13 +20,12 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
-// Для FAQ используем excerpt или content
-$excerpt = '';
-if ($display['excerpt_length'] > 0) {
-    // Сначала пробуем excerpt, если пусто - используем content
-    $content = !empty($post_data['excerpt']) ? $post_data['excerpt'] : get_the_content();
-    $excerpt = wp_trim_words($content, $display['excerpt_length'], '...');
-}
+// Для FAQ используем excerpt или content; excerpt_length = 0 — без ограничения
+// Сначала пробуем excerpt, если пусто - используем content
+$content = !empty($post_data['excerpt']) ? $post_data['excerpt'] : get_the_content();
+$excerpt = $display['excerpt_length'] > 0
+    ? wp_trim_words($content, $display['excerpt_length'], '...')
+    : $content;
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h4';

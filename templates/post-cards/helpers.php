@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  *     @type bool   $show_category  Показывать категорию (по умолчанию true)
  *     @type bool   $show_comments  Показывать комментарии (по умолчанию true)
  *     @type int    $title_length   Максимальная длина заголовка (0 = без ограничения)
- *     @type int    $excerpt_length Длина описания (0 = не показывать)
+ *     @type int    $excerpt_length Длина описания в словах (0 = без ограничения; скрывается через show_excerpt)
  *     @type string $title_tag      HTML тег для заголовка (h1, h2, h3, h4, h5, h6, p, div, span) (по умолчанию h2)
  *     @type string $title_class    Дополнительный CSS класс для заголовка (по умолчанию пусто)
  * }
@@ -34,7 +34,7 @@ function cw_get_post_card_display_settings($args = []) {
         'show_date' => true,
         'show_category' => true,
         'show_comments' => true,
-        'show_excerpt' => true, // Дефолт true сохраняет исторический рендер шаблонов, где excerpt всегда показан при excerpt_length>0
+        'show_excerpt' => true, // Единственный способ скрыть описание; длина им не управляет
         'title_length' => 0,
         'excerpt_length' => 0,
         'title_tag' => 'h2', // h1, h2, h3, h4, h5, h6, p, div, span

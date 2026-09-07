@@ -27,14 +27,10 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
-$excerpt = '';
-if ($display['excerpt_length'] > 0) {
-    $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
-    // Ограничиваем до 116 символов (как в примере)
-    if (mb_strlen($excerpt) > 116) {
-        $excerpt = mb_substr($excerpt, 0, 113) . '...';
-    }
-}
+// excerpt_length = 0 — без ограничения
+$excerpt = $display['excerpt_length'] > 0
+    ? wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...')
+    : $post_data['excerpt'];
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';

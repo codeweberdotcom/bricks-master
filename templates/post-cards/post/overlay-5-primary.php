@@ -47,14 +47,19 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
+// excerpt_length = 0 — без ограничения
 $excerpt = '';
-if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
-    $excerpt_plain = wp_strip_all_tags($post_data['excerpt']);
-    $word_count = count(preg_split('/\s+/', trim($excerpt_plain), -1, PREG_SPLIT_NO_EMPTY));
-    if ($word_count <= $display['excerpt_length']) {
-        $excerpt = $post_data['excerpt'];
+if (!empty($display['show_excerpt'])) {
+    if ($display['excerpt_length'] > 0) {
+        $excerpt_plain = wp_strip_all_tags($post_data['excerpt']);
+        $word_count = count(preg_split('/\s+/', trim($excerpt_plain), -1, PREG_SPLIT_NO_EMPTY));
+        if ($word_count <= $display['excerpt_length']) {
+            $excerpt = $post_data['excerpt'];
+        } else {
+            $excerpt = wp_trim_words($excerpt_plain, $display['excerpt_length'], '...');
+        }
     } else {
-        $excerpt = wp_trim_words($excerpt_plain, $display['excerpt_length'], '...');
+        $excerpt = $post_data['excerpt'];
     }
 }
 

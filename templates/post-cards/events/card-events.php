@@ -7,6 +7,12 @@
  * @package Codeweber
  */
 
+// Настройки отображения: при прямом вызове из архива excerpt режется по 18 слов (историческое поведение),
+// при рендере из Post Grid значения приходят из настроек блока (excerpt_length = 0 — без ограничения).
+$display = function_exists( 'cw_get_post_card_display_settings' )
+	? cw_get_post_card_display_settings( wp_parse_args( $display_settings ?? [], [ 'excerpt_length' => 18 ] ) )
+	: [ 'show_excerpt' => true, 'excerpt_length' => 18 ];
+
 $post_id    = get_the_ID();
 $date_start = get_post_meta( $post_id, '_event_date_start', true );
 $location   = get_post_meta( $post_id, '_event_location', true );
@@ -50,8 +56,14 @@ $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 			<h5 class="card-title mb-2"><?php the_title(); ?></h5>
 
 			<?php // Excerpt ?>
-			<?php if ( has_excerpt() ) : ?>
-				<p class="card-text text-muted mb-3"><?php echo wp_trim_words( get_the_excerpt(), 18 ); ?></p>
+			<?php if ( ! empty( $display['show_excerpt'] ) && has_excerpt() ) : ?>
+				<p class="card-text text-muted mb-3"><?php
+					echo esc_html(
+						$display['excerpt_length'] > 0
+							? wp_trim_words( get_the_excerpt(), (int) $display['excerpt_length'] )
+							: get_the_excerpt()
+					);
+				?></p>
 			<?php endif; ?>
 
 			<div class="mt-auto d-flex justify-content-between align-items-center flex-wrap gap-2">
