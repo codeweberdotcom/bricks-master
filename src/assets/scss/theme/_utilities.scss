@@ -75,6 +75,9 @@ $utilities: map-merge($utilities,
         pill: $border-radius-pill
       )
     ),
+    "position": map-merge(map-get($utilities, "position"),
+      (responsive: true)
+    ),
   ));
 
 //----------------------------------------------------------//
