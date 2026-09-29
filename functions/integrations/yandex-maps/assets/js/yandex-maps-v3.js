@@ -704,7 +704,12 @@
 			if ( visibleMarkers.length > 0 ) {
 				setTimeout( () => {
 					const center = this.calcBoundsCenter( visibleMarkers );
-					const zoom   = this.calcBoundsZoom( visibleMarkers, this.container.offsetWidth, this.container.offsetHeight );
+					// A single office has no bounds to fit — calcBoundsZoom() returns null and the
+					// map would fall back to its region-wide default. Zoom in to street level
+					// instead, as the legacy script does.
+					const zoom   = visibleMarkers.length === 1
+						? 15
+						: this.calcBoundsZoom( visibleMarkers, this.container.offsetWidth, this.container.offsetHeight );
 					this.map.update( { location: { center, zoom: zoom || this.config.zoom } } );
 				}, 50 );
 			}
