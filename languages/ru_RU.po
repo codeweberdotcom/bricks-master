@@ -21280,3 +21280,53 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Now: %s"
+msgstr "Сейчас: %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "office status"
+msgid "Open"
+msgstr "Работает"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "office status"
+msgid "Closed"
+msgstr "Закрыто"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "office status"
+msgid "Day off"
+msgstr "Выходной"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Break until %s"
+msgstr "Перерыв до %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Opens in %s"
+msgstr "Откроется через %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Closes in %s"
+msgstr "Закроется через %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Break in %s"
+msgstr "До перерыва %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "plural form for 1, 21, 31…"
+msgid "%d minute"
+msgstr "%d минуту"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "plural form for 2-4, 22-24…"
+msgid "%d minutes"
+msgstr "%d минуты"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgctxt "plural form for 5-20, 25-30…"
+msgid "%d minutes"
+msgstr "%d минут"

@@ -478,6 +478,21 @@ class Codeweber_Yandex_Maps {
                 'phone'         => __( 'Phone', 'codeweber' ),
                 'workingHours'  => __( 'Working Hours', 'codeweber' ),
                 'viewDetails'   => __( 'Go', 'codeweber' ),
+                // Office open/closed status. %s is the state or the time left.
+                'statusNow'        => __( 'Now: %s', 'codeweber' ),
+                'statusOpen'       => _x( 'Open', 'office status', 'codeweber' ),
+                'statusClosed'     => _x( 'Closed', 'office status', 'codeweber' ),
+                'statusDayOff'     => _x( 'Day off', 'office status', 'codeweber' ),
+                'statusBreakUntil' => __( 'Break until %s', 'codeweber' ),
+                'statusOpensIn'    => __( 'Opens in %s', 'codeweber' ),
+                'statusClosesIn'   => __( 'Closes in %s', 'codeweber' ),
+                'statusBreakIn'    => __( 'Break in %s', 'codeweber' ),
+                // Plural forms picked in JS through Intl.PluralRules: [one, few, many].
+                'minuteForms'      => array(
+                    _x( '%d minute', 'plural form for 1, 21, 31…', 'codeweber' ),
+                    _x( '%d minutes', 'plural form for 2-4, 22-24…', 'codeweber' ),
+                    _x( '%d minutes', 'plural form for 5-20, 25-30…', 'codeweber' ),
+                ),
             ),
         );
     }

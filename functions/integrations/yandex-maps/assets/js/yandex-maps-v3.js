@@ -31,34 +31,44 @@
 			return bits[0] * 60 + bits[1];
 		};
 		const result = ( text, state, isOpen = false ) => ( { text, state, isOpen } );
-		const plural = number => number + ' ' + ( number % 10 === 1 && number % 100 !== 11 ? 'минуту' : ( [2, 3, 4].includes( number % 10 ) && ! [12, 13, 14].includes( number % 100 ) ? 'минуты' : 'минут' ) );
+		const i18n = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
+		const fill = ( pattern, value ) => String( pattern ).replace( '%s', value );
+		// Steady states read "Now: …"; countdowns ("Opens in …") stand on their own.
+		const nowIs = text => fill( i18n.statusNow || 'Now: %s', text );
+		const plural = number => {
+			const forms = i18n.minuteForms || [ '%d minute', '%d minutes', '%d minutes' ];
+			const lang = document.documentElement.lang || 'en';
+			const rule = new Intl.PluralRules( lang ).select( number );
+			const form = rule === 'one' ? forms[0] : ( rule === 'few' ? forms[1] : forms[2] );
+			return String( form ).replace( '%d', number );
+		};
 
-		if ( ! row ) return result( 'Закрыто', 'closed' );
-		if ( row.closed ) return result( 'Выходной', 'closed' );
+		if ( ! row ) return result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
+		if ( row.closed ) return result( nowIs( i18n.statusDayOff || 'Day off' ), 'closed' );
 		const open1 = minutes( row.opens_1 );
 		const close1 = minutes( row.closes_1 );
 		const open2 = minutes( row.opens_2 );
 		const close2 = minutes( row.closes_2 );
-		if ( open1 === null ) return result( 'Закрыто', 'closed' );
+		if ( open1 === null ) return result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
 		const finalClose = close2 !== null ? close2 : close1;
 		const firstClose = open2 === null && close1 === null ? close2 : close1;
 		if ( now < open1 ) {
 			const left = open1 - now;
-			return left <= 60 ? result( 'Откроется через ' + plural( left ), 'soon' ) : result( 'Закрыто', 'closed' );
+			return left <= 60 ? result( fill( i18n.statusOpensIn || 'Opens in %s', plural( left ) ), 'soon' ) : result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
 		}
 		if ( firstClose !== null && now < firstClose ) {
 			const left = firstClose - now;
-			if ( open2 !== null && left <= 30 ) return result( 'До перерыва ' + plural( left ), 'soon', true );
-			if ( open2 === null && left <= 60 ) return result( 'Закроется через ' + plural( left ), 'soon', true );
-			return result( 'Работает', 'open', true );
+			if ( open2 !== null && left <= 30 ) return result( fill( i18n.statusBreakIn || 'Break in %s', plural( left ) ), 'soon', true );
+			if ( open2 === null && left <= 60 ) return result( fill( i18n.statusClosesIn || 'Closes in %s', plural( left ) ), 'soon', true );
+			return result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 		}
-		if ( open2 !== null && now < open2 ) return result( 'Перерыв до ' + row.opens_2, 'break' );
+		if ( open2 !== null && now < open2 ) return result( nowIs( fill( i18n.statusBreakUntil || 'Break until %s', row.opens_2 ) ), 'break' );
 		if ( open2 !== null && close2 !== null && now < close2 ) {
 			const left = close2 - now;
-			return left <= 60 ? result( 'Закроется через ' + plural( left ), 'soon', true ) : result( 'Работает', 'open', true );
+			return left <= 60 ? result( fill( i18n.statusClosesIn || 'Closes in %s', plural( left ) ), 'soon', true ) : result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 		}
-		if ( finalClose !== null && now >= finalClose ) return result( 'Закрыто', 'closed' );
-		return result( 'Работает', 'open', true );
+		if ( finalClose !== null && now >= finalClose ) return result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
+		return result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 	}
 
 	function officeStatusHtml( markerData ) {

@@ -1688,6 +1688,7 @@ function codeweber_offices_map_offcanvas() {
 			'sidebar_position' => 'left',
 			'sidebar_title'    => __( 'Offices', 'codeweber' ),
 			'sidebar_fields'   => [
+				'showStatus'       => true,
 				'showCity'         => true,
 				'showAddress'      => true,
 				'showPhone'        => true,
