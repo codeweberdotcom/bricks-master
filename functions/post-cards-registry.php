@@ -215,6 +215,11 @@ function codeweber_get_post_card_templates_registry_raw() {
                     'description' => __('Text-only card: title + contacts, no image.', 'codeweber'),
                     'supports' => ['title', 'address', 'phone', 'email'],
                 ],
+                'cells' => [
+                    'label' => __('Office Cells Grid', 'codeweber'),
+                    'description' => __('Bordered cells grid: one office name per cell, the whole grid framed as a card.', 'codeweber'),
+                    'supports' => ['title'],
+                ],
             ],
         ],
 
@@ -303,6 +308,11 @@ function codeweber_get_post_card_templates_registry_raw() {
                     'label' => __('Overlay 5 Primary', 'codeweber'),
                     'description' => __('Term card with primary-colored overlay on hover', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image'],
+                ],
+                'cells' => [
+                    'label' => __('Cells Grid', 'codeweber'),
+                    'description' => __('Bordered cells grid: one term per cell, the whole grid framed as a card.', 'codeweber'),
+                    'supports' => ['title'],
                 ],
             ],
         ],
