@@ -1749,18 +1749,31 @@ function codeweber_offices_map_offcanvas() {
 		if (e.target.id !== 'offices-map-offcanvas') return;
 		var wrapper = e.target.querySelector('.codeweber-yandex-map-wrapper');
 		if (!wrapper) return;
-		var inst = wrapper._cwgbYandexMapInstance;
-		if (!inst) return;
+		var panel = e.target;
+
+		// On the first open the map is created lazily by this same event and
+		// only exposes its instance once ymaps3 has loaded — wait for it instead
+		// of giving up, or the first click by city/office shows everything.
+		var waited = 0;
+		(function waitForMap() {
+			var inst = wrapper._cwgbYandexMapInstance;
+			if (inst) { applySelection(inst); return; }
+			waited += 100;
+			if (waited <= 10000) setTimeout(waitForMap, 100);
+		})();
+
+		function applySelection(inst) {
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
 		setTimeout(function() {
-			var currentId   = e.target.dataset.currentOffice || '';
-			var currentCity = e.target.dataset.currentCity || '';
+			var currentId   = panel.dataset.currentOffice || '';
+			var currentCity = panel.dataset.currentCity || '';
 			var canFilter   = typeof inst.filterByCity === 'function';
 			var citySelect  = wrapper.querySelector('select[id$="-city-filter"]');
 
-			// The filter only lists cities that have an office on the map. A town
-			// without one would leave the panel empty — fall back to all offices.
-			if (currentCity && citySelect && !citySelect.querySelector('option[value="' + currentCity.replace(/"/g, '\\"') + '"]')) {
+			// A town without an office on the map would leave the panel empty —
+			// fall back to all offices. Checked against the marker data, which
+			// exists before the sidebar select is built.
+			if (currentCity && !(inst.config.markers || []).some(function(m) { return m.city === currentCity; })) {
 				currentCity = '';
 			}
 
@@ -1786,6 +1799,7 @@ function codeweber_offices_map_offcanvas() {
 			// filterByCity() re-centres the map ~50ms later; centre on the office after that.
 			if (filterChanged && currentId) setTimeout(focusOffice, 120); else focusOffice();
 		}, 300);
+		}
 	});
 	</script>
 
