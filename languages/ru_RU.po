@@ -21330,3 +21330,15 @@ msgstr "%d минуты"
 msgctxt "plural form for 5-20, 25-30…"
 msgid "%d minutes"
 msgstr "%d минут"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Tomorrow: %s"
+msgstr "Завтра: %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Opens tomorrow at %s"
+msgstr "Откроется завтра в %s"
+
+#: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
+msgid "Opens at %s"
+msgstr "Откроется в %s"

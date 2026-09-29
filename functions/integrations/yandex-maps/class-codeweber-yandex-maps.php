@@ -487,6 +487,9 @@ class Codeweber_Yandex_Maps {
                 'statusOpensIn'    => __( 'Opens in %s', 'codeweber' ),
                 'statusClosesIn'   => __( 'Closes in %s', 'codeweber' ),
                 'statusBreakIn'    => __( 'Break in %s', 'codeweber' ),
+                'statusTomorrow'      => __( 'Tomorrow: %s', 'codeweber' ),
+                'statusOpensTomorrow' => __( 'Opens tomorrow at %s', 'codeweber' ),
+                'statusOpensAt'       => __( 'Opens at %s', 'codeweber' ),
                 // Plural forms picked in JS through Intl.PluralRules: [one, few, many].
                 'minuteForms'      => array(
                     _x( '%d minute', 'plural form for 1, 21, 31…', 'codeweber' ),

@@ -35,6 +35,20 @@
 		const fill = ( pattern, value ) => String( pattern ).replace( '%s', value );
 		// Steady states read "Now: …"; countdowns ("Opens in …") stand on their own.
 		const nowIs = text => fill( i18n.statusNow || 'Today: %s', text );
+
+		// After today's last closing: point to tomorrow instead of a bare "Closed".
+		const tomorrowStatus = () => {
+			const order = [ 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday' ];
+			const next = hours[ order[ ( order.indexOf( weekdayMap[ parts.weekday ] ) + 1 ) % 7 ] ];
+			if ( next && next.closed ) {
+				return result( fill( i18n.statusTomorrow || 'Tomorrow: %s', i18n.statusDayOff || 'Day off' ), 'closed' );
+			}
+			if ( next && minutes( next.opens_1 ) !== null ) {
+				// "09:00" → "9:00", the way opening times are usually written.
+				return result( fill( i18n.statusOpensTomorrow || 'Opens tomorrow at %s', next.opens_1.replace( /^0(?=\d:)/, '' ) ), 'closed' );
+			}
+			return result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
+		};
 		const plural = number => {
 			const forms = i18n.minuteForms || [ '%d minute', '%d minutes', '%d minutes' ];
 			const lang = document.documentElement.lang || 'en';
@@ -54,7 +68,7 @@
 		const firstClose = open2 === null && close1 === null ? close2 : close1;
 		if ( now < open1 ) {
 			const left = open1 - now;
-			return left <= 60 ? result( fill( i18n.statusOpensIn || 'Opens in %s', plural( left ) ), 'soon' ) : result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
+			return left <= 60 ? result( fill( i18n.statusOpensIn || 'Opens in %s', plural( left ) ), 'soon' ) : result( fill( i18n.statusOpensAt || 'Opens at %s', row.opens_1.replace( /^0(?=\d:)/, '' ) ), 'closed' );
 		}
 		if ( firstClose !== null && now < firstClose ) {
 			const left = firstClose - now;
@@ -67,7 +81,7 @@
 			const left = close2 - now;
 			return left <= 60 ? result( fill( i18n.statusClosesIn || 'Closes in %s', plural( left ) ), 'soon', true ) : result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 		}
-		if ( finalClose !== null && now >= finalClose ) return result( nowIs( i18n.statusClosed || 'Closed' ), 'closed' );
+		if ( finalClose !== null && now >= finalClose ) return tomorrowStatus();
 		return result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 	}
 
