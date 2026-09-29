@@ -1562,6 +1562,50 @@ function codeweber_format_office_hours( int $post_id ): string {
 }
 
 /**
+ * IDs of `towns` terms that have at least one published office attached.
+ * Resolved once per request — templates call it for every term they render.
+ *
+ * @return int[]
+ */
+function codeweber_towns_with_offices() {
+	static $term_ids = null;
+	if ( null !== $term_ids ) {
+		return $term_ids;
+	}
+
+	$term_ids   = [];
+	$office_ids = get_posts( [
+		'post_type'      => 'offices',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+	] );
+
+	if ( $office_ids && taxonomy_exists( 'towns' ) ) {
+		$found = wp_get_object_terms( $office_ids, 'towns', [ 'fields' => 'ids' ] );
+		if ( ! is_wp_error( $found ) ) {
+			$term_ids = array_map( 'intval', array_unique( $found ) );
+		}
+	}
+
+	return $term_ids;
+}
+
+/**
+ * Post Grid "cells" grid of towns: list only towns that have an office, so the
+ * limit and ordering apply to the right set instead of hiding cells afterwards.
+ */
+add_filter( 'cwgb_post_grid_term_query_args', function ( $args, $attributes ) {
+	if ( 'towns' !== ( $args['taxonomy'] ?? '' ) || 'cells' !== ( $attributes['template'] ?? '' ) ) {
+		return $args;
+	}
+	$ids             = codeweber_towns_with_offices();
+	$args['include'] = $ids ? $ids : [ 0 ];
+	return $args;
+}, 10, 2 );
+
+/**
  * Offcanvas map panel for offices (triggered by [data-office-map]).
  * Outputs once per page via wp_footer, only when Codeweber_Yandex_Maps is active.
  */
@@ -1687,12 +1731,19 @@ function codeweber_offices_map_offcanvas() {
 		var trigger = e.target.closest('[data-office-map]');
 		if (!trigger) return;
 		e.preventDefault();
-		var officeId = trigger.dataset.officeId || '';
 		var el = document.getElementById('offices-map-offcanvas');
-		if (el && window.bootstrap) {
-			if (officeId) el.dataset.currentOffice = officeId;
-			bootstrap.Offcanvas.getOrCreateInstance(el).show();
+		if (!el || !window.bootstrap) {
+			// No panel on this page (no offices with coordinates): let a real
+			// link — e.g. a town term pointing at its archive — navigate.
+			if (trigger.getAttribute('href') === '#') e.preventDefault();
+			return;
 		}
+		e.preventDefault();
+		// Both are (re)set on every open so a previous selection cannot leak
+		// into the next one — an office click must not keep the last city filter.
+		el.dataset.currentOffice = trigger.dataset.officeId || '';
+		el.dataset.currentCity   = trigger.dataset.officeCity || '';
+		bootstrap.Offcanvas.getOrCreateInstance(el).show();
 	});
 	document.addEventListener('shown.bs.offcanvas', function(e) {
 		if (e.target.id !== 'offices-map-offcanvas') return;
@@ -1702,14 +1753,38 @@ function codeweber_offices_map_offcanvas() {
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
 		setTimeout(function() {
-			var currentId = e.target.dataset.currentOffice;
-			if (currentId && inst.markerEls && inst.markerEls[currentId]) {
-				var entry = inst.markerEls[currentId];
-				inst.onMarkerClick(entry.data, entry.el);
-				if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
-			} else if (typeof inst.fitBounds === 'function') {
-				inst.fitBounds();
+			var currentId   = e.target.dataset.currentOffice || '';
+			var currentCity = e.target.dataset.currentCity || '';
+			var canFilter   = typeof inst.filterByCity === 'function';
+			var citySelect  = wrapper.querySelector('select[id$="-city-filter"]');
+
+			// The filter only lists cities that have an office on the map. A town
+			// without one would leave the panel empty — fall back to all offices.
+			if (currentCity && citySelect && !citySelect.querySelector('option[value="' + currentCity.replace(/"/g, '\\"') + '"]')) {
+				currentCity = '';
 			}
+
+			// Apply the requested city, or clear a filter left over from an
+			// earlier open — otherwise an office from another city stays hidden.
+			var filterChanged = false;
+			if (canFilter && (currentCity || inst.activeCityFilter)) {
+				inst.filterByCity(currentCity);
+				filterChanged = true;
+			}
+			if (citySelect) citySelect.value = currentCity;
+
+			var focusOffice = function() {
+				if (currentId && inst.markerEls && inst.markerEls[currentId]) {
+					var entry = inst.markerEls[currentId];
+					inst.onMarkerClick(entry.data, entry.el);
+					if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
+				} else if (!filterChanged && typeof inst.fitBounds === 'function') {
+					// filterByCity() already re-fits the map to the visible markers.
+					inst.fitBounds();
+				}
+			};
+			// filterByCity() re-centres the map ~50ms later; centre on the office after that.
+			if (filterChanged && currentId) setTimeout(focusOffice, 120); else focusOffice();
 		}, 300);
 	});
 	</script>
