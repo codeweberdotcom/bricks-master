@@ -479,7 +479,7 @@ class Codeweber_Yandex_Maps {
                 'workingHours'  => __( 'Working Hours', 'codeweber' ),
                 'viewDetails'   => __( 'Go', 'codeweber' ),
                 // Office open/closed status. %s is the state or the time left.
-                'statusNow'        => __( 'Now: %s', 'codeweber' ),
+                'statusNow'        => __( 'Today: %s', 'codeweber' ),
                 'statusOpen'       => _x( 'Open', 'office status', 'codeweber' ),
                 'statusClosed'     => _x( 'Closed', 'office status', 'codeweber' ),
                 'statusDayOff'     => _x( 'Day off', 'office status', 'codeweber' ),

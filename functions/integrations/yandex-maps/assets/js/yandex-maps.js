@@ -34,7 +34,7 @@
         const i18n = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
 		const fill = ( pattern, value ) => String( pattern ).replace( '%s', value );
 		// Steady states read "Now: …"; countdowns ("Opens in …") stand on their own.
-		const nowIs = text => fill( i18n.statusNow || 'Now: %s', text );
+		const nowIs = text => fill( i18n.statusNow || 'Today: %s', text );
 		const plural = number => {
 			const forms = i18n.minuteForms || [ '%d minute', '%d minutes', '%d minutes' ];
 			const lang = document.documentElement.lang || 'en';

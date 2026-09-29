@@ -21282,8 +21282,8 @@ msgid "−% Discount"
 msgstr "−% Скидка"
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
-msgid "Now: %s"
-msgstr "Сейчас: %s"
+msgid "Today: %s"
+msgstr "Сегодня: %s"
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
 msgctxt "office status"
