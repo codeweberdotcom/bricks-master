@@ -1597,7 +1597,7 @@ function codeweber_towns_with_offices() {
  * limit and ordering apply to the right set instead of hiding cells afterwards.
  */
 add_filter( 'cwgb_post_grid_term_query_args', function ( $args, $attributes ) {
-	if ( 'towns' !== ( $args['taxonomy'] ?? '' ) || 'cells' !== ( $attributes['template'] ?? '' ) ) {
+	if ( 'towns' !== ( $args['taxonomy'] ?? '' ) || ! in_array( $attributes['template'] ?? '', [ 'cells', 'cells-1' ], true ) ) {
 		return $args;
 	}
 	$ids             = codeweber_towns_with_offices();
