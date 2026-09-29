@@ -614,9 +614,11 @@
 
 		createCityFilter( list ) {
 			const i18n   = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
-			const cities = new Set();
-			( this.config.markers || [] ).forEach( m => { if ( m.city ) cities.add( m.city ); } );
-			if ( cities.size === 0 ) return;
+			// Office count per city: the busiest cities go first, ties alphabetically.
+			const counts = {};
+			( this.config.markers || [] ).forEach( m => { if ( m.city ) counts[ m.city ] = ( counts[ m.city ] || 0 ) + 1; } );
+			const cities = Object.keys( counts ).sort( ( a, b ) => counts[ b ] - counts[ a ] || a.localeCompare( b ) );
+			if ( cities.length === 0 ) return;
 
 			const fc = this.getFilterContainer( list );
 
@@ -634,7 +636,7 @@
 			allOpt.textContent = i18n.allCities || 'All Cities';
 			select.appendChild( allOpt );
 
-			Array.from( cities ).sort().forEach( city => {
+			cities.forEach( city => {
 				const opt = document.createElement( 'option' );
 				opt.value = city;
 				opt.textContent = city;

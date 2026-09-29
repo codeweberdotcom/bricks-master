@@ -616,14 +616,16 @@
          * Создание фильтра по городу
          */
         createCityFilter(list) {
-            const cities = new Set();
+            // Office count per city: the busiest cities go first, ties alphabetically.
+            const counts = {};
             this.config.markers.forEach(marker => {
                 if (marker.city) {
-                    cities.add(marker.city);
+                    counts[marker.city] = (counts[marker.city] || 0) + 1;
                 }
             });
+            const cities = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
 
-            if (cities.size === 0) return;
+            if (cities.length === 0) return;
 
             const filterContainer = document.createElement('div');
             filterContainer.className = 'codeweber-map-filter p-3 border-bottom';
@@ -642,7 +644,7 @@
             allOption.textContent = codeweberYandexMaps.i18n.allCities;
             select.appendChild(allOption);
 
-            Array.from(cities).sort().forEach(city => {
+            cities.forEach(city => {
                 const option = document.createElement('option');
                 option.value = city;
                 option.textContent = city;
