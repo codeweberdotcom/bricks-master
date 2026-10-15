@@ -61,7 +61,8 @@
 			} else {
 				$template_footer_id = '';
 			}
-		} elseif ( is_archive() || is_post_type_archive( $post_type ) ) {
+		} elseif ( is_archive() || is_post_type_archive( $post_type ) || ( is_home() && ! is_front_page() ) ) {
+			// Страница записей (/blog/) — is_home(), не is_archive(): тоже берём футер архива записей.
 			if ( $archive_footer_id === 'disable' ) {
 				return;
 			}

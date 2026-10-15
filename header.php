@@ -67,7 +67,8 @@
                         $header_post_id = Codeweber_Options::get( 'single_header_select_' . $post_type );
                     }
                 }
-            } elseif ( is_archive() || is_post_type_archive( $post_type ) ) {
+            } elseif ( is_archive() || is_post_type_archive( $post_type ) || ( is_home() && ! is_front_page() ) ) {
+                // Страница записей (/blog/) — is_home(), не is_archive(): тоже берём хедер архива записей.
                 // Хедер архива из настроек CPT важнее глобального, как у single и у футеров.
                 // Пустое значение или 'default' — ниже подставится глобальный «Пользовательский Хедер».
                 $header_post_id = Codeweber_Options::get( 'archive_header_select_' . $post_type );
