@@ -291,6 +291,24 @@ if (!function_exists('codeweber_get_header_option')) {
 }
 
 /**
+ * Прозрачный ли хедер, реально выведенный на текущей странице.
+ *
+ * header.php определяет это по разметке (navbar с transparent + position-absolute),
+ * поэтому учитываются пользовательские хедеры CPT/страниц и индивидуальные настройки.
+ * Если хедер ещё не выводился — откат на глобальную настройку header-background.
+ *
+ * @return bool
+ */
+if (!function_exists('codeweber_is_header_transparent')) {
+	function codeweber_is_header_transparent() {
+		if (array_key_exists('codeweber_header_transparent', $GLOBALS)) {
+			return (bool) $GLOBALS['codeweber_header_transparent'];
+		}
+		return codeweber_get_header_option('header-background') === '3';
+	}
+}
+
+/**
  * Кастомная пагинация для постов WordPress
  *
  * Создает красивую пагинацию в стиле Bootstrap с иконками и гибкими настройками

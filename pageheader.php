@@ -126,7 +126,8 @@ if ((!is_front_page() || is_singular()) && !is_404()) {
          $page_header_title_size = Redux::get_option($opt_name, 'opt-select-title-size') ?? '';
 
          $global_page_header_model = Redux::get_option($opt_name, 'global_page_header_model');
-         $header_background = Redux::get_option($opt_name, 'header-background');
+         // '3' — прозрачный хедер: по реально выведенному хедеру, а не по глобальной настройке
+         $header_background = codeweber_is_header_transparent() ? '3' : '';
 
          // Логика классов контейнера
          $container_class = [];

@@ -42,7 +42,7 @@ $page_header_bg_image_url = Redux::get_option($opt_name, 'global-page-header-ima
 $page_header_pattern_image_url = Redux::get_option($opt_name, 'global-page-header-pattern')['url'];
 
 $global_header_model = Redux::get_option($opt_name, 'global-header-model');
-$header_background = Redux::get_option($opt_name, 'header-background');
+$header_background = codeweber_is_header_transparent() ? '3' : '';
 
 $container_class = [];
 $section_class = [];

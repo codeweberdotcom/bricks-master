@@ -52,6 +52,7 @@
                 // Проверяем индивидуальные настройки записи
                 $this_header_type = Codeweber_Options::get_post_meta( $post_id, 'this-header-type' );
                 if ( $this_header_type === '3' ) {
+                    $GLOBALS['codeweber_header_transparent'] = false;
                     return; // Disable — не выводим header
                 }
 
@@ -111,8 +112,14 @@
 
         // Проверяем, не отключён ли header
         if ( $header_post_id === 'disable' ) {
+            $GLOBALS['codeweber_header_transparent'] = false;
             return; // Не выводим header
         }
+
+        // Буферизуем вывод хедера, чтобы определить, прозрачный ли он на самом деле
+        // (пользовательский пост или шаблон) — от этого зависят отступы заголовка страницы.
+        $_cw_header_ob_level = ob_get_level();
+        ob_start();
 
         $header_post = null;
         if ( ! empty( $header_post_id ) && $header_post_id !== 'default' ) {
@@ -214,5 +221,17 @@
                 get_template_part( 'templates/header/header' );
             }
         }
+
+        // Drain: рендер блоков внутри хедера может оставить незакрытый буфер —
+        // собираем все уровни выше стартового, иначе получим только хвост разметки.
+        $_cw_header_html = '';
+        while ( ob_get_level() > $_cw_header_ob_level ) {
+            $_cw_header_html = ob_get_clean() . $_cw_header_html;
+        }
+        $GLOBALS['codeweber_header_transparent'] = (bool) preg_match(
+            '/class="(?=[^"]*\bnavbar\b)(?=[^"]*\btransparent\b)(?=[^"]*\bposition-absolute\b)[^"]*"/',
+            $_cw_header_html
+        );
+        echo $_cw_header_html; // phpcs:ignore WordPress.Security.EscapeOutput -- уже сформированная разметка хедера
         ?>
     <main class="content-wrapper<?php echo $_cw_bg_class; ?>"<?php echo $_cw_bg_data; ?><?php echo $_cw_bg_style; ?>>
