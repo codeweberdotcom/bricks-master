@@ -3,7 +3,7 @@
  * Template: Offices Archive — Style 3 (Cities, list + map)
  *
  * A whole-page layout rather than a per-post card: offices grouped by city,
- * city chips and a search box that filter the list and the map together, a
+ * city chips that filter the list and the map together, a
  * sticky map column with the head office card, and live open/closed badges.
  *
  * Rendered once by archive-offices.php (not inside the posts loop) and queries
@@ -151,9 +151,9 @@ $office_forms = [
 ?>
 <div class="cw-offices-archive" data-cw-offices>
 
-	<!-- Summary + search -->
-	<div class="row gy-4 align-items-end mb-6">
-		<div class="col-lg-7">
+	<!-- Summary -->
+	<div class="row mb-6">
+		<div class="col-12">
 			<p class="lead mb-0">
 				<?php
 				printf(
@@ -164,13 +164,6 @@ $office_forms = [
 				);
 				?>
 			</p>
-		</div>
-		<div class="col-lg-5">
-			<label class="form-label fs-sm fw-bold mb-1" for="cw-offices-search"><?php esc_html_e( 'Search by city', 'codeweber' ); ?></label>
-			<div class="position-relative">
-				<i class="uil uil-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" aria-hidden="true"></i>
-				<input type="search" id="cw-offices-search" class="form-control ps-10" placeholder="<?php echo esc_attr( sprintf( __( 'For example, %s', 'codeweber' ), (string) array_key_last( $groups ) ) ); ?>" autocomplete="off" data-cw-search>
-			</div>
 		</div>
 	</div>
 
@@ -389,12 +382,11 @@ $office_forms = [
 
 	var chips  = root.querySelectorAll( '[data-cw-chip]' );
 	var groups = root.querySelectorAll( '[data-cw-group]' );
-	var search = root.querySelector( '[data-cw-search]' );
 	var shown  = root.querySelector( '[data-cw-shown]' );
 	var reset  = root.querySelector( '[data-cw-reset]' );
 	var empty  = root.querySelector( '[data-cw-empty]' );
 	var mapBox = root.querySelector( '[data-cw-map] .codeweber-yandex-map-wrapper' );
-	var state  = { city: <?php echo wp_json_encode( $active_city ); ?>, q: '' };
+	var state  = { city: <?php echo wp_json_encode( $active_city ); ?> };
 
 	// ?city=<slug> mirrors the selected city so each city has its own link.
 	var slugOf = function ( city ) {
@@ -429,23 +421,22 @@ $office_forms = [
 	};
 
 	var apply = function () {
-		var q = state.q.trim().toLowerCase();
 		var count = 0;
 		groups.forEach( function ( g ) {
 			var city = g.getAttribute( 'data-cw-group' );
-			var visible = ( ! state.city || city === state.city ) && ( ! q || city.toLowerCase().indexOf( q ) !== -1 );
+			var visible = ! state.city || city === state.city;
 			g.classList.toggle( 'd-none', ! visible );
 			if ( visible ) count += g.querySelectorAll( '[data-cw-office]' ).length;
 		} );
 		chips.forEach( function ( c ) {
-			var active = c.getAttribute( 'data-cw-chip' ) === state.city && ! ( q && ! state.city );
+			var active = c.getAttribute( 'data-cw-chip' ) === state.city;
 			c.setAttribute( 'aria-pressed', active ? 'true' : 'false' );
 			c.classList.toggle( 'btn-primary', active );
 			c.classList.toggle( 'btn-soft-primary', ! active );
 		} );
 		shown.textContent = plural( count );
 		empty.classList.toggle( 'd-none', count > 0 );
-		reset.classList.toggle( 'd-none', ! state.city && ! q );
+		reset.classList.toggle( 'd-none', ! state.city );
 		withMap( function ( inst ) {
 			if ( typeof inst.filterByCity === 'function' ) inst.filterByCity( state.city );
 		} );
@@ -454,16 +445,12 @@ $office_forms = [
 	chips.forEach( function ( c ) {
 		c.addEventListener( 'click', function () {
 			state.city = c.getAttribute( 'data-cw-chip' );
-			state.q = '';
-			search.value = '';
 			apply();
 			pushCity();
 		} );
 	} );
 	window.addEventListener( 'popstate', function () {
 		state.city = cityOf( new URL( window.location.href ).searchParams.get( 'city' ) || '' );
-		state.q = '';
-		search.value = '';
 		apply();
 	} );
 	// The list arrives pre-filtered from PHP; only the map still needs it.
@@ -472,15 +459,8 @@ $office_forms = [
 			if ( typeof inst.filterByCity === 'function' ) inst.filterByCity( state.city );
 		} );
 	}
-	search.addEventListener( 'input', function () {
-		state.q = search.value;
-		state.city = '';
-		apply();
-	} );
 	reset.addEventListener( 'click', function () {
 		state.city = '';
-		state.q = '';
-		search.value = '';
 		apply();
 		pushCity();
 	} );
@@ -489,8 +469,6 @@ $office_forms = [
 		btn.addEventListener( 'click', function () {
 			var id = btn.getAttribute( 'data-cw-show-on-map' );
 			state.city = btn.getAttribute( 'data-cw-city' );
-			state.q = '';
-			search.value = '';
 			apply();
 			pushCity();
 			if ( mapBox && mapBox.getBoundingClientRect().top < 0 ) mapBox.scrollIntoView( { behavior: 'smooth', block: 'center' } );
