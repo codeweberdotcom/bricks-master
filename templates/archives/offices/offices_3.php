@@ -234,17 +234,17 @@ $office_forms = [
 						<div class="card-body p-6 d-flex flex-column gap-3">
 							<span class="fs-13 fw-bold text-uppercase text-white opacity-75"><?php esc_html_e( 'Head office', 'codeweber' ); ?></span>
 							<?php if ( $company_address ) : ?>
-								<span class="h5 mb-0 text-inverse"><?php echo esc_html( $company_address ); ?></span>
+								<span class="h5 mb-0 text-white"><?php echo esc_html( $company_address ); ?></span>
 							<?php endif; ?>
 							<div class="d-flex flex-column gap-1 fs-15">
 								<?php foreach ( $company_phones as $phone ) : ?>
-									<a href="<?php echo esc_attr( $tel( $phone ) ); ?>" class="fw-bold text-inverse"><?php echo esc_html( $phone ); ?></a>
+									<a href="<?php echo esc_attr( $tel( $phone ) ); ?>" class="fw-bold text-white"><?php echo esc_html( $phone ); ?></a>
 								<?php endforeach; ?>
 								<?php if ( $company_email ) : ?>
-									<a href="mailto:<?php echo esc_attr( antispambot( $company_email ) ); ?>" class="text-inverse opacity-75"><?php echo esc_html( antispambot( $company_email ) ); ?></a>
+									<a href="mailto:<?php echo esc_attr( antispambot( $company_email ) ); ?>" class="text-white"><?php echo esc_html( antispambot( $company_email ) ); ?></a>
 								<?php endif; ?>
 								<?php foreach ( $company_hours as $line ) : ?>
-									<span class="opacity-75"><?php echo esc_html( $line ); ?></span>
+									<span class="text-white"><?php echo esc_html( $line ); ?></span>
 								<?php endforeach; ?>
 							</div>
 							<?php if ( $callback_value || $main_link ) : ?>
