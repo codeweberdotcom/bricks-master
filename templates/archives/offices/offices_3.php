@@ -262,16 +262,23 @@ $office_forms = [
 		<!-- Office list -->
 		<div class="col-lg-6">
 			<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
-				<span class="text-muted fs-15">
-					<?php esc_html_e( 'Shown:', 'codeweber' ); ?>
-					<strong class="text-dark" data-cw-shown><?php echo esc_html( sprintf( _n( '%d office', '%d offices', $shown_count, 'codeweber' ), $shown_count ) ); ?></strong>
-				</span>
+				<div class="d-flex flex-wrap align-items-center gap-4">
+					<span class="text-muted fs-15">
+						<?php esc_html_e( 'Shown:', 'codeweber' ); ?>
+						<strong class="text-dark" data-cw-shown><?php echo esc_html( sprintf( _n( '%d office', '%d offices', $shown_count, 'codeweber' ), $shown_count ) ); ?></strong>
+					</span>
+					<div class="form-check form-switch mb-0 d-none" data-cw-open-now-wrap>
+						<input class="form-check-input" type="checkbox" role="switch" id="cw-offices-open-now" data-cw-open-now>
+						<label class="form-check-label fs-15" for="cw-offices-open-now"><?php esc_html_e( 'Open now', 'codeweber' ); ?></label>
+					</div>
+				</div>
 				<button type="button" class="btn btn-link p-0 fs-14 fw-bold<?php echo $active_city ? '' : ' d-none'; ?>" data-cw-reset><?php esc_html_e( 'Reset filter', 'codeweber' ); ?></button>
 			</div>
 
 			<div class="card text-center d-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>" data-cw-empty>
 				<div class="card-body p-8">
-					<h3 class="h4 mb-2"><?php esc_html_e( 'There is no office in this city yet', 'codeweber' ); ?></h3>
+					<h3 class="h4 mb-2" data-cw-empty-city><?php esc_html_e( 'There is no office in this city yet', 'codeweber' ); ?></h3>
+					<h3 class="h4 mb-2 d-none" data-cw-empty-open><?php esc_html_e( 'There are no open offices right now', 'codeweber' ); ?></h3>
 					<p class="text-muted mb-3"><?php esc_html_e( 'Call us — we will suggest the nearest one or arrange the policy remotely.', 'codeweber' ); ?></p>
 					<?php if ( $company_phone ) : ?>
 						<a href="<?php echo esc_attr( $tel( $company_phone ) ); ?>" class="h5 mb-0"><?php echo esc_html( $company_phone ); ?></a>
@@ -385,8 +392,10 @@ $office_forms = [
 	var shown  = root.querySelector( '[data-cw-shown]' );
 	var reset  = root.querySelector( '[data-cw-reset]' );
 	var empty  = root.querySelector( '[data-cw-empty]' );
+	var openNow     = root.querySelector( '[data-cw-open-now]' );
+	var openNowWrap = root.querySelector( '[data-cw-open-now-wrap]' );
 	var mapBox = root.querySelector( '[data-cw-map] .codeweber-yandex-map-wrapper' );
-	var state  = { city: <?php echo wp_json_encode( $active_city ); ?> };
+	var state  = { city: <?php echo wp_json_encode( $active_city ); ?>, open: false };
 
 	// ?city=<slug> mirrors the selected city so each city has its own link.
 	var slugOf = function ( city ) {
@@ -424,9 +433,16 @@ $office_forms = [
 		var count = 0;
 		groups.forEach( function ( g ) {
 			var city = g.getAttribute( 'data-cw-group' );
-			var visible = ! state.city || city === state.city;
+			var inGroup = 0;
+			g.querySelectorAll( '[data-cw-office]' ).forEach( function ( card ) {
+				// "Open now" uses the status computed once on page load.
+				var visible = ! state.open || card.getAttribute( 'data-cw-open' ) === '1';
+				card.classList.toggle( 'd-none', ! visible );
+				if ( visible ) inGroup++;
+			} );
+			var visible = ( ! state.city || city === state.city ) && inGroup > 0;
 			g.classList.toggle( 'd-none', ! visible );
-			if ( visible ) count += g.querySelectorAll( '[data-cw-office]' ).length;
+			if ( visible ) count += inGroup;
 		} );
 		chips.forEach( function ( c ) {
 			var active = c.getAttribute( 'data-cw-chip' ) === state.city;
@@ -436,8 +452,11 @@ $office_forms = [
 		} );
 		shown.textContent = plural( count );
 		empty.classList.toggle( 'd-none', count > 0 );
-		reset.classList.toggle( 'd-none', ! state.city );
+		empty.querySelector( '[data-cw-empty-city]' ).classList.toggle( 'd-none', state.open );
+		empty.querySelector( '[data-cw-empty-open]' ).classList.toggle( 'd-none', ! state.open );
+		reset.classList.toggle( 'd-none', ! state.city && ! state.open );
 		withMap( function ( inst ) {
+			inst.openNowOnly = state.open;
 			if ( typeof inst.filterByCity === 'function' ) inst.filterByCity( state.city );
 		} );
 	};
@@ -459,8 +478,14 @@ $office_forms = [
 			if ( typeof inst.filterByCity === 'function' ) inst.filterByCity( state.city );
 		} );
 	}
+	openNow.addEventListener( 'change', function () {
+		state.open = openNow.checked;
+		apply();
+	} );
 	reset.addEventListener( 'click', function () {
 		state.city = '';
+		state.open = false;
+		openNow.checked = false;
 		apply();
 		pushCity();
 	} );
@@ -501,6 +526,14 @@ $office_forms = [
 	( function waitForStatus() {
 		if ( typeof window.codeweberOfficeStatus === 'function' ) {
 			refreshStatus();
+			// Snapshot for the "Open now" filter — taken once, on page load.
+			root.querySelectorAll( '[data-cw-office]' ).forEach( function ( card ) {
+				var hours;
+				try { hours = JSON.parse( card.getAttribute( 'data-cw-hours' ) || '{}' ); } catch ( e ) { hours = {}; }
+				var status = window.codeweberOfficeStatus( { officeHours: hours, timezone: tz } );
+				card.setAttribute( 'data-cw-open', status && status.isOpen ? '1' : '0' );
+			} );
+			openNowWrap.classList.remove( 'd-none' );
 			setInterval( refreshStatus, 60000 );
 		} else if ( ( waitStatus += 100 ) <= 10000 ) {
 			setTimeout( waitForStatus, 100 );

@@ -21480,3 +21480,11 @@ msgstr "Оставьте телефон — специалист офиса пе
 #: templates/singles/offices/offices_6.php
 msgid "Nearby offices"
 msgstr "Офисы поблизости"
+
+#: templates/archives/offices/offices_3.php
+msgid "Open now"
+msgstr "Открыто сейчас"
+
+#: templates/archives/offices/offices_3.php
+msgid "There are no open offices right now"
+msgstr "Сейчас нет открытых офисов"
