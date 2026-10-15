@@ -21444,3 +21444,44 @@ msgstr "Сделать головным офисом"
 #: functions/cpt/cpt-offices.php
 msgid "Shown as the head office on the offices archive. Only one office can be the main one — marking this office unmarks the others."
 msgstr "Выводится как головной офис на странице архива офисов. Головной офис может быть только один — отметка снимается с остальных."
+
+#: templates/singles/offices/offices_6.php
+msgid "All offices"
+msgstr "Все офисы"
+
+#: templates/singles/offices/offices_6.php
+msgid "Call"
+msgstr "Позвонить"
+
+#: templates/singles/offices/offices_6.php
+msgid "Get directions"
+msgstr "Построить маршрут"
+
+#: templates/singles/offices/offices_6.php
+msgid "Open in Yandex Maps"
+msgstr "Открыть в Яндекс Картах"
+
+#: templates/singles/offices/offices_6.php
+msgid "What you can arrange at the office"
+msgstr "Что можно оформить в офисе"
+
+#: templates/singles/offices/offices_6.php
+msgid "Learn more →"
+msgstr "Подробнее →"
+
+#: templates/singles/offices/offices_6.php
+msgid "Book a visit"
+msgstr "Записаться на визит"
+
+#: templates/singles/offices/offices_6.php
+msgid "Leave your phone number — an office specialist will call you back and prepare the documents for your visit."
+msgstr "Оставьте телефон — специалист офиса перезвонит и подготовит документы к вашему приходу."
+
+#: templates/singles/offices/offices_6.php
+msgid "Nearby offices"
+msgstr "Офисы поблизости"
+
+#. translators: %s: distance in kilometres, e.g. "15" or "0.8".
+#: templates/singles/offices/offices_6.php
+msgid "~ %s km"
+msgstr "~ %s км"
