@@ -309,6 +309,59 @@ if (!function_exists('codeweber_is_header_transparent')) {
 }
 
 /**
+ * Extended ли хедер (двухстрочный: логотип + меню), реально выведенный на странице.
+ * Если хедер ещё не выводился — откат на глобальную модель (7, 8 — extended).
+ *
+ * @return bool
+ */
+if (!function_exists('codeweber_is_header_extended')) {
+	function codeweber_is_header_extended() {
+		if (array_key_exists('codeweber_header_extended', $GLOBALS)) {
+			return (bool) $GLOBALS['codeweber_header_extended'];
+		}
+		return in_array((string) Codeweber_Options::get('global-header-model'), array('7', '8'), true);
+	}
+}
+
+/**
+ * Класс pt-lg-* для заголовка страницы под прозрачным extended-хедером.
+ *
+ * Отступы заголовка рассчитаны на однострочный прозрачный хедер (~95px), а extended
+ * на десктопе выше (~183px). Берём десктопный верхний отступ из классов (pt-md-N,
+ * иначе pt-N / py-N), прибавляем разницу высот и выбираем ближайшую ступень шкалы
+ * $spacers. Ниже lg меню extended сворачивается в одну строку — там прибавка не нужна.
+ *
+ * @param string $classes Классы контейнера заголовка.
+ * @return string Класс вида 'pt-lg-22' или пустая строка.
+ */
+if (!function_exists('codeweber_extended_header_offset_class')) {
+	function codeweber_extended_header_offset_class($classes) {
+		// Шкала $spacers темы: ступень => px
+		$steps = array(
+			13 => 80, 14 => 90, 15 => 100, 16 => 120, 17 => 140, 18 => 160, 19 => 180,
+			20 => 200, 21 => 250, 22 => 300, 23 => 350, 24 => 400, 25 => 450,
+		);
+		if (!preg_match('/\bpt-md-(\d+)\b/', $classes, $m)
+			&& !preg_match('/\bpt-(\d+)\b/', $classes, $m)
+			&& !preg_match('/\bpy-(\d+)\b/', $classes, $m)) {
+			return '';
+		}
+		$current = (int) $m[1];
+		if (!isset($steps[$current])) {
+			return '';
+		}
+		$target = $steps[$current] + 88;
+		$best   = $current;
+		foreach ($steps as $step => $px) {
+			if (abs($px - $target) < abs($steps[$best] - $target)) {
+				$best = $step;
+			}
+		}
+		return $best > $current ? 'pt-lg-' . $best : '';
+	}
+}
+
+/**
  * Кастомная пагинация для постов WordPress
  *
  * Создает красивую пагинацию в стиле Bootstrap с иконками и гибкими настройками

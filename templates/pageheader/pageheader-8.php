@@ -52,7 +52,8 @@ $subtitle_class = [];
 $data_section = [];
 
 
-if ($global_header_model === '7' || $global_header_model === '8') {
+// Ветка extended — по реально выведенному хедеру, а не по глобальной модели
+if (codeweber_is_header_extended()) {
    if ($header_background === '3') {
       $container_class[] = 'pt-19 pt-md-24 pb-18 pb-md-20';
    } else {

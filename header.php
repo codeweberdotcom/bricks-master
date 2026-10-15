@@ -232,6 +232,11 @@
             '/class="(?=[^"]*\bnavbar\b)(?=[^"]*\btransparent\b)(?=[^"]*\bposition-absolute\b)[^"]*"/',
             $_cw_header_html
         );
+        // Extended — двухстрочный хедер (логотип + меню), ему нужен больший отступ заголовка.
+        $GLOBALS['codeweber_header_extended'] = (bool) preg_match(
+            '/class="(?=[^"]*\bnavbar\b)(?=[^"]*\bextended\b)[^"]*"/',
+            $_cw_header_html
+        );
         echo $_cw_header_html; // phpcs:ignore WordPress.Security.EscapeOutput -- уже сформированная разметка хедера
         ?>
     <main class="content-wrapper<?php echo $_cw_bg_class; ?>"<?php echo $_cw_bg_data; ?><?php echo $_cw_bg_style; ?>>

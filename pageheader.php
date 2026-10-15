@@ -154,6 +154,14 @@ if ((!is_front_page() || is_singular()) && !is_404()) {
             $container_class[] = ($header_background === '3') ? 'pt-18 pt-md-20' : 'pt-10 pt-md-14';
          }
 
+         // Прозрачный extended-хедер выше однострочного — добавляем отступ на десктопе
+         if ($header_background === '3' && codeweber_is_header_extended()) {
+            $extended_offset = codeweber_extended_header_offset_class($container_class[0]);
+            if ($extended_offset) {
+               $container_class[0] .= ' ' . $extended_offset;
+            }
+         }
+
          // Логика классов секции
          $section_class = [];
          $data_section = [];
