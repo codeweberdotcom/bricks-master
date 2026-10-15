@@ -85,6 +85,9 @@
 		return result( nowIs( i18n.statusOpen || 'Open' ), 'open', true );
 	}
 
+	// Shared with the offices archive (offices_3), which shows the same badges outside the map.
+	window.codeweberOfficeStatus = officeStatus;
+
 	function officeStatusHtml( markerData ) {
 		const status = officeStatus( markerData );
 		if ( ! status ) return '';

@@ -1514,7 +1514,16 @@ function codeweber_get_office_hours( int $post_id ): array {
  * @return string Formatted hours (e.g. "Mon-Fri: 09:00-13:00, 14:00-18:00").
  */
 function codeweber_format_office_hours( int $post_id ): string {
-	$hours = codeweber_get_office_hours( $post_id );
+	return codeweber_format_hours( codeweber_get_office_hours( $post_id ) );
+}
+
+/**
+ * Format a weekly schedule as a human-readable string, grouping equal days.
+ *
+ * @param array $hours Day key => [ closed?, opens_1, closes_1, opens_2, closes_2 ].
+ * @return string Formatted hours (e.g. "Mon–Fri: 09:00–18:00; Sat: Day off").
+ */
+function codeweber_format_hours( array $hours ): string {
 	$days  = codeweber_opening_hours_days();
 	$groups = [];
 
@@ -1559,6 +1568,54 @@ function codeweber_format_office_hours( int $post_id ): string {
 	}, $groups );
 
 	return implode( '; ', $lines );
+}
+
+/**
+ * Company-wide opening hours from Redux (Company Details → Opening Hours),
+ * in the same structure as codeweber_get_office_hours().
+ *
+ * @return array
+ */
+function codeweber_get_company_hours(): array {
+	$hours = [];
+	if ( ! class_exists( 'Codeweber_Options' ) ) {
+		return $hours;
+	}
+	foreach ( array_keys( codeweber_opening_hours_days() ) as $day ) {
+		$opens_1 = Codeweber_Options::get( 'opening_hours_' . $day . '_opens_1', '' );
+		if ( '' === (string) $opens_1 ) {
+			continue;
+		}
+		$hours[ $day ] = [
+			'opens_1'  => $opens_1,
+			'closes_1' => Codeweber_Options::get( 'opening_hours_' . $day . '_closes_1', '' ),
+			'opens_2'  => Codeweber_Options::get( 'opening_hours_' . $day . '_opens_2', '' ),
+			'closes_2' => Codeweber_Options::get( 'opening_hours_' . $day . '_closes_2', '' ),
+		];
+	}
+	return $hours;
+}
+
+/**
+ * All phone numbers of an office: the repeater (stored as an array, or as a
+ * JSON string by imports), falling back to the two legacy single fields.
+ *
+ * @param int $post_id Office post ID.
+ * @return string[]
+ */
+function codeweber_get_office_phones( int $post_id ): array {
+	$phones = get_post_meta( $post_id, '_office_phones', true );
+	if ( is_string( $phones ) && '' !== $phones ) {
+		$decoded = json_decode( $phones, true );
+		$phones  = is_array( $decoded ) ? $decoded : [];
+	}
+	if ( ! is_array( $phones ) || ! $phones ) {
+		$phones = [
+			get_post_meta( $post_id, '_office_phone', true ),
+			get_post_meta( $post_id, '_office_phone_2', true ),
+		];
+	}
+	return array_values( array_filter( array_map( 'trim', array_map( 'strval', $phones ) ) ) );
 }
 
 /**

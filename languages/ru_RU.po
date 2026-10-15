@@ -21342,3 +21342,93 @@ msgstr "Откроется завтра в %s"
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php
 msgid "Opens at %s"
 msgstr "Откроется в %s"
+
+#: templates/archives/offices/offices_3.php
+msgid "%d office"
+msgid_plural "%d offices"
+msgstr[0] "%d офис"
+msgstr[1] "%d офиса"
+msgstr[2] "%d офисов"
+
+#: templates/archives/offices/offices_3.php
+msgid "%d city"
+msgid_plural "%d cities"
+msgstr[0] "%d городе"
+msgstr[1] "%d городах"
+msgstr[2] "%d городах"
+
+#: templates/archives/offices/offices_3.php
+msgctxt "plural form for 1, 21, 31…"
+msgid "%d office"
+msgstr "%d офис"
+
+#: templates/archives/offices/offices_3.php
+msgctxt "plural form for 2-4, 22-24…"
+msgid "%d offices"
+msgstr "%d офиса"
+
+#: templates/archives/offices/offices_3.php
+msgctxt "plural form for 5-20, 25-30…"
+msgid "%d offices"
+msgstr "%d офисов"
+
+#. translators: 1: number of offices, e.g. "29 offices"; 2: number of cities.
+#: templates/archives/offices/offices_3.php
+msgid "%1$s in %2$s — choose the nearest one and come to get your policy"
+msgstr "%1$s в %2$s — выберите ближайший и приходите оформить полис"
+
+#: templates/archives/offices/offices_3.php
+msgid "Search by city"
+msgstr "Поиск по городу"
+
+#: templates/archives/offices/offices_3.php
+msgid "For example, %s"
+msgstr "Например, %s"
+
+#: templates/archives/offices/offices_3.php
+msgid "Filter by city"
+msgstr "Фильтр по городу"
+
+#: templates/archives/offices/offices_3.php
+msgid "All cities"
+msgstr "Все города"
+
+#: templates/archives/offices/offices_3.php
+msgid "Offices on the map"
+msgstr "Офисы на карте"
+
+#: templates/archives/offices/offices_3.php
+msgid "Head office"
+msgstr "Головной офис"
+
+#: templates/archives/offices/offices_3.php
+msgid "Request a call back"
+msgstr "Заказать обратный звонок"
+
+#: templates/archives/offices/offices_3.php
+msgid "Shown:"
+msgstr "Показано:"
+
+#: templates/archives/offices/offices_3.php
+msgid "Reset filter"
+msgstr "Сбросить фильтр"
+
+#: templates/archives/offices/offices_3.php
+msgid "There is no office in this city yet"
+msgstr "В этом городе пока нет офиса"
+
+#: templates/archives/offices/offices_3.php
+msgid "Call us — we will suggest the nearest one or arrange the policy remotely."
+msgstr "Позвоните нам — подскажем ближайший или оформим полис дистанционно."
+
+#: templates/archives/offices/offices_3.php
+msgid "More about the office"
+msgstr "Подробнее об офисе"
+
+#: templates/archives/offices/offices_3.php
+msgid "No office nearby?"
+msgstr "Нет офиса рядом?"
+
+#: templates/archives/offices/offices_3.php
+msgid "Call us — a consultant will suggest the nearest office and the documents you need."
+msgstr "Позвоните — консультант подскажет ближайший офис и нужные документы."

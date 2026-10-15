@@ -33,8 +33,14 @@ if (have_posts()) : ?>
           <div class="<?php echo esc_attr($content_class); ?>">
       
       <?php 
-      // Показываем карту для шаблонов offices_2 и offices_3
-      if ($templateloop === 'offices_2' || $templateloop === 'offices_3') :
+      // offices_3 is a whole-page layout with its own query, map and filters:
+      // render it once and skip the per-post loop and pagination.
+      if ($templateloop === 'offices_3' && locate_template($template_file)) :
+          get_template_part('templates/archives/offices/offices_3');
+      else :
+
+      // Показываем карту для шаблона offices_2
+      if ($templateloop === 'offices_2') :
           // Получаем все офисы с координатами
           $offices_query = new WP_Query(array(
               'post_type'      => 'offices',
@@ -150,6 +156,7 @@ if (have_posts()) : ?>
       <?php 
       // Pagination
       codeweber_posts_pagination();
+      endif; // offices_3
       ?>
           </div>
           <!-- /column -->
