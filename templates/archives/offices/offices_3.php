@@ -115,11 +115,24 @@ if ( '' !== $city_param ) {
 $shown_count = $active_city ? count( $groups[ $active_city ] ) : $total_offices;
 
 // ── Head office: company contacts from Redux ─────────────────────────────────
-$company_phone   = class_exists( 'Redux' ) ? (string) Redux::get_option( 'redux_demo', 'phone_01' ) : '';
-$company_email   = class_exists( 'Redux' ) ? (string) Redux::get_option( 'redux_demo', 'e-mail' ) : '';
-$company_address = function_exists( 'codeweber_get_address' ) ? codeweber_get_address( 'fact', ', ', '' ) : '';
-$company_hours   = array_filter( array_map( 'trim', explode( ';', codeweber_format_hours( codeweber_get_company_hours() ) ) ) );
-$tel             = static function ( $phone ) {
+// The office marked "Main office" wins; without one, fall back to the
+// company contacts from the theme settings.
+$main_office_id = codeweber_get_main_office_id();
+$main_link      = '';
+if ( $main_office_id ) {
+	$company_phones  = codeweber_get_office_phones( $main_office_id );
+	$company_email   = (string) get_post_meta( $main_office_id, '_office_email', true );
+	$company_address = get_post_meta( $main_office_id, '_office_full_address', true ) ?: (string) get_post_meta( $main_office_id, '_office_street', true );
+	$company_hours   = array_filter( array_map( 'trim', explode( ';', codeweber_format_office_hours( $main_office_id ) ) ) );
+	$main_link       = get_permalink( $main_office_id );
+} else {
+	$company_phones  = array_filter( [ class_exists( 'Redux' ) ? (string) Redux::get_option( 'redux_demo', 'phone_01' ) : '' ] );
+	$company_email   = class_exists( 'Redux' ) ? (string) Redux::get_option( 'redux_demo', 'e-mail' ) : '';
+	$company_address = function_exists( 'codeweber_get_address' ) ? codeweber_get_address( 'fact', ', ', '' ) : '';
+	$company_hours   = array_filter( array_map( 'trim', explode( ';', codeweber_format_hours( codeweber_get_company_hours() ) ) ) );
+}
+$company_phone = (string) ( reset( $company_phones ) ?: '' );
+$tel           = static function ( $phone ) {
 	return 'tel:' . preg_replace( '/[^0-9+]/', '', $phone );
 };
 
@@ -224,9 +237,9 @@ $office_forms = [
 								<span class="h5 mb-0 text-inverse"><?php echo esc_html( $company_address ); ?></span>
 							<?php endif; ?>
 							<div class="d-flex flex-column gap-1 fs-15">
-								<?php if ( $company_phone ) : ?>
-									<a href="<?php echo esc_attr( $tel( $company_phone ) ); ?>" class="fw-bold text-inverse"><?php echo esc_html( $company_phone ); ?></a>
-								<?php endif; ?>
+								<?php foreach ( $company_phones as $phone ) : ?>
+									<a href="<?php echo esc_attr( $tel( $phone ) ); ?>" class="fw-bold text-inverse"><?php echo esc_html( $phone ); ?></a>
+								<?php endforeach; ?>
 								<?php if ( $company_email ) : ?>
 									<a href="mailto:<?php echo esc_attr( antispambot( $company_email ) ); ?>" class="text-inverse opacity-75"><?php echo esc_html( antispambot( $company_email ) ); ?></a>
 								<?php endif; ?>
@@ -234,10 +247,17 @@ $office_forms = [
 									<span class="opacity-75"><?php echo esc_html( $line ); ?></span>
 								<?php endforeach; ?>
 							</div>
-							<?php if ( $callback_value ) : ?>
-								<a href="javascript:void(0)" class="btn btn-white align-self-start has-ripple<?php echo esc_attr( $btn_style ); ?>" data-bs-toggle="modal" data-bs-target="#modal" data-value="<?php echo esc_attr( $callback_value ); ?>">
-									<?php esc_html_e( 'Request a call back', 'codeweber' ); ?>
-								</a>
+							<?php if ( $callback_value || $main_link ) : ?>
+								<div class="d-flex flex-wrap gap-3">
+									<?php if ( $callback_value ) : ?>
+										<a href="javascript:void(0)" class="btn btn-white has-ripple<?php echo esc_attr( $btn_style ); ?>" data-bs-toggle="modal" data-bs-target="#modal" data-value="<?php echo esc_attr( $callback_value ); ?>">
+											<?php esc_html_e( 'Request a call back', 'codeweber' ); ?>
+										</a>
+									<?php endif; ?>
+									<?php if ( $main_link ) : ?>
+										<a href="<?php echo esc_url( $main_link ); ?>" class="btn btn-outline-white has-ripple<?php echo esc_attr( $btn_style ); ?>"><?php esc_html_e( 'More about the office', 'codeweber' ); ?></a>
+									<?php endif; ?>
+								</div>
 							<?php endif; ?>
 						</div>
 					</div>

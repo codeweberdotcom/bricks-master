@@ -21432,3 +21432,15 @@ msgstr "Нет офиса рядом?"
 #: templates/archives/offices/offices_3.php
 msgid "Call us — a consultant will suggest the nearest office and the documents you need."
 msgstr "Позвоните — консультант подскажет ближайший офис и нужные документы."
+
+#: functions/cpt/cpt-offices.php
+msgid "Main office"
+msgstr "Головной офис"
+
+#: functions/cpt/cpt-offices.php
+msgid "Make this the main office"
+msgstr "Сделать головным офисом"
+
+#: functions/cpt/cpt-offices.php
+msgid "Shown as the head office on the offices archive. Only one office can be the main one — marking this office unmarks the others."
+msgstr "Выводится как головной офис на странице архива офисов. Головной офис может быть только один — отметка снимается с остальных."

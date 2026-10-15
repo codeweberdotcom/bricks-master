@@ -291,6 +291,15 @@ function codeweber_office_basic_info_callback($post)
 ?>
 
    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center;">
+      <label for="office_is_main"><strong><?php echo esc_html__('Main office', 'codeweber'); ?>:</strong></label>
+      <div>
+         <label>
+            <input type="checkbox" id="office_is_main" name="office_is_main" value="1" <?php checked( (bool) get_post_meta( $post->ID, '_office_is_main', true ) ); ?>>
+            <?php echo esc_html__('Make this the main office', 'codeweber'); ?>
+         </label>
+         <p class="description"><?php echo esc_html__('Shown as the head office on the offices archive. Only one office can be the main one — marking this office unmarks the others.', 'codeweber'); ?></p>
+      </div>
+
       <label for="office_country"><strong><?php echo esc_html__('Country', 'codeweber'); ?>:</strong></label>
       <input type="text" id="office_country" name="office_country" value="<?php echo esc_attr($country); ?>" style="width: 100%; padding: 8px;">
 
@@ -1116,6 +1125,25 @@ function codeweber_save_office_meta($post_id)
       return;
    }
 
+   // Головной офис: флаг может стоять только у одного офиса
+   if (!empty($_POST['office_is_main'])) {
+      $previous = get_posts(array(
+         'post_type'      => 'offices',
+         'post_status'    => 'any',
+         'posts_per_page' => -1,
+         'fields'         => 'ids',
+         'post__not_in'   => array($post_id),
+         'meta_key'       => '_office_is_main',
+         'meta_value'     => '1',
+      ));
+      foreach ($previous as $previous_id) {
+         delete_post_meta($previous_id, '_office_is_main');
+      }
+      update_post_meta($post_id, '_office_is_main', '1');
+   } else {
+      delete_post_meta($post_id, '_office_is_main');
+   }
+
    // Синхронизация города с таксономией towns
    if (isset($_POST['office_city'])) {
       $city_name = trim( sanitize_text_field( wp_unslash( $_POST['office_city'] ) ) );
@@ -1617,6 +1645,40 @@ function codeweber_get_office_phones( int $post_id ): array {
 	}
 	return array_values( array_filter( array_map( 'trim', array_map( 'strval', $phones ) ) ) );
 }
+
+/**
+ * ID of the published office marked "Main office", or 0 when none is marked.
+ *
+ * @return int
+ */
+function codeweber_get_main_office_id(): int {
+	$ids = get_posts(
+		[
+			'post_type'      => 'offices',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_key'       => '_office_is_main',
+			'meta_value'     => '1',
+		]
+	);
+	return $ids ? (int) $ids[0] : 0;
+}
+
+/**
+ * Mark the main office in the admin list: "Office name — Main office".
+ */
+add_filter(
+	'display_post_states',
+	static function ( $states, $post ) {
+		if ( 'offices' === $post->post_type && get_post_meta( $post->ID, '_office_is_main', true ) ) {
+			$states['codeweber_main_office'] = __( 'Main office', 'codeweber' );
+		}
+		return $states;
+	},
+	10,
+	2
+);
 
 /**
  * IDs of `towns` terms that have at least one published office attached.
