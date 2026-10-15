@@ -34,20 +34,26 @@ $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 // ── Collect offices, grouped by city ─────────────────────────────────────────
 $groups  = [];
 $markers = [];
+$slugs   = []; // city name => URL slug for ?city=
 
 foreach ( $offices as $office ) {
 	$id = $office->ID;
 
 	$city  = '';
-	$towns = wp_get_post_terms( $id, 'towns', [ 'fields' => 'names' ] );
+	$slug  = '';
+	$towns = wp_get_post_terms( $id, 'towns' );
 	if ( $towns && ! is_wp_error( $towns ) ) {
-		$city = $towns[0];
+		$city = $towns[0]->name;
+		$slug = $towns[0]->slug;
 	}
 	if ( '' === $city ) {
 		$city = (string) get_post_meta( $id, '_office_city', true );
 	}
 	if ( '' === $city ) {
 		$city = __( 'Other', 'codeweber' );
+	}
+	if ( ! isset( $slugs[ $city ] ) ) {
+		$slugs[ $city ] = '' !== $slug ? $slug : sanitize_title( $city );
 	}
 
 	$address  = get_post_meta( $id, '_office_full_address', true ) ?: get_post_meta( $id, '_office_street', true );
@@ -95,6 +101,18 @@ uksort(
 
 $total_offices = count( $offices );
 $total_cities  = count( $groups );
+
+// A shared link like /offices/?city=doneck arrives with that city already
+// selected; the script keeps the parameter in sync without reloading.
+$active_city = '';
+$city_param  = isset( $_GET['city'] ) ? sanitize_title( wp_unslash( $_GET['city'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+if ( '' !== $city_param ) {
+	$active_city = (string) array_search( $city_param, $slugs, true );
+	if ( ! isset( $groups[ $active_city ] ) ) {
+		$active_city = '';
+	}
+}
+$shown_count = $active_city ? count( $groups[ $active_city ] ) : $total_offices;
 
 // ── Head office: company contacts from Redux ─────────────────────────────────
 $company_phone   = class_exists( 'Redux' ) ? (string) Redux::get_option( 'redux_demo', 'phone_01' ) : '';
@@ -145,14 +163,15 @@ $office_forms = [
 
 	<!-- City chips -->
 	<div class="d-flex flex-wrap gap-2 mb-8" role="group" aria-label="<?php esc_attr_e( 'Filter by city', 'codeweber' ); ?>">
-		<button type="button" class="btn btn-sm btn-dark rounded-pill d-inline-flex align-items-center gap-2" data-cw-chip="" aria-pressed="true">
+		<button type="button" class="btn btn-sm <?php echo $active_city ? 'btn-soft-primary' : 'btn-primary'; ?> rounded-pill d-inline-flex align-items-center gap-2" data-cw-chip="" data-cw-slug="" aria-pressed="<?php echo $active_city ? 'false' : 'true'; ?>">
 			<?php esc_html_e( 'All cities', 'codeweber' ); ?>
-			<span class="badge rounded-pill bg-red"><?php echo (int) $total_offices; ?></span>
+			<span class="badge rounded-pill bg-white text-primary"><?php echo (int) $total_offices; ?></span>
 		</button>
 		<?php foreach ( $groups as $city => $list ) : ?>
-			<button type="button" class="btn btn-sm btn-outline-ash rounded-pill d-inline-flex align-items-center gap-2" data-cw-chip="<?php echo esc_attr( $city ); ?>" aria-pressed="false">
+			<?php $is_active = $city === $active_city; ?>
+			<button type="button" class="btn btn-sm <?php echo $is_active ? 'btn-primary' : 'btn-soft-primary'; ?> rounded-pill d-inline-flex align-items-center gap-2" data-cw-chip="<?php echo esc_attr( $city ); ?>" data-cw-slug="<?php echo esc_attr( $slugs[ $city ] ); ?>" aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
 				<?php echo esc_html( $city ); ?>
-				<span class="badge rounded-pill bg-pale-ash text-dark"><?php echo count( $list ); ?></span>
+				<span class="badge rounded-pill bg-white text-primary"><?php echo count( $list ); ?></span>
 			</button>
 		<?php endforeach; ?>
 	</div>
@@ -198,9 +217,9 @@ $office_forms = [
 				<?php endif; ?>
 
 				<?php if ( $company_address || $company_phone ) : ?>
-					<div class="card bg-dark text-inverse<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+					<div class="card bg-primary text-inverse<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 						<div class="card-body p-6 d-flex flex-column gap-3">
-							<span class="fs-13 fw-bold text-uppercase text-red"><?php esc_html_e( 'Head office', 'codeweber' ); ?></span>
+							<span class="fs-13 fw-bold text-uppercase text-white opacity-75"><?php esc_html_e( 'Head office', 'codeweber' ); ?></span>
 							<?php if ( $company_address ) : ?>
 								<span class="h5 mb-0 text-inverse"><?php echo esc_html( $company_address ); ?></span>
 							<?php endif; ?>
@@ -216,7 +235,7 @@ $office_forms = [
 								<?php endforeach; ?>
 							</div>
 							<?php if ( $callback_value ) : ?>
-								<a href="javascript:void(0)" class="btn btn-red align-self-start has-ripple<?php echo esc_attr( $btn_style ); ?>" data-bs-toggle="modal" data-bs-target="#modal" data-value="<?php echo esc_attr( $callback_value ); ?>">
+								<a href="javascript:void(0)" class="btn btn-white align-self-start has-ripple<?php echo esc_attr( $btn_style ); ?>" data-bs-toggle="modal" data-bs-target="#modal" data-value="<?php echo esc_attr( $callback_value ); ?>">
 									<?php esc_html_e( 'Request a call back', 'codeweber' ); ?>
 								</a>
 							<?php endif; ?>
@@ -232,9 +251,9 @@ $office_forms = [
 			<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
 				<span class="text-muted fs-15">
 					<?php esc_html_e( 'Shown:', 'codeweber' ); ?>
-					<strong class="text-dark" data-cw-shown><?php echo esc_html( sprintf( _n( '%d office', '%d offices', $total_offices, 'codeweber' ), $total_offices ) ); ?></strong>
+					<strong class="text-dark" data-cw-shown><?php echo esc_html( sprintf( _n( '%d office', '%d offices', $shown_count, 'codeweber' ), $shown_count ) ); ?></strong>
 				</span>
-				<button type="button" class="btn btn-link p-0 fs-14 fw-bold d-none" data-cw-reset><?php esc_html_e( 'Reset filter', 'codeweber' ); ?></button>
+				<button type="button" class="btn btn-link p-0 fs-14 fw-bold<?php echo $active_city ? '' : ' d-none'; ?>" data-cw-reset><?php esc_html_e( 'Reset filter', 'codeweber' ); ?></button>
 			</div>
 
 			<div class="card text-center d-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>" data-cw-empty>
@@ -248,7 +267,7 @@ $office_forms = [
 			</div>
 
 			<?php foreach ( $groups as $city => $list ) : ?>
-				<section class="mb-8" data-cw-group="<?php echo esc_attr( $city ); ?>">
+				<section class="mb-8<?php echo $active_city && $city !== $active_city ? ' d-none' : ''; ?>" data-cw-group="<?php echo esc_attr( $city ); ?>">
 					<div class="d-flex align-items-baseline gap-3 mb-4">
 						<h2 class="h3 mb-0"><?php echo esc_html( $city ); ?></h2>
 						<span class="text-muted fs-14"><?php echo esc_html( sprintf( _n( '%d office', '%d offices', count( $list ), 'codeweber' ), count( $list ) ) ); ?></span>
@@ -306,7 +325,7 @@ $office_forms = [
 
 									<div class="d-flex gap-3 pt-4 border-top">
 										<?php if ( $o['route'] ) : ?>
-											<a href="<?php echo esc_url( $o['route'] ); ?>" class="btn btn-sm btn-outline-ash btn-icon btn-icon-start has-ripple<?php echo esc_attr( $btn_style ); ?>" target="_blank" rel="noopener">
+											<a href="<?php echo esc_url( $o['route'] ); ?>" class="btn btn-sm btn-soft-primary btn-icon btn-icon-start has-ripple<?php echo esc_attr( $btn_style ); ?>" target="_blank" rel="noopener">
 												<i class="uil uil-navigator"></i><?php esc_html_e( 'Route', 'codeweber' ); ?>
 											</a>
 										<?php endif; ?>
@@ -329,7 +348,7 @@ $office_forms = [
 					<h3 class="h4 mb-1"><?php esc_html_e( 'No office nearby?', 'codeweber' ); ?></h3>
 					<p class="text-muted mb-0"><?php esc_html_e( 'Call us — a consultant will suggest the nearest office and the documents you need.', 'codeweber' ); ?></p>
 				</div>
-				<a href="<?php echo esc_attr( $tel( $company_phone ) ); ?>" class="btn btn-red btn-lg has-ripple<?php echo esc_attr( $btn_style ); ?>"><?php echo esc_html( $company_phone ); ?></a>
+				<a href="<?php echo esc_attr( $tel( $company_phone ) ); ?>" class="btn btn-primary btn-lg has-ripple<?php echo esc_attr( $btn_style ); ?>"><?php echo esc_html( $company_phone ); ?></a>
 			</div>
 		</div>
 	<?php endif; ?>
@@ -355,7 +374,27 @@ $office_forms = [
 	var reset  = root.querySelector( '[data-cw-reset]' );
 	var empty  = root.querySelector( '[data-cw-empty]' );
 	var mapBox = root.querySelector( '[data-cw-map] .codeweber-yandex-map-wrapper' );
-	var state  = { city: '', q: '' };
+	var state  = { city: <?php echo wp_json_encode( $active_city ); ?>, q: '' };
+
+	// ?city=<slug> mirrors the selected city so each city has its own link.
+	var slugOf = function ( city ) {
+		for ( var i = 0; i < chips.length; i++ ) {
+			if ( chips[ i ].getAttribute( 'data-cw-chip' ) === city ) return chips[ i ].getAttribute( 'data-cw-slug' );
+		}
+		return '';
+	};
+	var cityOf = function ( slug ) {
+		for ( var i = 0; i < chips.length; i++ ) {
+			if ( slug && chips[ i ].getAttribute( 'data-cw-slug' ) === slug ) return chips[ i ].getAttribute( 'data-cw-chip' );
+		}
+		return '';
+	};
+	var pushCity = function () {
+		var url = new URL( window.location.href );
+		var slug = slugOf( state.city );
+		if ( slug ) url.searchParams.set( 'city', slug ); else url.searchParams.delete( 'city' );
+		if ( url.href !== window.location.href ) history.pushState( { cwCity: state.city }, '', url );
+	};
 
 	// The map is created asynchronously once ymaps3 has loaded.
 	var withMap = function ( cb ) {
@@ -381,8 +420,8 @@ $office_forms = [
 		chips.forEach( function ( c ) {
 			var active = c.getAttribute( 'data-cw-chip' ) === state.city && ! ( q && ! state.city );
 			c.setAttribute( 'aria-pressed', active ? 'true' : 'false' );
-			c.classList.toggle( 'btn-dark', active );
-			c.classList.toggle( 'btn-outline-ash', ! active );
+			c.classList.toggle( 'btn-primary', active );
+			c.classList.toggle( 'btn-soft-primary', ! active );
 		} );
 		shown.textContent = plural( count );
 		empty.classList.toggle( 'd-none', count > 0 );
@@ -398,8 +437,21 @@ $office_forms = [
 			state.q = '';
 			search.value = '';
 			apply();
+			pushCity();
 		} );
 	} );
+	window.addEventListener( 'popstate', function () {
+		state.city = cityOf( new URL( window.location.href ).searchParams.get( 'city' ) || '' );
+		state.q = '';
+		search.value = '';
+		apply();
+	} );
+	// The list arrives pre-filtered from PHP; only the map still needs it.
+	if ( state.city ) {
+		withMap( function ( inst ) {
+			if ( typeof inst.filterByCity === 'function' ) inst.filterByCity( state.city );
+		} );
+	}
 	search.addEventListener( 'input', function () {
 		state.q = search.value;
 		state.city = '';
@@ -410,6 +462,7 @@ $office_forms = [
 		state.q = '';
 		search.value = '';
 		apply();
+		pushCity();
 	} );
 
 	root.querySelectorAll( '[data-cw-show-on-map]' ).forEach( function ( btn ) {
@@ -419,6 +472,7 @@ $office_forms = [
 			state.q = '';
 			search.value = '';
 			apply();
+			pushCity();
 			if ( mapBox && mapBox.getBoundingClientRect().top < 0 ) mapBox.scrollIntoView( { behavior: 'smooth', block: 'center' } );
 			withMap( function ( inst ) {
 				// filterByCity() re-centres the map shortly after; open the balloon then.
