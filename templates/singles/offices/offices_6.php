@@ -188,12 +188,6 @@ $visit_form_id = (int) apply_filters( 'codeweber_office_single_visit_form', 0, $
 						</div>
 					<?php endif; ?>
 
-					<?php
-					$socials = function_exists( 'codeweber_social_links' ) ? codeweber_social_links( '', 'type3', 'sm' ) : '';
-					if ( $socials ) :
-						?>
-						<div class="mt-auto pt-2"><?php echo $socials; // phpcs:ignore WordPress.Security.EscapeOutput -- built by the theme ?></div>
-					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -314,13 +308,7 @@ $visit_form_id = (int) apply_filters( 'codeweber_office_single_visit_form', 0, $
 										<span class="d-block fs-14 text-muted"><?php echo esc_html( $n_address ); ?></span>
 									<?php endif; ?>
 								</span>
-								<span class="fs-14 text-muted text-nowrap">
-									<?php
-									$km = $item['distance'];
-									/* translators: %s: distance in kilometres, e.g. "15" or "0.8". */
-									echo esc_html( sprintf( __( '~ %s km', 'codeweber' ), $km < 10 ? number_format_i18n( $km, 1 ) : number_format_i18n( round( $km ) ) ) );
-									?>
-								</span>
+								<i class="uil uil-arrow-right fs-22 text-primary" aria-hidden="true"></i>
 							</div>
 						</a>
 					<?php endforeach; ?>

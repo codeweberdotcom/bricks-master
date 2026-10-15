@@ -21480,8 +21480,3 @@ msgstr "Оставьте телефон — специалист офиса пе
 #: templates/singles/offices/offices_6.php
 msgid "Nearby offices"
 msgstr "Офисы поблизости"
-
-#. translators: %s: distance in kilometres, e.g. "15" or "0.8".
-#: templates/singles/offices/offices_6.php
-msgid "~ %s km"
-msgstr "~ %s км"
