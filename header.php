@@ -67,11 +67,9 @@
                     }
                 }
             } elseif ( is_archive() || is_post_type_archive( $post_type ) ) {
-                // Для архивов archive_header_select_* учитываем только когда глобальный тип = Base.
-                // Если выбран глобальный «Пользовательский» хедер — он перекрывает archive_header_select_*.
-                if ( $global_header_type !== '2' ) {
-                    $header_post_id = Codeweber_Options::get( 'archive_header_select_' . $post_type );
-                }
+                // Хедер архива из настроек CPT важнее глобального, как у single и у футеров.
+                // Пустое значение или 'default' — ниже подставится глобальный «Пользовательский Хедер».
+                $header_post_id = Codeweber_Options::get( 'archive_header_select_' . $post_type );
             }
 
             // Если хедер для страницы не задан — используем глобальный «Пользовательский Хедер»
