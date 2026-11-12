@@ -6,9 +6,12 @@
  * или вместо неё — на главной магазина и на страницах категорий.
  *
  * Настройки (приоритет сверху вниз):
- *   1. Мета-поля категории (cw_subcats_enable / cw_subcats_template / cw_subcats_layout)
- *   2. Redux: Woocommerce → Subcategories (ключи woo_subcats_*)
- *   3. Дефолты из cw_subcats_defaults()
+ *   1. WooCommerce «Display type» категории (display_type) — если не Default,
+ *      решает «показывать ли» и режим (both / subcategories / products)
+ *   2. Мета-поля категории (cw_subcats_enable / cw_subcats_template /
+ *      cw_subcats_layout / cw_subcats_cols_xs…xl)
+ *   3. Redux: Woocommerce → Subcategories (ключи woo_subcats_*)
+ *   4. Дефолты из cw_subcats_defaults()
  *
  * Карточки рендерятся через cw_render_term_card() и шаблоны
  * templates/post-cards/taxonomy/ — те же, что использует блок Post Grid.
@@ -90,6 +93,21 @@ function cw_subcats_defaults() {
 }
 
 /**
+ * Максимум колонок по брейкпоинтам (общий для Redux-полей, мета категории и валидации).
+ *
+ * @return array breakpoint => max
+ */
+function cw_subcats_cols_limits() {
+	return array(
+		'xs' => 2,
+		'sm' => 3,
+		'md' => 4,
+		'lg' => 6,
+		'xl' => 6,
+	);
+}
+
+/**
  * Глобальные настройки из Redux (redux_demo → woo_subcats_*), с дефолтами.
  *
  * @return array
@@ -157,21 +175,35 @@ function cw_subcats_global_settings() {
 }
 
 /**
- * Переопределения из мета-полей категории. Пустая строка = «наследовать».
+ * Переопределения из мета-полей категории. Пустая строка / 0 = «наследовать».
+ *
+ * `display` — штатное поле WooCommerce «Display type» (term meta display_type).
  *
  * @param int $term_id ID категории.
- * @return array { enable: ''|on|off, template: string, layout: ''|grid|slider }
+ * @return array {
+ *     enable: ''|on|off, display: ''|products|subcategories|both,
+ *     template: string, layout: ''|grid|slider, cols: array breakpoint => 0|int
+ * }
  */
 function cw_subcats_get_term_overrides( $term_id ) {
 	$term_id = absint( $term_id );
 
-	$enable = (string) get_term_meta( $term_id, 'cw_subcats_enable', true );
-	$layout = (string) get_term_meta( $term_id, 'cw_subcats_layout', true );
+	$enable  = (string) get_term_meta( $term_id, 'cw_subcats_enable', true );
+	$layout  = (string) get_term_meta( $term_id, 'cw_subcats_layout', true );
+	$display = (string) get_term_meta( $term_id, 'display_type', true );
+
+	$cols = array();
+	foreach ( cw_subcats_cols_limits() as $bp => $max ) {
+		$n           = absint( get_term_meta( $term_id, 'cw_subcats_cols_' . $bp, true ) );
+		$cols[ $bp ] = ( $n >= 1 && $n <= $max ) ? $n : 0;
+	}
 
 	return array(
 		'enable'   => in_array( $enable, array( 'on', 'off' ), true ) ? $enable : '',
+		'display'  => in_array( $display, array( 'products', 'subcategories', 'both' ), true ) ? $display : '',
 		'template' => sanitize_key( (string) get_term_meta( $term_id, 'cw_subcats_template', true ) ),
 		'layout'   => in_array( $layout, array( 'grid', 'slider' ), true ) ? $layout : '',
+		'cols'     => $cols,
 	);
 }
 
@@ -261,15 +293,31 @@ function cw_subcats_resolve() {
 	$override  = '';
 
 	if ( $is_cat ) {
-		$term_id = (int) get_queried_object_id();
-		$over    = cw_subcats_get_term_overrides( $term_id );
+		$term_id  = (int) get_queried_object_id();
+		$over     = cw_subcats_get_term_overrides( $term_id );
 		$override = $over['enable'];
+
+		// WooCommerce «Display type» категории, если не Default, главнее нашего переключателя и режима из Redux.
+		if ( 'products' === $over['display'] ) {
+			$override = 'off';
+		} elseif ( 'subcategories' === $over['display'] ) {
+			$override         = 'on';
+			$settings['mode'] = 'only';
+		} elseif ( 'both' === $over['display'] ) {
+			$override         = 'on';
+			$settings['mode'] = 'above';
+		}
 
 		if ( $over['template'] && isset( $templates[ $over['template'] ] ) ) {
 			$settings['template'] = $over['template'];
 		}
 		if ( $over['layout'] ) {
 			$settings['layout'] = $over['layout'];
+		}
+		foreach ( $over['cols'] as $bp => $n ) {
+			if ( $n ) {
+				$settings['cols'][ $bp ] = $n;
+			}
 		}
 	}
 
@@ -438,10 +486,11 @@ function cw_subcats_render() {
  * @param string $name    Имя поля.
  * @param array  $options value => label.
  * @param string $current Текущее значение.
+ * @param string $style   Необязательный inline-стиль <select> (задаётся в коде, не из ввода).
  * @return string
  */
-function cw_subcats_term_select( $name, $options, $current ) {
-	$html = '<select name="' . esc_attr( $name ) . '" id="' . esc_attr( $name ) . '">';
+function cw_subcats_term_select( $name, $options, $current, $style = '' ) {
+	$html = '<select name="' . esc_attr( $name ) . '" id="' . esc_attr( $name ) . '"' . ( $style ? ' style="' . esc_attr( $style ) . '"' : '' ) . '>';
 	foreach ( $options as $value => $label ) {
 		$html .= '<option value="' . esc_attr( $value ) . '"' . selected( $current, (string) $value, false ) . '>' . esc_html( $label ) . '</option>';
 	}
@@ -451,7 +500,7 @@ function cw_subcats_term_select( $name, $options, $current ) {
 }
 
 /**
- * Описание трёх полей: name => [ label, options ].
+ * Описание select-полей: name => [ label, options, desc? ].
  *
  * @return array
  */
@@ -465,6 +514,7 @@ function cw_subcats_term_field_defs() {
 				'on'  => __( 'Show', 'codeweber' ),
 				'off' => __( 'Hide', 'codeweber' ),
 			),
+			'desc'    => __( 'Used when the WooCommerce "Display type" is Default. Any other Display type (Products / Subcategories / Both) overrides this.', 'codeweber' ),
 		),
 		'cw_subcats_template' => array(
 			'label'   => __( 'Subcategories style', 'codeweber' ),
@@ -481,6 +531,54 @@ function cw_subcats_term_field_defs() {
 }
 
 /**
+ * Пять <select> колонок (XS…XL): «Inherit (global: N)» или своё число.
+ *
+ * @param array $values breakpoint => сохранённое значение (0/'' = наследовать).
+ * @return string
+ */
+function cw_subcats_cols_selects( $values = array() ) {
+	$global = cw_subcats_global_settings();
+	$global = $global['cols'];
+	$widths = array(
+		'xs' => '<576px',
+		'sm' => '≥576px',
+		'md' => '≥768px',
+		'lg' => '≥992px',
+		'xl' => '≥1200px',
+	);
+
+	$html = '<div style="display:flex;flex-wrap:wrap;gap:12px;">';
+	foreach ( cw_subcats_cols_limits() as $bp => $max ) {
+		$name    = 'cw_subcats_cols_' . $bp;
+		$options = array(
+			/* translators: %d: global number of columns */
+			'' => sprintf( __( 'Inherit (global: %d)', 'codeweber' ), $global[ $bp ] ),
+		);
+		for ( $i = 1; $i <= $max; $i++ ) {
+			$options[ $i ] = (string) $i;
+		}
+		$current = ! empty( $values[ $bp ] ) ? (string) (int) $values[ $bp ] : '';
+
+		$html .= '<label for="' . esc_attr( $name ) . '" style="display:flex;flex-direction:column;gap:4px;">'
+			. esc_html( strtoupper( $bp ) . ' ' . $widths[ $bp ] )
+			. cw_subcats_term_select( $name, $options, $current, 'width:auto;min-width:9em;' )
+			. '</label>';
+	}
+	$html .= '</div>';
+
+	return $html;
+}
+
+/**
+ * Подпись под строкой колонок.
+ *
+ * @return string
+ */
+function cw_subcats_cols_desc() {
+	return __( 'Columns (Grid) or slides per view (Slider) for each screen width. Not used by the Chips style.', 'codeweber' );
+}
+
+/**
  * Форма «Add new category».
  */
 function cw_subcats_add_term_fields() {
@@ -492,8 +590,17 @@ function cw_subcats_add_term_fields() {
 		echo '<div class="form-field">';
 		echo '<label for="' . esc_attr( $name ) . '">' . esc_html( $def['label'] ) . '</label>';
 		echo cw_subcats_term_select( $name, $def['options'], '' ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper
+		if ( ! empty( $def['desc'] ) ) {
+			echo '<p>' . esc_html( $def['desc'] ) . '</p>';
+		}
 		echo '</div>';
 	}
+
+	echo '<div class="form-field">';
+	echo '<label for="cw_subcats_cols_xs">' . esc_html__( 'Subcategories columns', 'codeweber' ) . '</label>';
+	echo cw_subcats_cols_selects(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper
+	echo '<p>' . esc_html( cw_subcats_cols_desc() ) . '</p>';
+	echo '</div>';
 }
 add_action( 'product_cat_add_form_fields', 'cw_subcats_add_term_fields' );
 
@@ -510,9 +617,20 @@ function cw_subcats_edit_term_fields( $term ) {
 
 		echo '<tr class="form-field">';
 		echo '<th scope="row"><label for="' . esc_attr( $name ) . '">' . esc_html( $def['label'] ) . '</label></th>';
-		echo '<td>' . cw_subcats_term_select( $name, $def['options'], $current ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper
-		echo '</tr>';
+		echo '<td>' . cw_subcats_term_select( $name, $def['options'], $current ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper
+		if ( ! empty( $def['desc'] ) ) {
+			echo '<p class="description">' . esc_html( $def['desc'] ) . '</p>';
+		}
+		echo '</td></tr>';
 	}
+
+	$over = cw_subcats_get_term_overrides( $term->term_id );
+
+	echo '<tr class="form-field">';
+	echo '<th scope="row">' . esc_html__( 'Subcategories columns', 'codeweber' ) . '</th>';
+	echo '<td>' . cw_subcats_cols_selects( $over['cols'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper
+	echo '<p class="description">' . esc_html( cw_subcats_cols_desc() ) . '</p>';
+	echo '</td></tr>';
 }
 add_action( 'product_cat_edit_form_fields', 'cw_subcats_edit_term_fields' );
 
@@ -540,6 +658,18 @@ function cw_subcats_save_term_fields( $term_id ) {
 
 		if ( in_array( $value, $values, true ) ) {
 			update_term_meta( $term_id, $key, $value );
+		} else {
+			delete_term_meta( $term_id, $key );
+		}
+	}
+
+	// Колонки по брейкпоинтам: целое 1…max, иначе «наследовать».
+	foreach ( cw_subcats_cols_limits() as $bp => $max ) {
+		$key = 'cw_subcats_cols_' . $bp;
+		$n   = isset( $_POST[ $key ] ) ? absint( wp_unslash( $_POST[ $key ] ) ) : 0;
+
+		if ( $n >= 1 && $n <= $max ) {
+			update_term_meta( $term_id, $key, $n );
 		} else {
 			delete_term_meta( $term_id, $key );
 		}
