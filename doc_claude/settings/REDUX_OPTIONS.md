@@ -931,7 +931,7 @@ $_cw_bg = cw_content_wrapper_bg_attrs();
 
 ### WooCommerce
 
-**Section ID:** `woocommerce-settings` (parent), `woocommerce-archive` (subsection)
+**Section ID:** `woocommerce-settings` (parent), `woocommerce-archive`, `woocommerce-subcategories`, `woocommerce-badges` (subsections)
 **File:** `redux-framework/sample/sections/codeweber/woocommerce.php`
 
 #### Archive — Default Columns per Breakpoint
@@ -971,6 +971,18 @@ $_cw_bg = cw_content_wrapper_bg_attrs();
 
 'woo_show_ordering' => true | false        // Сортировка. Default: true
 'woo_ordering_options' => [...]            // Варианты сортировки
+```
+
+#### Subcategories
+
+**Section ID:** `woocommerce-subcategories`. Блок подкатегорий на магазине и страницах категорий.
+Полная таблица ключей (`woo_subcats_*`), мета-поля категории и шаблоны — в [`doc_claude/integrations/WC_SUBCATEGORIES.md`](../integrations/WC_SUBCATEGORIES.md).
+
+```php
+'woo_subcats_enable'   => true | false                  // Default: false
+'woo_subcats_mode'     => 'above' | 'only'              // над товарами / вместо товаров
+'woo_subcats_layout'   => 'grid' | 'slider'
+'woo_subcats_template' => 'card-image' | 'chips' | 'card-subcats' | 'overlay-5' | ...
 ```
 
 ### Email (SMTP)

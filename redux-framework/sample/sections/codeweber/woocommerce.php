@@ -241,6 +241,222 @@ Redux::set_section(
 	)
 );
 
+// ── Subcategories ─────────────────────────────────────────────────────────────
+$cw_subcats_template_options = function_exists( 'cw_subcats_get_templates' )
+	? cw_subcats_get_templates()
+	: array( 'card-image' => esc_html__( 'Card with Image', 'codeweber' ) );
+
+$cw_subcats_image_sizes = array(
+	'thumbnail'    => 'thumbnail',
+	'medium'       => 'medium',
+	'medium_large' => 'medium_large',
+	'large'        => 'large',
+	'full'         => 'full',
+);
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Subcategories', 'codeweber' ),
+		'id'         => 'woocommerce-subcategories',
+		'subsection' => true,
+		'desc'       => esc_html__( 'Show child categories on the shop page and on product category pages. Each category can override the visibility, style and layout in its own settings (Products → Categories).', 'codeweber' ),
+		'fields'     => array(
+
+			array(
+				'id'       => 'woo_subcats_enable',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Show Subcategories', 'codeweber' ),
+				'subtitle' => esc_html__( 'Master switch. A category can still force the block on in its own settings.', 'codeweber' ),
+				'default'  => false,
+			),
+
+			array(
+				'id'       => 'woo_subcats_on_shop',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'On Shop Page', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show top-level categories on the main shop page', 'codeweber' ),
+				'default'  => true,
+				'required' => [ 'woo_subcats_enable', '=', true ],
+			),
+
+			array(
+				'id'       => 'woo_subcats_on_category',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'On Category Pages', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show child categories on product category pages', 'codeweber' ),
+				'default'  => true,
+				'required' => [ 'woo_subcats_enable', '=', true ],
+			),
+
+			array(
+				'id'       => 'woo_subcats_mode',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Display Mode', 'codeweber' ),
+				'subtitle' => esc_html__( '"Instead of products" hides the product grid, sorting and pagination whenever subcategories are shown.', 'codeweber' ),
+				'options'  => array(
+					'above' => esc_html__( 'Above products', 'codeweber' ),
+					'only'  => esc_html__( 'Instead of products', 'codeweber' ),
+				),
+				'default'  => 'above',
+			),
+
+			array(
+				'id'       => 'woo_subcats_template',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Style', 'codeweber' ),
+				'subtitle' => esc_html__( 'Card template (the same templates are available in the Post Grid block, Taxonomy source)', 'codeweber' ),
+				'options'  => $cw_subcats_template_options,
+				'default'  => 'card-image',
+			),
+
+			array(
+				'id'       => 'woo_subcats_layout',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Layout', 'codeweber' ),
+				'subtitle' => esc_html__( 'Chips look best in Grid (they wrap onto new lines). Slider scrolls them in one row.', 'codeweber' ),
+				'options'  => array(
+					'grid'   => esc_html__( 'Grid', 'codeweber' ),
+					'slider' => esc_html__( 'Slider', 'codeweber' ),
+				),
+				'default'  => 'grid',
+			),
+
+			// ── Columns / slides per screen ───────────────────────────────────
+			array(
+				'id'    => 'woo_subcats_cols_info',
+				'type'  => 'info',
+				'style' => 'info',
+				'title' => esc_html__( 'Columns per Screen', 'codeweber' ),
+				'desc'  => esc_html__( 'Grid columns, or slides per view in Slider layout. Not used by the Chips style (chips flow in a row).', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_subcats_cols_xs',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Mobile (< 576px)', 'codeweber' ),
+				'options' => [ '1' => '1', '2' => '2' ],
+				'default' => '2',
+			),
+
+			array(
+				'id'      => 'woo_subcats_cols_sm',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'SM (≥ 576px)', 'codeweber' ),
+				'options' => [ '1' => '1', '2' => '2', '3' => '3' ],
+				'default' => '2',
+			),
+
+			array(
+				'id'      => 'woo_subcats_cols_md',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'MD (≥ 768px)', 'codeweber' ),
+				'options' => [ '1' => '1', '2' => '2', '3' => '3', '4' => '4' ],
+				'default' => '3',
+			),
+
+			array(
+				'id'      => 'woo_subcats_cols_lg',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'LG (≥ 992px)', 'codeweber' ),
+				'options' => [ '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6' ],
+				'default' => '3',
+			),
+
+			array(
+				'id'      => 'woo_subcats_cols_xl',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'XL (≥ 1200px)', 'codeweber' ),
+				'options' => [ '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6' ],
+				'default' => '4',
+			),
+
+			// ── Slider ────────────────────────────────────────────────────────
+			array(
+				'id'       => 'woo_subcats_slider_margin',
+				'type'     => 'slider',
+				'title'    => esc_html__( 'Slide Gap (px)', 'codeweber' ),
+				'default'  => 20,
+				'min'      => 0,
+				'max'      => 60,
+				'step'     => 5,
+				'required' => [ 'woo_subcats_layout', '=', 'slider' ],
+			),
+
+			array(
+				'id'       => 'woo_subcats_slider_nav',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Slider Arrows', 'codeweber' ),
+				'default'  => true,
+				'required' => [ 'woo_subcats_layout', '=', 'slider' ],
+			),
+
+			array(
+				'id'       => 'woo_subcats_slider_dots',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Slider Dots', 'codeweber' ),
+				'default'  => false,
+				'required' => [ 'woo_subcats_layout', '=', 'slider' ],
+			),
+
+			array(
+				'id'       => 'woo_subcats_slider_autoplay',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Slider Autoplay', 'codeweber' ),
+				'default'  => false,
+				'required' => [ 'woo_subcats_layout', '=', 'slider' ],
+			),
+
+			// ── Content ───────────────────────────────────────────────────────
+			array(
+				'id'       => 'woo_subcats_show_count',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Product Count', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show the number of products in each subcategory', 'codeweber' ),
+				'default'  => true,
+			),
+
+			array(
+				'id'       => 'woo_subcats_hide_empty',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Hide Empty', 'codeweber' ),
+				'subtitle' => esc_html__( 'Hide subcategories without products', 'codeweber' ),
+				'default'  => true,
+			),
+
+			array(
+				'id'       => 'woo_subcats_exclude',
+				'type'     => 'select',
+				'data'     => 'terms',
+				'args'     => array(
+					'taxonomies' => array( 'product_cat' ),
+					'hide_empty' => false,
+				),
+				'multi'    => true,
+				'title'    => esc_html__( 'Exclude Categories', 'codeweber' ),
+				'subtitle' => esc_html__( 'These categories are never shown in the block', 'codeweber' ),
+			),
+
+			array(
+				'id'       => 'woo_subcats_image_size',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Image Size', 'codeweber' ),
+				'options'  => $cw_subcats_image_sizes,
+				'default'  => 'medium_large',
+			),
+
+			array(
+				'id'       => 'woo_subcats_lift',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Lift on Hover', 'codeweber' ),
+				'subtitle' => esc_html__( 'Raise the card slightly on hover', 'codeweber' ),
+				'default'  => false,
+			),
+
+		),
+	)
+);
+
 // ── Badges ────────────────────────────────────────────────────────────────────
 Redux::set_section(
 	$opt_name,

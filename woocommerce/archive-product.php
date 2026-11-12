@@ -135,6 +135,11 @@ if ( is_product_category() || is_product_tag() ) {
 	$queried_object_type = is_product_category() ? 'product_cat' : 'product_tag';
 }
 
+// Подкатегории (Redux: Woocommerce → Subcategories + мета-поля категории)
+$cw_subcats      = function_exists( 'cw_subcats_render' ) ? cw_subcats_render() : [ 'html' => '', 'only' => false ];
+$cw_subcats_html = $cw_subcats['html'];
+$cw_subcats_only = ! empty( $cw_subcats['only'] ) && '' !== $cw_subcats_html;
+
 // ── Рендер ────────────────────────────────────────────────────────────────────
 if ( ! $is_pjax ) {
 	get_header();
@@ -153,6 +158,10 @@ if ( ! $is_pjax ) {
 
 				<!-- Колонка с товарами -->
 				<div class="col-lg-9 order-lg-2">
+
+					<?php echo $cw_subcats_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in cw_subcats_render() ?>
+
+					<?php if ( ! $cw_subcats_only ) : ?>
 
 					<!-- Результаты + переключатели + сортировка -->
 					<div class="row align-items-center mb-10 position-relative zindex-1">
@@ -301,6 +310,8 @@ if ( ! $is_pjax ) {
 
 					<?php endif; ?>
 
+					<?php endif; // ! $cw_subcats_only ?>
+
 				</div>
 				<!-- /.col (товары) -->
 
@@ -327,6 +338,10 @@ if ( ! $is_pjax ) {
 
 				<!-- Колонка с сообщением «нет товаров» -->
 				<div class="col-lg-9 order-lg-2">
+
+					<?php echo $cw_subcats_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in cw_subcats_render() ?>
+
+					<?php if ( '' === $cw_subcats_html ) : ?>
 
 					<!-- Результаты + переключатели + сортировка -->
 					<div class="row align-items-center mb-10 position-relative zindex-1">
@@ -408,6 +423,8 @@ if ( ! $is_pjax ) {
 					<div class="py-6">
 						<?php do_action( 'woocommerce_no_products_found' ); ?>
 					</div>
+
+					<?php endif; // '' === $cw_subcats_html ?>
 
 				</div>
 				<!-- /.col -->
