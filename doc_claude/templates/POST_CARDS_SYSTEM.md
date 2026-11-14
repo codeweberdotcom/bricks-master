@@ -1183,6 +1183,23 @@ if ( class_exists( 'WooCommerce' ) ) {
 
 Benefits: WC cards stay in a single location (`templates/woocommerce/cards/`), no duplicates, and if WooCommerce is deactivated the `product` option disappears from the Post Grid sidebar entirely.
 
+### Shop list card (`shop-list`, `?view=list`)
+
+Horizontal card used by the shop's list view (`archive-product.php` forces it when `?view=list`). Photo on the left (fixed 170px, stacks on phones), content on the right, button on the right on `md+`. Everything that has no data is simply not rendered, so a catalog without prices/descriptions/attributes stays compact.
+
+| Block | Source | Shown when |
+|-------|--------|------------|
+| Category / rating | Redux `woo_archive_show_category` / `woo_archive_show_rating` | enabled |
+| Description | short description, otherwise the first ~20 words of the full description | any text exists |
+| Gallery thumbnails | `$product->get_gallery_image_ids()` — up to 4 + a `+N` counter (size `woocommerce_gallery_thumbnail`, decorative, link to the product) | the product has a gallery |
+| Specs | up to 3 visible WC attributes (`label: value`) | at least one visible attribute has a value |
+| Price | `get_price_html()`, Redux `woo_archive_show_price` | non-empty price |
+| Button | Redux `woo_archive_show_cart` on: add to cart (simple) / product link (other types). Off: **"Read more"** link to the product | always |
+
+**Card style** — Redux *Woocommerce → List Card Style* (`woo_list_card_style`): `light` (default) or `dark`. `dark` adds `cw-list-card--dark`: a translucent card (`rgba(white, .06)` + hairline border) for dark sites; the product photo keeps a white ground. Styles live in `src/assets/scss/theme/_projects.scss` (`.cw-list-card`, `.cw-list-thumb*`, `.cw-list-specs`).
+
+`shop-list-sm` is a separate, smaller card (post navigation, Post Grid) and is not affected.
+
 ### Auto-mapping CPT → directory
 
 The registry also hooks `codeweber_post_type_template_map` to auto-fill entries from registry's `dir`:

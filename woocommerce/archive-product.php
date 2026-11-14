@@ -96,7 +96,8 @@ $GLOBALS['cw_shop_col_class'] = $row_cols_class;
 // Базовый URL для кнопок-переключателей (без per_row, per_page, view, сохраняем остальные params)
 $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
 unset( $base_query_args['per_row'], $base_query_args['per_page'], $base_query_args['view'], $base_query_args['add-to-cart'], $base_query_args['paged'] );
-$base_url = add_query_arg( $base_query_args, remove_query_arg( 'per_page', get_pagenum_link( 1 ) ) );
+// get_pagenum_link( 1, false ): без экранирования, иначе &#038; ломает remove_query_arg и в ссылках остаётся хвост #038;per_page=…
+$base_url = add_query_arg( $base_query_args, remove_query_arg( 'per_page', get_pagenum_link( 1, false ) ) );
 
 // ── Redux: настройки видимости элементов ──────────────────────────────────────
 $shop_nav_mode = 'pagination';

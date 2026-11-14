@@ -102,6 +102,18 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'woo_list_card_style',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'List Card Style', 'codeweber' ),
+				'subtitle' => esc_html__( 'Card style in the product list view (?view=list). Dark suits dark sites.', 'codeweber' ),
+				'options'  => array(
+					'light' => esc_html__( 'Light', 'codeweber' ),
+					'dark'  => esc_html__( 'Dark', 'codeweber' ),
+				),
+				'default'  => 'light',
+			),
+
+			array(
 				'id'       => 'woo_shop_load_more',
 				'type'     => 'button_set',
 				'title'    => esc_html__( 'Shop Navigation Mode', 'codeweber' ),
