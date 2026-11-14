@@ -111,6 +111,16 @@
   }
 }
 
+// Always-visible arrows (modifier .nav-visible). Touch devices have no :hover, so without it
+// users cannot tell that the block is a slider (used by the WooCommerce subcategories block).
+.swiper-container.nav-visible .swiper-controls .swiper-navigation .swiper-button {
+  opacity: 1;
+
+  &.swiper-button-disabled {
+    opacity: 0.5;
+  }
+}
+
 .swiper-container {
   -webkit-user-select: none;
   position: relative;

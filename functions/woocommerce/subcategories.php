@@ -445,7 +445,10 @@ function cw_subcats_render() {
 			$attrs .= ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
 		}
 
-		echo '<div class="swiper-container ' . esc_attr( $classes ) . '"' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput -- attrs escaped above
+		// nav-visible: arrows are visible without hover (touch devices have none), otherwise the slider is not noticeable.
+		$nav_class = $s['nav'] ? ' nav-visible' : '';
+
+		echo '<div class="swiper-container ' . esc_attr( $classes . $nav_class ) . '"' . $attrs . '>'; // phpcs:ignore WordPress.Security.EscapeOutput -- attrs escaped above
 		echo '<div class="swiper"><div class="swiper-wrapper">';
 		foreach ( $items as $item ) {
 			echo '<div class="swiper-slide' . ( $flow ? ' w-auto' : '' ) . '">' . $item . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput -- card templates escape their own output
