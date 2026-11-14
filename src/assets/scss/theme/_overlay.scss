@@ -529,6 +529,13 @@ figure.overlay img {
   height: 100%;
 }
 
+// Gradient over the whole card instead of the bottom half: keeps multi-line titles
+// readable on small cards (e.g. subcategories grid). Enabled per card via the
+// full_overlay template arg.
+.bottom-overlay.bottom-overlay-full::after {
+  height: 100%;
+}
+
 // Image scroll on hover
 .img-scroll-wrap {
   overflow: hidden;

@@ -376,6 +376,7 @@ function cw_subcats_render_card( $term, $s ) {
 			'show_term_count' => $s['show_count'],
 			'hide_empty'      => $s['hide_empty'],
 			'exclude'         => $s['exclude'],
+			'full_overlay'    => true, // overlay-5*: gradient over the whole card, small cards need it for multi-line titles.
 		)
 	);
 }

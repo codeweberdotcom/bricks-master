@@ -119,7 +119,9 @@ archive-product.php
 
 Исключены из выбора: `cells`, `cells-1` (рассчитаны на рамку-сетку блока Post Grid).
 
-Шаблон получает `$term`, `$term_link`, `$image_url`, `$image_alt`, `$display`, `$template_args`. Из `cw_subcats_render_card()` в `$template_args` передаются: `image_size`, `enable_lift`, `show_term_count`, `hide_empty`, `exclude`.
+Шаблон получает `$term`, `$term_link`, `$image_url`, `$image_alt`, `$display`, `$template_args`. Из `cw_subcats_render_card()` в `$template_args` передаются: `image_size`, `enable_lift`, `show_term_count`, `hide_empty`, `exclude`, `full_overlay`.
+
+`full_overlay` понимают шаблоны `overlay-5` и `overlay-5-primary`: добавляют на `.bottom-overlay` класс `bottom-overlay-full`, и тёмный градиент (`_overlay.scss`) закрывает всю карточку, а не нижние 50%. Нужен на мелких карточках, где многострочный заголовок иначе выходит на голое фото. По умолчанию `false`, поэтому Post Grid и остальные карточки не меняются; блок подкатегорий включает его всегда.
 
 > Не использовать `stretched-link`: карточки целиком обёрнуты в `<a>` (`card-image`) или содержат отдельные ссылки.
 

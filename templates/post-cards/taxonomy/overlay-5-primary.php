@@ -26,9 +26,13 @@ $template_args = wp_parse_args( $template_args ?? [], [
 	'show_card_arrow' => true,
 	'card_read_more'  => 'none',
 	'show_term_count' => false,
+	'full_overlay'    => false,
 ] );
 
 $article_class = ! empty( $template_args['enable_lift'] ) ? 'lift' : '';
+
+// full_overlay: dark gradient covers the whole card (not only the bottom half) so the title stays readable.
+$bottom_overlay_class = 'bottom-overlay' . ( ! empty( $template_args['full_overlay'] ) ? ' bottom-overlay-full' : '' );
 
 $read_more_labels = [
 	'view'    => __( 'View',       'codeweber' ),
@@ -70,7 +74,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 	<?php if ( $image_url ) : ?>
 		<figure class="<?php echo esc_attr( $template_args['hover_classes'] . ' ' . $template_args['border_radius'] ); ?> card-interactive">
 			<a href="<?php echo esc_url( $term_link ); ?>">
-				<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
+				<div class="<?php echo esc_attr( $bottom_overlay_class ); ?> post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
 					<?php if ( $display['show_title'] ) : ?>
 						<div class="mt-auto">
 							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?>">
@@ -113,7 +117,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 	<?php else : ?>
 		<figure class="<?php echo esc_attr( $template_args['hover_classes'] . ' ' . $template_args['border_radius'] ); ?> card-interactive h-100">
 			<a href="<?php echo esc_url( $term_link ); ?>">
-				<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
+				<div class="<?php echo esc_attr( $bottom_overlay_class ); ?> post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
 					<?php if ( $display['show_title'] ) : ?>
 						<div class="mt-auto">
 							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?>">
