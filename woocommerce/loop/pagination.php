@@ -38,7 +38,8 @@ if ( isset( $_GET['per_page'] ) ) {
  * @return string
  */
 $page_url = function ( $page ) use ( $extra_args ) {
-	$link = get_pagenum_link( $page );
+	// false: без экранирования, иначе &#038; ломает add_query_arg и в ссылке остаётся хвост #038;per_page=…
+	$link = get_pagenum_link( $page, false );
 	return $extra_args ? add_query_arg( $extra_args, $link ) : $link;
 };
 

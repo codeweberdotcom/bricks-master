@@ -98,12 +98,12 @@ $cw_list_price = $show_price ? $product->get_price_html() : '';
 			<?php endif; ?>
 		</figure>
 
-		<div class="card-body cw-list-body p-5">
+		<div class="card-body cw-list-body py-4 px-5">
 
 			<div class="cw-list-main">
 
 				<?php if ( $show_category || $show_rating ) : ?>
-				<div class="d-flex align-items-center justify-content-between mb-2">
+				<div class="d-flex align-items-center justify-content-between mb-1">
 					<?php if ( $show_category && $category_name ) : ?>
 						<span class="post-category text-ash mb-0"><?php echo esc_html( $category_name ); ?></span>
 					<?php endif; ?>
@@ -113,18 +113,18 @@ $cw_list_price = $show_price ? $product->get_price_html() : '';
 				</div>
 				<?php endif; ?>
 
-				<h2 class="post-title h4 mb-2">
+				<h2 class="post-title h4 mb-1">
 					<a href="<?php echo esc_url( $product_url ); ?>" class="<?php echo esc_attr( $cw_list_title_class ); ?>">
 						<?php echo esc_html( $product->get_name() ); ?>
 					</a>
 				</h2>
 
 				<?php if ( $cw_list_text ) : ?>
-					<p class="cw-list-text fs-md line-clamp-2 mb-3"><?php echo esc_html( $cw_list_text ); ?></p>
+					<p class="cw-list-text line-clamp-2 mb-2"><?php echo esc_html( $cw_list_text ); ?></p>
 				<?php endif; ?>
 
 				<?php if ( $cw_list_thumb_ids ) : ?>
-					<div class="cw-list-thumbs mb-3" aria-hidden="true">
+					<div class="cw-list-thumbs" aria-hidden="true">
 						<?php foreach ( $cw_list_thumb_ids as $cw_thumb_id ) : ?>
 							<a href="<?php echo esc_url( $product_url ); ?>" class="cw-list-thumb" tabindex="-1">
 								<?php echo wp_get_attachment_image( $cw_thumb_id, 'woocommerce_gallery_thumbnail', false, [ 'alt' => '', 'loading' => 'lazy' ] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -137,7 +137,7 @@ $cw_list_price = $show_price ? $product->get_price_html() : '';
 				<?php endif; ?>
 
 				<?php if ( $cw_list_specs ) : ?>
-					<dl class="cw-list-specs mb-3">
+					<dl class="cw-list-specs mb-2">
 						<?php foreach ( $cw_list_specs as $cw_spec ) : ?>
 							<dt><?php echo esc_html( $cw_spec[0] ); ?></dt>
 							<dd class="<?php echo esc_attr( $cw_list_fg_class ); ?>"><?php echo esc_html( $cw_spec[1] ); ?></dd>
