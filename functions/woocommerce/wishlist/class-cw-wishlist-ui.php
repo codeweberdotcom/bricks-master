@@ -83,6 +83,7 @@ class CW_Wishlist_UI {
 			'feedbackType'   => $this->get_opt( 'wishlist_feedback', 'spinner' ),
 			'showToast'      => $this->get_opt( 'wishlist_toast', 0 ) ? 'yes' : 'no',
 			'btnShape'       => class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '',
+			'shopUrl'        => wc_get_page_permalink( 'shop' ),
 			'i18n'           => array(
 				'added'            => __( 'In Wishlist', 'codeweber' ),
 				'add'              => __( 'Add to Wishlist', 'codeweber' ),
@@ -92,6 +93,8 @@ class CW_Wishlist_UI {
 				'addedTitle'       => __( 'Added to Wishlist', 'codeweber' ),
 				'continueShopping' => __( 'Continue Shopping', 'codeweber' ),
 				'goToWishlist'     => __( 'Go to Wishlist', 'codeweber' ),
+				'emptyText'        => __( 'Your wishlist is empty.', 'codeweber' ),
+				'goToShop'         => __( 'Go to Shop', 'codeweber' ),
 			),
 		) );
 	}
