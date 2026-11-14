@@ -25,5 +25,7 @@
     padding-bottom: $tooltip-padding-y - 0.15rem;
     padding-left: $tooltip-padding-x - 0.25rem;
     padding-right: $tooltip-padding-x - 0.25rem;
+    // Soft shadow keeps the white tooltip visible over white photos (e.g. product cards).
+    box-shadow: 0 0.125rem 0.75rem rgba($main-dark, 0.25);
  }
 }
