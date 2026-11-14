@@ -63,7 +63,7 @@ if ( ! empty( $display['show_excerpt'] ) && ! empty( $term->description ) ) {
 }
 
 $title_tag   = isset( $display['title_tag'] ) ? sanitize_html_class( $display['title_tag'] ) : 'h2';
-$title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_class'] ) : 'h5 mb-0';
+$title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_class'] ) : 'h6 mb-0';
 ?>
 
 <article<?php echo $article_class ? ' class="' . esc_attr( $article_class ) . '"' : ''; ?>>
@@ -89,7 +89,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 							<p class="mb-3<?php echo ! empty( $display['excerpt_hide_mobile'] ) ? ' d-none d-md-block' : ''; ?>"><?php echo wp_kses( $excerpt, ['br' => []] ); ?></p>
 						<?php endif; ?>
 						<?php if ( $template_args['show_term_count'] ) : ?>
-							<p class="mb-3 small opacity-75">
+							<p class="mb-3 opacity-75">
 								<?php echo esc_html( sprintf(
 									/* translators: %d: number of posts */
 									_n( '%d item', '%d items', $term->count, 'codeweber' ),
@@ -132,7 +132,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 							<p class="mb-3<?php echo ! empty( $display['excerpt_hide_mobile'] ) ? ' d-none d-md-block' : ''; ?>"><?php echo wp_kses( $excerpt, ['br' => []] ); ?></p>
 						<?php endif; ?>
 						<?php if ( $template_args['show_term_count'] ) : ?>
-							<p class="mb-3 small opacity-75">
+							<p class="mb-3 opacity-75">
 								<?php echo esc_html( sprintf(
 									/* translators: %d: number of posts */
 									_n( '%d item', '%d items', $term->count, 'codeweber' ),
