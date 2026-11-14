@@ -402,6 +402,14 @@ table.shopping-cart {
 
 // Content of the list card: text + gallery thumbnails + specs on the left, button on the right (md+).
 .cw-list-card {
+  // The photo is always on a light ground and carries white icon buttons (wishlist / quick view / compare).
+  // The figure is .text-reset (color: inherit !important) and so are the links inside it, so they would take the
+  // card color: white on the dark card, pale grey under text-inverse. Pin a dark color. !important beats .text-reset, and
+  // the extra .text-reset class outweighs the theme's `[class*="text-"] .text-reset:hover { color: inherit !important }`.
+  figure.card-img,
+  figure.card-img.text-reset {
+    color: $main-dark !important;
+  }
   .cw-list-body {
     display: flex;
     flex-direction: column;
