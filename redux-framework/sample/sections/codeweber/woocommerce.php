@@ -833,6 +833,94 @@ Redux::set_section(
 	)
 );
 
+// ── Order rules ───────────────────────────────────────────────────────────────
+// Минимум, шаг и максимум количества товара в заказе (functions/woocommerce/order-rules/).
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Order rules', 'codeweber' ),
+		'id'         => 'woocommerce-order-rules',
+		'subsection' => true,
+		'desc'       => esc_html__( 'Minimum, step and maximum quantity of a product in an order. Priority: product, then product category, then these global settings. The rules of products and categories are set in their own edit screens.', 'codeweber' ),
+		'fields'     => array(
+
+			array(
+				'id'      => 'cw_qty_enabled',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Enable order rules', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'       => 'cw_qty_min',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Default minimum quantity', 'codeweber' ),
+				'subtitle' => esc_html__( 'Applies to products without their own or category rule. 0 means no minimum.', 'codeweber' ),
+				'default'  => '0',
+				'validate' => 'numeric',
+			),
+
+			array(
+				'id'       => 'cw_qty_step',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Default quantity step', 'codeweber' ),
+				'subtitle' => esc_html__( 'Products are sold in multiples of this number. 0 or 1 means any quantity.', 'codeweber' ),
+				'default'  => '0',
+				'validate' => 'numeric',
+			),
+
+			array(
+				'id'       => 'cw_qty_max',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Default maximum quantity', 'codeweber' ),
+				'subtitle' => esc_html__( '0 means no maximum.', 'codeweber' ),
+				'default'  => '0',
+				'validate' => 'numeric',
+			),
+
+			array(
+				'id'      => 'cw_qty_show_notice',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Show the rule on the product page', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'       => 'cw_qty_notice_text',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Product page text', 'codeweber' ),
+				'subtitle' => esc_html__( 'Optional. Placeholders: {min}, {step}, {max}. Empty means the standard text.', 'codeweber' ),
+				'default'  => '',
+			),
+
+			array(
+				'id'       => 'cw_qty_msg_min',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Error: below the minimum', 'codeweber' ),
+				'subtitle' => esc_html__( 'Optional. Placeholders: {product}, {value}. Empty means the standard text.', 'codeweber' ),
+				'default'  => '',
+			),
+
+			array(
+				'id'       => 'cw_qty_msg_step',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Error: not a multiple of the step', 'codeweber' ),
+				'subtitle' => esc_html__( 'Optional. Placeholders: {product}, {value}. Empty means the standard text.', 'codeweber' ),
+				'default'  => '',
+			),
+
+			array(
+				'id'       => 'cw_qty_msg_max',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Error: above the maximum', 'codeweber' ),
+				'subtitle' => esc_html__( 'Optional. Placeholders: {product}, {value}. Empty means the standard text.', 'codeweber' ),
+				'default'  => '',
+			),
+
+		),
+	)
+);
+
 // ── Checkout helpers ──────────────────────────────────────────────────────────
 // Генерирует 3 Redux-поля (enable / required / width) для одного поля чекаута.
 

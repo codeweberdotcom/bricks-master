@@ -8,6 +8,7 @@
 
 ### Added
 
+- **WooCommerce Order Rules** (`functions/woocommerce/order-rules/`): минимум, шаг («продаётся кратно 5») и максимум количества товара в заказе. Каскад: товар (вкладка «Order rules», режим Inherit / Custom / No restrictions) → рубрика товаров (term meta, подрубрики наследуют) → Redux «Woocommerce → Order rules». Для товара в нескольких рубриках побеждает самая глубокая, при равенстве — большие значения. Витрина: поле количества стартует с минимума, «+/−» шагают по шагу (`data-step` в `woocommerce/global/quantity-input.php`), введённое значение округляется, под формой текст правила. Серверные проверки добавления, изменения количества (0 = удаление строки) и корзины/оформления; фильтр `codeweber_order_rules_resolved`. Meta keys `_cw_qty_mode`, `_cw_min_qty`, `_cw_qty_step`, `_cw_max_qty`; опции Redux `cw_qty_*`. Документация: `doc_claude/integrations/WC_ORDER_RULES.md`.
 - **Body Background** (`functions/body-bg.php`): управление фоном `.content-wrapper` через Redux (глобально по типу записи) и метабокс (per-post override). Варианты: transparent, bg-light, bg-gray, bg-soft-primary, bg-soft-secondary, bg-soft-leaf, bg-dark. В Redux: табы Single/Archive для каждого CPT. SCSS: `_body-bg.scss` (класс `cw-page-bg-{value}` на body).
 - **Schema.org JSON-LD модуль** (`functions/seo/`): полная генерация структурированных данных для всех CPT
   - Базовый каркас: WebSite, Organization (из Redux: название, ИНН, ОГРН, адрес, соцсети, лого, часы работы), BreadcrumbList, WebPage

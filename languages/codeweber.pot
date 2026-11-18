@@ -19268,3 +19268,190 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/woocommerce.php:323
 msgid "−% Discount"
 msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Order rules"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Rule for this product"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Inherit (category, then global settings)"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Custom rule for this product"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "No restrictions"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Inherit takes the rule of the product category (the deepest one that has a rule) or the global settings."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Minimum quantity"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "0 means no minimum."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Quantity step"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Sold in multiples of this number, for example 5. 0 or 1 means any quantity."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Maximum quantity"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "0 means no maximum."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Effective rule (saved)"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "No restrictions apply."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "minimum %d"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "step %d"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "maximum %d"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "this product"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "category “%s”"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "category"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "global settings"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "filter"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "%1$s (from: %2$s)"
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Quantity rule for all products of this category (subcategories inherit it unless they have their own). 0 means not set."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Minimum, step and maximum quantity of a product in an order. Priority: product, then product category, then these global settings. The rules of products and categories are set in their own edit screens."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Enable order rules"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default minimum quantity"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Applies to products without their own or category rule. 0 means no minimum."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default quantity step"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Products are sold in multiples of this number. 0 or 1 means any quantity."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default maximum quantity"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Show the rule on the product page"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Product page text"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Optional. Placeholders: {min}, {step}, {max}. Empty means the standard text."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: below the minimum"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: not a multiple of the step"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: above the maximum"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Optional. Placeholders: {product}, {value}. Empty means the standard text."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Minimum order: %d pcs."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Sold in multiples of %d."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Maximum order: %d pcs."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The minimum quantity for “%1$s” is %2$d."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The maximum quantity for “%1$s” is %2$d."
+msgstr ""
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The quantity of “%1$s” must be a multiple of %2$d."
+msgstr ""

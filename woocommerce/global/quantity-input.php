@@ -4,6 +4,7 @@
  *
  * Переопределяет global/quantity-input.php.
  * cw-qty-v — вертикальные кнопки +/−.
+ * data-step — шаг количества (товары, продаваемые кратно; см. functions/woocommerce/order-rules/).
  *
  * @version 10.1.0
  */
@@ -21,6 +22,7 @@ $classes[] = 'text-center';
 
 $btn_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 $qty_extra_class = ( trim( $btn_style ) === 'rounded-0' ) ? ' rounded-0' : '';
+$qty_step        = isset( $step ) ? (int) $step : 1;
 ?>
 
 <div class="quantity cw-qty-v<?php echo esc_attr( $qty_extra_class ); ?>">
@@ -41,6 +43,9 @@ $qty_extra_class = ( trim( $btn_style ) === 'rounded-0' ) ? ' rounded-0' : '';
 		data-min="<?php echo esc_attr( $min_value ); ?>"
 		<?php if ( 0 < $max_value ) : ?>
 			data-max="<?php echo esc_attr( $max_value ); ?>"
+		<?php endif; ?>
+		<?php if ( $qty_step > 1 ) : ?>
+			data-step="<?php echo esc_attr( $qty_step ); ?>"
 		<?php endif; ?>
 		<?php if ( ! $readonly ) : ?>
 			inputmode="numeric"

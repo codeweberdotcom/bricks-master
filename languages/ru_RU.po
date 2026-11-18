@@ -21488,3 +21488,190 @@ msgstr "Открыто сейчас"
 #: templates/archives/offices/offices_3.php
 msgid "There are no open offices right now"
 msgstr "Сейчас нет открытых офисов"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Order rules"
+msgstr "Правила заказа"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Rule for this product"
+msgstr "Правило для этого товара"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Inherit (category, then global settings)"
+msgstr "Наследовать (рубрика, затем общие настройки)"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Custom rule for this product"
+msgstr "Своё правило для этого товара"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "No restrictions"
+msgstr "Без ограничений"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Inherit takes the rule of the product category (the deepest one that has a rule) or the global settings."
+msgstr "При наследовании берётся правило рубрики товара (самой глубокой, у которой оно есть) или общие настройки."
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Minimum quantity"
+msgstr "Минимальное количество"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "0 means no minimum."
+msgstr "0 означает «без минимума»."
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Quantity step"
+msgstr "Шаг количества"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Sold in multiples of this number, for example 5. 0 or 1 means any quantity."
+msgstr "Продаётся кратно этому числу, например по 5. 0 или 1 означает любое количество."
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Maximum quantity"
+msgstr "Максимальное количество"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "0 means no maximum."
+msgstr "0 означает «без максимума»."
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Effective rule (saved)"
+msgstr "Действующее правило (сохранённое)"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "No restrictions apply."
+msgstr "Ограничений нет."
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "minimum %d"
+msgstr "минимум %d"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "step %d"
+msgstr "шаг %d"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "maximum %d"
+msgstr "максимум %d"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "this product"
+msgstr "этот товар"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "category “%s”"
+msgstr "рубрика «%s»"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "category"
+msgstr "рубрика"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "global settings"
+msgstr "общие настройки"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "filter"
+msgstr "фильтр"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+#, php-format
+msgid "%1$s (from: %2$s)"
+msgstr "%1$s (источник: %2$s)"
+
+#: functions/woocommerce/order-rules/rules-admin.php
+msgid "Quantity rule for all products of this category (subcategories inherit it unless they have their own). 0 means not set."
+msgstr "Правило количества для всех товаров этой рубрики (подрубрики наследуют его, если у них нет своего). 0 означает «не задано»."
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Minimum, step and maximum quantity of a product in an order. Priority: product, then product category, then these global settings. The rules of products and categories are set in their own edit screens."
+msgstr "Минимум, шаг и максимум количества товара в заказе. Приоритет: товар, затем рубрика товара, затем эти общие настройки. Правила товаров и рубрик задаются на их экранах редактирования."
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Enable order rules"
+msgstr "Включить правила заказа"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default minimum quantity"
+msgstr "Минимальное количество по умолчанию"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Applies to products without their own or category rule. 0 means no minimum."
+msgstr "Действует для товаров без своего правила и без правила рубрики. 0 означает «без минимума»."
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default quantity step"
+msgstr "Шаг количества по умолчанию"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Products are sold in multiples of this number. 0 or 1 means any quantity."
+msgstr "Товары продаются кратно этому числу. 0 или 1 означает любое количество."
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Default maximum quantity"
+msgstr "Максимальное количество по умолчанию"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Show the rule on the product page"
+msgstr "Показывать правило на странице товара"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Product page text"
+msgstr "Текст на странице товара"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Optional. Placeholders: {min}, {step}, {max}. Empty means the standard text."
+msgstr "Необязательно. Подстановки: {min}, {step}, {max}. Пусто — стандартный текст."
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: below the minimum"
+msgstr "Ошибка: меньше минимума"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: not a multiple of the step"
+msgstr "Ошибка: не кратно шагу"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Error: above the maximum"
+msgstr "Ошибка: больше максимума"
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php
+msgid "Optional. Placeholders: {product}, {value}. Empty means the standard text."
+msgstr "Необязательно. Подстановки: {product}, {value}. Пусто — стандартный текст."
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Minimum order: %d pcs."
+msgstr "Минимальный заказ: %d шт."
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Sold in multiples of %d."
+msgstr "Продаётся кратно %d."
+
+#: functions/woocommerce/order-rules/rules-frontend.php
+#, php-format
+msgid "Maximum order: %d pcs."
+msgstr "Максимальный заказ: %d шт."
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The minimum quantity for “%1$s” is %2$d."
+msgstr "Минимальное количество «%1$s»: %2$d."
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The maximum quantity for “%1$s” is %2$d."
+msgstr "Максимальное количество «%1$s»: %2$d."
+
+#: functions/woocommerce/order-rules/rules-validate.php
+#, php-format
+msgid "The quantity of “%1$s” must be a multiple of %2$d."
+msgstr "Количество «%1$s» должно быть кратно %2$d."
