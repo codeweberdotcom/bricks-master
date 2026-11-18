@@ -141,6 +141,17 @@ $cw_subcats      = function_exists( 'cw_subcats_render' ) ? cw_subcats_render() 
 $cw_subcats_html = $cw_subcats['html'];
 $cw_subcats_only = ! empty( $cw_subcats['only'] ) && '' !== $cw_subcats_html;
 
+// Описание категории / метки (WooCommerce выводит его только на 1-й странице). Пусто — блок не выводится.
+$cw_term_desc_html = '';
+if ( ( is_product_category() || is_product_tag() ) && function_exists( 'woocommerce_taxonomy_archive_description' ) ) {
+	ob_start();
+	woocommerce_taxonomy_archive_description();
+	$cw_term_desc = trim( ob_get_clean() );
+	if ( '' !== $cw_term_desc ) {
+		$cw_term_desc_html = '<div class="cw-term-description mb-8">' . $cw_term_desc . '</div>';
+	}
+}
+
 // ── Рендер ────────────────────────────────────────────────────────────────────
 if ( ! $is_pjax ) {
 	get_header();
@@ -159,6 +170,8 @@ if ( ! $is_pjax ) {
 
 				<!-- Колонка с товарами -->
 				<div class="col-lg-9 order-lg-2">
+
+					<?php echo $cw_term_desc_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped (wp_kses_post) by WooCommerce ?>
 
 					<?php echo $cw_subcats_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in cw_subcats_render() ?>
 
@@ -339,6 +352,8 @@ if ( ! $is_pjax ) {
 
 				<!-- Колонка с сообщением «нет товаров» -->
 				<div class="col-lg-9 order-lg-2">
+
+					<?php echo $cw_term_desc_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped (wp_kses_post) by WooCommerce ?>
 
 					<?php echo $cw_subcats_html; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in cw_subcats_render() ?>
 
