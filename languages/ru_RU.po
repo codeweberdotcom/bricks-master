@@ -21675,3 +21675,12 @@ msgstr "Максимальное количество «%1$s»: %2$d."
 #, php-format
 msgid "The quantity of “%1$s” must be a multiple of %2$d."
 msgstr "Количество «%1$s» должно быть кратно %2$d."
+
+#: functions/woocommerce/product-template.php
+msgid "Product template"
+msgstr "Шаблон товара"
+
+
+#: functions/woocommerce/product-template.php
+msgid "Page layout of this product. The default template is the standard product page."
+msgstr "Вид страницы этого товара. Шаблон по умолчанию — стандартная страница товара."

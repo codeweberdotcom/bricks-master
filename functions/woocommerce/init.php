@@ -19,6 +19,7 @@ require_once $_woo_dir . 'cart-offcanvas.php';
 require_once $_woo_dir . 'checkout.php';
 require_once $_woo_dir . 'subcategories.php';
 require_once $_woo_dir . 'order-rules/order-rules.php';
+require_once $_woo_dir . 'product-template.php';
 
 // Wishlist
 require_once $_woo_dir . 'wishlist/functions.php';

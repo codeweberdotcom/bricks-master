@@ -166,6 +166,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Product Video (метабокс, GLightbox, VK/Rutube inline, постер) | `doc_claude/integrations/WC_PRODUCT_VIDEO.md` |
 | WooCommerce Subcategories (блок подкатегорий: Redux, мета категории, шаблоны, grid/slider/chips) | `doc_claude/integrations/WC_SUBCATEGORIES.md` |
 | WooCommerce Order Rules (минимум, шаг, максимум количества: товар → рубрика → Redux, проверки корзины) | `doc_claude/integrations/WC_ORDER_RULES.md` |
+| WooCommerce Product Templates (выбор шаблона страницы товара в самом товаре, мета `_cw_product_template`) | `doc_claude/integrations/WC_PRODUCT_TEMPLATES.md` |
 | Text Inverse (class text-inverse, приоритеты, $headings-color, header вне main) | `doc_claude/integrations/TEXT_INVERSE.md` |
 | WooCommerce Single Product Gallery (Swiper, skeleton, shimmer thumbs, видео-слайд) | `doc_claude/integrations/WC_SINGLE_GALLERY.md` |
 | Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |

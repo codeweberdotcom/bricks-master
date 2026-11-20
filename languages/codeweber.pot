@@ -19455,3 +19455,12 @@ msgstr ""
 #, php-format
 msgid "The quantity of “%1$s” must be a multiple of %2$d."
 msgstr ""
+
+#: functions/woocommerce/product-template.php
+msgid "Product template"
+msgstr ""
+
+
+#: functions/woocommerce/product-template.php
+msgid "Page layout of this product. The default template is the standard product page."
+msgstr ""
