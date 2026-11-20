@@ -133,9 +133,10 @@ function universal_title($tag = false, $theme = false)
 
 		// Альтернативный заголовок (_alt_title) имеет приоритет над обычным,
 		// если задан. Работает для записей, страниц, CPT и товаров.
+		// Шорткоды в нём выполняются (например, [acf_field field="mod_len"]).
 		$alt_title = get_post_meta($post_id, '_alt_title', true);
 		if (!empty($alt_title)) {
-			$title = $alt_title;
+			$title = do_shortcode($alt_title);
 		} else {
 			$title = get_the_title($post_id);
 		}

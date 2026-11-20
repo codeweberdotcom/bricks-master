@@ -292,7 +292,8 @@ while ( have_posts() ) :
 				<div class="<?php echo esc_attr( $col_summary ); ?>">
 
 					<div class="post-header mb-5">
-						<?php if ( $show_title ) : the_title( '<h1 class="post-title display-5">', '</h1>' ); endif; ?>
+						<?php // universal_title(): the "Alternative Title (HTML)" field (_alt_title) overrides the product name when set. ?>
+						<?php if ( $show_title ) : echo universal_title( 'h1', 'post-title display-5' ); endif; ?>
 						<?php if ( $show_price ) : woocommerce_template_single_price(); endif; ?>
 						<?php if ( $show_rating ) : woocommerce_template_single_rating(); endif; ?>
 					</div>

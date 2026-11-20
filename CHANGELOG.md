@@ -28,6 +28,7 @@
 
 ### Fixed
 
+- **WooCommerce product page**: the H1 ignored the "Alternative Title (HTML)" field (`_alt_title`) because `woocommerce/single-product.php` printed `the_title()`; it now uses `universal_title()`. Shortcodes in the alternative title are executed (`universal_title()` in `functions/global.php`), e.g. `[acf_field field="mod_len"]`.
 - Event schema: убран неправильный `EventPostponed` для прошедших событий, заменён deprecated `current_time('timestamp')`
 - BreadcrumbList `@id` на архивах указывал на первый пост вместо URL архива
 - Event registration count: дублирующая функция с неправильным post_type slug заменена на существующую
